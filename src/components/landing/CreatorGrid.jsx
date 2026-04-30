@@ -46,7 +46,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Moda Editorial',
       availability: 'Disponible esta semana',
       bio: 'Creadora de estilo urbano-editorial enfocada en campañas de ropa y lanzamientos de temporada.',
-      image: '/creadores.ong.png',
+      image: '/images/creadores.ong.png',
     },
     {
       id: 'fashion-2',

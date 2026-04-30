@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 
-const HERO_IMAGE = '/creadores.ong.png';
+const HERO_IMAGE = '/images/creadores.ong.png';
 
 export default function HeroSection() {
   const sectionRef = useRef(null);

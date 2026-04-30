@@ -50,7 +50,7 @@ function EditorialRow({ block, index }) {
       >
         <div className="relative h-[260px] md:h-[320px] overflow-hidden rounded-xl bg-canvas">
           <img
-            src="/creadores.ong.png"
+            src="/images/creadores.ong.png"
             alt={block.title}
             className="h-full w-full object-cover opacity-85 mix-blend-multiply transition-transform duration-700 group-hover:scale-[1.03]"
           />

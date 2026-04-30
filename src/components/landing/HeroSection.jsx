@@ -78,18 +78,18 @@ export default function HeroSection() {
           El algoritmo ya no premia los seguidores, premia el contenido. Construye tu ejército de creadores, gestiona tus campañas y paga por resultados — desde un solo lugar.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap gap-10">
             <a
-              href="/waitlist"
-              className="bg-spark text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 hover:bg-ink hover:text-canvas transition-colors focus:outline-none focus:ring-4 focus:ring-spark"
+              href="/creadores"
+              className="bg-spark border-2 border-ink text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark"
             >
-              Empieza Gratis
+              CREADOR
             </a>
             <a
-              href="/demo"
-              className="border border-ink/20 text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 hover:border-ink transition-colors focus:outline-none focus:ring-4 focus:ring-spark"
+              href="/marcas"
+              className="bg-spark border-2 border-ink text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark"
             >
-              Reserva una Demostración
+              MARCA/AGENCIA
             </a>
           </div>
         </motion.div>

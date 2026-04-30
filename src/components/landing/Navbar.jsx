@@ -31,10 +31,10 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="/waitlist"
-            className="bg-ink text-canvas font-mono text-xs uppercase tracking-widest px-6 py-2.5 hover:bg-spark hover:text-ink transition-colors"
+            href="/demo"
+            className="bg-ink text-canvas font-mono text-xs uppercase tracking-widest px-6 py-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232,255,0,0.35)]"
           >
-            Empieza Gratis
+            Reserva una Demostración
           </a>
         </div>
 
@@ -65,11 +65,11 @@ export default function Navbar() {
                 </a>
               ))}
               <a
-                href="/waitlist"
+                href="/demo"
                 onClick={() => setOpen(false)}
                 className="bg-ink text-canvas font-mono text-sm uppercase tracking-widest px-6 py-3 text-center hover:bg-spark hover:text-ink transition-colors"
               >
-                Empieza Gratis
+                Reserva una Demostración
               </a>
             </div>
           </motion.div>

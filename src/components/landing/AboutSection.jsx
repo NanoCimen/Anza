@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import ScrollExploreHint from './ScrollExploreHint';
 
 const STATS = [
-  { value: '2,500+', label: 'Creators' },
-  { value: '18', label: 'Countries' },
-  { value: '$4.2M', label: 'Earned by creators' },
+  { value: '+2,500', label: 'Creadores' },
+  { value: '+4', label: 'Países' },
+  { value: '$1.2M', label: 'Pagado a creadores' },
 ];
 
 export default function AboutSection() {
@@ -14,31 +15,31 @@ export default function AboutSection() {
     offset: ['start end', 'end start'],
   });
 
-  const highlightHeight = useTransform(scrollYProgress, [0.3, 0.6], ['0%', '100%']);
+  const highlightHeight = useTransform(scrollYProgress, [0.1, 0.6], ['0%', '130%']);
 
   return (
-    <section id="about" ref={sectionRef} className="bg-canvas py-24 md:py-40 relative overflow-hidden">
+    <section id="about" ref={sectionRef} className="bg-canvas scroll-mt-24 md:scroll-mt-28 py-24 md:py-40 relative overflow-hidden">
       {/* Hairline separator */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-        <div className="h-px bg-ink/10 mb-16 md:mb-24" />
+        <div id="about-top-line" className="h-px bg-ink/10 mt-4 md:mt-6 mb-16 md:mb-24" />
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6">
           {/* Column 1 — Sticky Label */}
           <div className="md:col-span-3">
             <div className="md:sticky md:top-24">
               <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-2">
-                05 / Philosophy
+                / Nosotros
               </span>
-              <div className="w-8 h-px bg-spark mt-4" />
+              <div className="w-12 h-[2px] bg-spark mt-4 shadow-[0_0_10px_rgba(232,255,0,0.55)]" />
 
               {/* Stats */}
               <div className="mt-12 space-y-6">
                 {STATS.map(s => (
                   <div key={s.label}>
-                    <span className="font-display font-black text-2xl md:text-3xl text-ink">
+                    <span className="inline-block font-display font-black text-2xl md:text-3xl text-ink [filter:blur(8px)] transition-transform duration-300 hover:scale-[1.05]">
                       {s.value}
                     </span>
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mt-1">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#666660] block mt-1">
                       {s.label}
                     </span>
                   </div>
@@ -52,42 +53,39 @@ export default function AboutSection() {
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.35 }}
               transition={{ duration: 0.6 }}
               className="font-display font-black text-3xl md:text-5xl lg:text-6xl tracking-tighter text-ink leading-[0.95]"
             >
-              We believe Latin America
-              <br className="hidden md:block" />{' '}
-              is the world's most{' '}
+              Creemos que cualquiera con una cámara tiene {' '}
               <span className="relative inline-block">
-                <span className="relative z-10">untapped creative</span>
+                <span className="relative z-10">el poder de mover</span>
                 <motion.span
                   style={{ height: highlightHeight }}
-                  className="absolute bottom-0 left-0 right-0 bg-spark/40 z-0"
+                  className="absolute -bottom-1 left-0 right-0 bg-spark/65 z-0 shadow-[0_0_18px_rgba(232,255,0,0.45)]"
                 />
               </span>{' '}
-              powerhouse.
+              una marca.
             </motion.h2>
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.35 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-12 md:mt-16 max-w-2xl"
             >
               <p className="font-display text-lg md:text-xl text-ink/60 leading-relaxed">
-                Anza was born from a simple conviction: the next generation of global
-                culture is being shaped in studios across Ciudad de México, São Paulo,
-                Bogotá, Buenos Aires, and Lima. We built the first marketplace designed
-                entirely for this ecosystem — connecting extraordinary Latin American
-                creators with brands that demand authenticity.
+                Anza nació de una convicción simple: la próxima generación del marketing global se
+                está construyendo en estudios de Santo Domingo, Medellín, Ciudad de México y São
+                Paulo. Construimos el primer marketplace diseñado para este ecosistema —
+                conectando creadores reales de LATAM con marcas que necesitan autenticidad.
               </p>
 
               <p className="font-display text-lg md:text-xl text-ink/60 leading-relaxed mt-8">
-                Our platform eliminates the friction between discovery and collaboration.
-                No middlemen. No compromises. Every creator on Anza is vetted, every
-                connection is intentional, and every project is treated as a cultural moment.
+                Nuestra plataforma elimina la fricción entre encontrar un creador y lanzar una
+                campaña. Sin agencias. Sin intermediarios. Cada creador en Anza es seleccionado,
+                cada conexión es intencional, y cada campaña es una oportunidad real de crecimiento.
               </p>
             </motion.div>
 
@@ -95,22 +93,19 @@ export default function AboutSection() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.35 }}
               transition={{ duration: 0.6, delay: 0.4 }}
               className="mt-16 md:mt-24 border-t border-ink/10 pt-8"
             >
               <blockquote className="font-display font-black text-2xl md:text-3xl lg:text-4xl text-ink tracking-tight leading-tight">
-                "Every creator is a masterpiece.
-                <br />
-                Every connection, a monumental event."
+                "El proximo video viral de tu marca lo esta grabando alguien que todavia no
+                conoces."
               </blockquote>
-              <span className="font-mono text-[10px] uppercase tracking-widest text-ink/30 mt-4 block">
-                — The Anza Manifesto
-              </span>
             </motion.div>
           </div>
         </div>
       </div>
+      <ScrollExploreHint />
     </section>
   );
 }

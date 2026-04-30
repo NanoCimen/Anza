@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, ArrowLeft } from 'lucide-react';
 
 const HERO_IMAGE = '/creadores.ong.png';
 
-export default function HeroSection() {
+export default function HeroBrandsSection() {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -15,10 +15,20 @@ export default function HeroSection() {
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -22]);
   const sectionOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.78]);
 
+  const handleGoToArticle = () => {
+    const articleTopLine = document.getElementById('marcas-article-top-line');
+    if (articleTopLine) {
+      const nav = document.querySelector('nav');
+      const navHeight = nav?.getBoundingClientRect().height ?? 64;
+      const visibleLineOffset = navHeight - 4;
+      const y = articleTopLine.getBoundingClientRect().top + window.scrollY - visibleLineOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section ref={sectionRef} className="relative min-h-screen bg-canvas overflow-hidden pt-16">
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 h-[calc(100vh-4rem)] flex flex-col md:flex-row items-stretch">
-        {/* Left — Image (60%) */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
@@ -33,7 +43,7 @@ export default function HeroSection() {
           >
             <motion.img
               src={HERO_IMAGE}
-              alt="Latin American creator in dramatic editorial lighting"
+              alt="Equipo de marca preparando una campana"
               className="w-full h-full object-cover object-center"
               whileHover={{ scale: 1.08 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -45,12 +55,10 @@ export default function HeroSection() {
               whileHover={{ x: '420%' }}
               transition={{ duration: 0.9, ease: 'easeInOut' }}
             />
-            {/* Yellow accent strip */}
             <div className="absolute bottom-0 left-0 w-full h-1 bg-spark" />
           </motion.div>
         </motion.div>
 
-        {/* Right — Content (40%) */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,42 +68,52 @@ export default function HeroSection() {
         >
           <div className="mb-6">
             <span className="font-mono text-xs tracking-widest text-ink/40 uppercase">
-              / Marketplace de Creadores · América Latina
+              / Plataforma para Marcas y Agencias
             </span>
           </div>
 
-          <h1 className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px] leading-[0.85] tracking-tighter text-ink">
-            TODOS
+          <div className="relative inline-block">
+            <h1 className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px] leading-[0.85] tracking-tighter text-ink">
+            USA
             <br />
-            PUEDEN
+            CREADORES
             <br />
             <span className="text-transparent" style={{ WebkitTextStroke: '2px #0D0D0D' }}>
-              CREAR
+              UGC
             </span>
-          </h1>
+            </h1>
+            <button
+              type="button"
+              onClick={handleGoToArticle}
+              className="absolute top-[3%] right-2 md:-right-6 lg:-right-10 bg-spark border-2 border-ink rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-ink shadow-[0_10px_28px_rgba(232,255,0,0.4)] transition-transform duration-700 hover:scale-[1.03] will-change-transform"
+            >
+              ¿Que son Creadores UGC?
+            </button>
+          </div>
 
           <p className="mt-12 font-display text-base md:text-lg text-ink/60 leading-relaxed max-w-md">
-          El algoritmo ya no premia los seguidores, premia el contenido. Construye tu ejército de creadores, gestiona tus campañas y paga por resultados — desde un solo lugar.
+          Lanza campañas con creadores en menos tiempo, centraliza aprobaciones y paga por
+          resultados desde un solo flujo.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-10">
             <a
-              href="/creadores"
-              className="liquid-glass border border-ink/20 bg-spark/70 text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
+              href="/"
+              className="liquid-glass border border-ink/20 text-ink bg-canvas/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
             >
-              CREADOR
+              <ArrowLeft size={14} />
+              VOLVER
             </a>
             <a
-              href="/marcas"
-              className="liquid-glass-strong border border-ink/20 bg-spark/70 text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
+              href="/waitlist/marcas"
+              className="liquid-glass-strong bg-ink border border-ink text-spark font-mono font-bold text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232,255,0,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
             >
-              MARCA/AGENCIA
+              EMPIEZA GRATIS
             </a>
           </div>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

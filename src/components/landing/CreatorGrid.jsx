@@ -11,6 +11,7 @@ import {
   UtensilsCrossed,
 } from 'lucide-react';
 import CreatorLightbox from './CreatorLightbox';
+import ScrollExploreHint from './ScrollExploreHint';
 
 const TABS = [
   'Todos',
@@ -365,14 +366,14 @@ export default function CreatorGrid() {
   };
 
   return (
-    <section id="creators" className="bg-canvas relative pt-24 md:pt-28 pb-14 md:pb-20">
+    <section id="creators" className="bg-canvas relative scroll-mt-24 md:scroll-mt-28 pt-14 md:pt-18 pb-14 md:pb-20">
       {/* Section label */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-        <div className="h-px bg-ink/10 mb-12 md:mb-20" />
-        <div className="flex items-baseline justify-between mb-12 md:mb-20">
+        <div className="h-px bg-ink/10 mt-4 md:mt-6 mb-8 md:mb-14" />
+        <div className="flex items-baseline justify-between mb-10 md:mb-14">
           <div>
             <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-3">
-              03 / Los Creadores
+              / Los Creadores
             </span>
             <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-ink">
               Descubre Talentos
@@ -430,7 +431,7 @@ export default function CreatorGrid() {
                     key={`${activeTab}-${creator.id}`}
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-50px' }}
+                    viewport={{ once: false, margin: '-50px' }}
                     transition={{ duration: 0.45, delay: i * 0.05 }}
                     onClick={() => setSelected(creator)}
                     className={`${creator.span} relative group aspect-square overflow-hidden bg-canvas focus:outline-none focus:ring-4 focus:ring-spark focus:ring-inset cursor-pointer text-left`}
@@ -471,6 +472,7 @@ export default function CreatorGrid() {
 
       {/* Lightbox */}
       <CreatorLightbox creator={selected} onClose={() => setSelected(null)} />
+      <ScrollExploreHint />
     </section>
   );
 }

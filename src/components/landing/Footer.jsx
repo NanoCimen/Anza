@@ -44,7 +44,7 @@ export default function Footer() {
               {['A', 'N', 'Z', 'A'].map((letter, i) => (
                 <span
                   key={`anza-${i}`}
-                  className="inline-block cursor-default origin-[50%_100%] text-canvas/[0.04] transition-[transform,color,filter] duration-300 ease-out will-change-transform motion-reduce:transition-colors motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 hover:scale-110 hover:-translate-y-[6%] hover:text-spark hover:drop-shadow-[0_6px_36px_rgba(232,255,0,0.45)]"
+                  className="inline-block cursor-default origin-[50%_100%] text-canvas/[0.04] transition-all duration-500 ease-out hover:-translate-y-3 hover:scale-[1.04] hover:text-spark hover:[text-shadow:0_0_32px_rgba(232,255,0,0.35)]"
                 >
                   {letter}
                 </span>

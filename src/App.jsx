@@ -8,7 +8,9 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Home from './pages/Home';
 import Demo from './pages/Demo';
 import Waitlist from './pages/Waitlist';
+import WaitlistSelect from './pages/WaitlistSelect';
 import Creators from './pages/Creators';
+import Marcas from './pages/Marcas';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -39,8 +41,12 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/creadores" element={<Creators />} />
+      <Route path="/marcas" element={<Marcas />} />
       <Route path="/demo" element={<Demo />} />
-      <Route path="/waitlist" element={<Waitlist />} />
+      <Route path="/waitlist" element={<WaitlistSelect />} />
+      <Route path="/waitlist/creadores" element={<Waitlist audience="creadores" />} />
+      <Route path="/waitlist/marcas" element={<Waitlist audience="marcas" />} />
+      <Route path="/waitlist/empresas" element={<Waitlist audience="marcas" />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

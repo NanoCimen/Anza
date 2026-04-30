@@ -4,12 +4,9 @@ import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isSameDay, isToday, isBefore, startOfDay } from 'date-fns';
 import { es } from 'date-fns/locale';
-
-const STATS = [
-  { value: '700K+', label: 'Creadores' },
-  { value: '1K+', label: 'Marcas' },
-  { value: '5B+', label: 'Vistas' },
-];
+import Navbar from '../components/landing/Navbar';
+import Footer from '../components/landing/Footer';
+import { saveDemoReservation } from '../lib/leads';
 
 const TIMES = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'];
 
@@ -38,29 +35,27 @@ export default function Demo() {
     setStep(2);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!selectedDay || !selectedTime) return;
-    setSubmitted(true);
+    try {
+      await saveDemoReservation({
+        name: form.name,
+        email: form.email,
+        dayIso: selectedDay.toISOString(),
+        time: selectedTime,
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Error saving demo reservation:', error);
+      window.alert('No se pudo guardar tu reserva. Intenta otra vez.');
+    }
   };
 
   return (
     <div className="min-h-screen bg-canvas font-display flex flex-col">
-      {/* Navbar */}
-      <nav className="border-b border-ink/10 px-6 md:px-10 h-16 flex items-center justify-between max-w-[1440px] mx-auto w-full">
-        <Link to="/" className="font-display font-black text-2xl tracking-tighter text-ink">
-          ANZA
-        </Link>
-        <div className="flex items-center gap-4">
-          <Link to="/waitlist" className="bg-spark text-ink font-mono text-xs uppercase tracking-widest px-5 py-2.5 hover:bg-ink hover:text-canvas transition-colors">
-            Empieza Gratis
-          </Link>
-          <Link to="/" className="font-mono text-[10px] uppercase tracking-widest text-ink/40 hover:text-ink transition-colors">
-            ← Volver
-          </Link>
-        </div>
-      </nav>
+      <Navbar showBackLink backHref="/" />
 
-      <div className="flex-1 flex flex-col items-center justify-start py-16 px-4">
+      <div className="flex-1 flex flex-col items-center justify-start pt-28 md:pt-32 pb-16 px-6 md:px-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -69,22 +64,13 @@ export default function Demo() {
           className="text-center mb-10"
         >
           <h1 className="font-display font-black text-4xl md:text-5xl tracking-tighter text-ink">
-            Reserva una Llamada de Demo
+            Reserva una Llamada
           </h1>
           <p className="mt-3 font-display text-ink/50 max-w-md mx-auto text-base md:text-lg leading-relaxed">
             En esta llamada de 30 min cubriremos tu situación y objetivos, veremos la
-            plataforma y encontraremos el plan ideal para ti.
+            plataforma y encontraremos el plan ideal para ti, totalmente gratis.
           </p>
 
-          {/* Stats */}
-          <div className="flex items-center justify-center gap-8 mt-8">
-            {STATS.map(s => (
-              <div key={s.label} className="text-center">
-                <span className="font-display font-black text-xl md:text-2xl text-ink">{s.value}</span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mt-0.5">{s.label}</span>
-              </div>
-            ))}
-          </div>
         </motion.div>
 
         {submitted ? (
@@ -107,7 +93,7 @@ export default function Demo() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="w-full max-w-3xl border border-ink/10 bg-white"
+            className="w-full max-w-3xl border border-ink/10 bg-white liquid-glass"
           >
             {/* Progress */}
             <div className="border-b border-ink/10 px-6 py-4 flex items-center gap-6">
@@ -144,7 +130,7 @@ export default function Demo() {
                         placeholder="Email *"
                         value={form.email}
                         onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                        className="w-full border border-ink/20 px-4 py-3 font-display text-sm text-ink placeholder:text-ink/30 outline-none focus:border-ink transition-colors"
+                        className="w-full border border-ink/20 px-4 py-3 font-display text-sm text-ink placeholder:text-ink/30 outline-none focus:border-ink transition-colors liquid-glass"
                       />
                     </div>
                     <div>
@@ -153,7 +139,7 @@ export default function Demo() {
                         placeholder="Nombre *"
                         value={form.name}
                         onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                        className="w-full border border-ink/20 px-4 py-3 font-display text-sm text-ink placeholder:text-ink/30 outline-none focus:border-ink transition-colors"
+                        className="w-full border border-ink/20 px-4 py-3 font-display text-sm text-ink placeholder:text-ink/30 outline-none focus:border-ink transition-colors liquid-glass"
                       />
                     </div>
                     <p className="font-display text-[11px] text-ink/30 leading-relaxed">
@@ -161,7 +147,7 @@ export default function Demo() {
                     </p>
                     <button
                       type="submit"
-                      className="w-full bg-ink text-canvas font-mono text-xs uppercase tracking-widest py-4 flex items-center justify-center gap-2 hover:bg-ink/80 transition-colors"
+                      className="w-full liquid-glass-strong bg-ink text-canvas font-mono text-xs uppercase tracking-widest py-4 flex items-center justify-center gap-2 hover:bg-spark hover:text-ink transition-colors"
                     >
                       Continuar <ArrowRight size={14} />
                     </button>
@@ -299,7 +285,7 @@ export default function Demo() {
         )}
 
         {/* Bottom support */}
-        <div className="mt-10 border border-ink/10 px-6 py-4 flex flex-col sm:flex-row items-center gap-4 max-w-md w-full bg-white">
+        <div className="mt-10 border border-ink/10 px-6 py-4 flex flex-col sm:flex-row items-center gap-4 max-w-md w-full bg-white liquid-glass">
           <div className="flex -space-x-2">
             {['bg-spark', 'bg-ink', 'bg-ink/40'].map((c, i) => (
               <div key={i} className={`w-8 h-8 rounded-full ${c} border-2 border-white`} />
@@ -309,12 +295,13 @@ export default function Demo() {
             <p className="font-display font-semibold text-sm text-ink">¿Necesitas ayuda con una cuenta existente?</p>
             <p className="font-display text-xs text-ink/50">Personas reales, respuestas reales.</p>
           </div>
-          <a href="#contact" className="bg-ink text-canvas font-mono text-xs uppercase tracking-widest px-5 py-2.5 hover:bg-spark hover:text-ink transition-colors whitespace-nowrap flex items-center gap-1">
+          <a href="#contact" className="liquid-glass-strong bg-ink text-canvas font-mono text-xs uppercase tracking-widest px-5 py-2.5 hover:bg-spark hover:text-ink transition-colors whitespace-nowrap flex items-center gap-1">
             Contactar <ArrowRight size={12} />
           </a>
         </div>
         <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-ink/30">Sin compromiso — solo una conversación rápida.</p>
       </div>
+      <Footer />
     </div>
   );
 }

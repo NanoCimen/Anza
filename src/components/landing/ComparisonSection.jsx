@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
+import ScrollExploreHint from './ScrollExploreHint';
 
 /** Brand spark yellow — soft wash into saturated accent (replaces blue reference) */
 const HIGHLIGHT_BG_STYLE = {
@@ -48,12 +49,12 @@ export default function ComparisonSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: false, margin: '-80px' }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-5xl mx-auto mb-8 md:mb-10"
         >
           <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-4 md:mb-5">
-            06 / Comparativa
+            / Comparativa
           </span>
           <h2
             id="comparison-heading"
@@ -178,6 +179,7 @@ export default function ComparisonSection() {
           </div>
         </div>
       </div>
+      <ScrollExploreHint />
     </section>
   );
 }

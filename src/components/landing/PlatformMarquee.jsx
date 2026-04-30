@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import {
   Youtube,
   Instagram,
@@ -6,6 +7,7 @@ import {
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import ScrollExploreHint from './ScrollExploreHint';
 
 /** Minimal TikTok mark — fills with currentColor on hover */
 function TikTokGlyph({ className }) {
@@ -64,12 +66,12 @@ const PLATFORMS = [
 
 function PlatformChip({ label, Icon, isCustom, iconHover, labelHover }) {
   const iconClass = cn(
-    'h-5 w-5 shrink-0 text-ink/50 transition-all duration-300',
+    'h-5 w-5 shrink-0 text-canvas/60 transition-all duration-300',
     iconHover
   );
 
   const labelClass = cn(
-    'inline-block font-display text-sm font-semibold tracking-tight text-ink/45 transition-all duration-300 md:text-base',
+    'inline-block font-display text-sm font-semibold tracking-tight text-canvas/70 transition-all duration-300 md:text-base',
     labelHover
   );
 
@@ -118,31 +120,64 @@ function MarqueeTrack() {
  * Infinite horizontal ticker above the creators grid — matches landing typography & palette (canvas / ink / spark).
  */
 export default function PlatformMarquee() {
+  const handleGoToPhilosophy = () => {
+    const topLine = document.getElementById('about-top-line');
+    if (topLine) {
+      const navbarOffset = 64;
+      const y = topLine.getBoundingClientRect().top + window.scrollY - navbarOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      return;
+    }
+
+    const section = document.getElementById('about');
+    if (section) {
+      window.scrollTo({
+        top: section.getBoundingClientRect().top + window.scrollY - 64,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
     <section
-      className="relative bg-canvas overflow-hidden"
+      className="relative bg-ink overflow-hidden"
       aria-label="Redes y plataformas"
     >
       {/* Spark accent — aligns with landing hairlines */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 pt-12 md:pt-16 pb-8 md:pb-10">
-        <div className="text-center max-w-5xl mx-auto">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-4 md:mb-5">
-            02 / Alcance
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: '-80px' }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center max-w-5xl mx-auto"
+        >
+          <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/45 block mb-4 md:mb-5">
+            / Alcance
           </span>
-          <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-ink leading-[0.95]">
-            Creadores de todas las plataformas
+          <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-canvas leading-[0.95]">
+            Creadores de todas las
+            <br />
+            <span className="whitespace-nowrap">plataformas</span>
           </h2>
-        </div>
+          <button
+            type="button"
+            onClick={handleGoToPhilosophy}
+            className="liquid-glass-strong mt-8 inline-flex items-center rounded-full px-6 py-3 font-mono text-xs uppercase tracking-widest text-canvas transition-transform duration-300 hover:-translate-y-0.5"
+          >
+            Como funciona
+          </button>
+        </motion.div>
       </div>
 
-      <div className="relative pb-10 pt-0 md:pt-1">
+      <div className="relative pb-12 pt-2 md:pt-3">
         {/* Edge fade so scroll feels editorial */}
         <div
-          className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-16 md:w-24 bg-gradient-to-r from-canvas to-transparent"
+          className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-16 md:w-24 bg-gradient-to-r from-ink to-transparent"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-16 md:w-24 bg-gradient-to-l from-canvas to-transparent"
+          className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-16 md:w-24 bg-gradient-to-l from-ink to-transparent"
           aria-hidden
         />
 
@@ -150,6 +185,7 @@ export default function PlatformMarquee() {
           <MarqueeTrack />
         </div>
       </div>
+      <ScrollExploreHint />
     </section>
   );
 }

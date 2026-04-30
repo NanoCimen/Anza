@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import ScrollExploreHint from './ScrollExploreHint';
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', company: '' });
@@ -28,14 +29,14 @@ export default function ContactForm() {
     'w-full bg-transparent border-b border-ink/20 focus:border-spark py-4 font-display text-base md:text-lg text-ink placeholder:text-ink/30 outline-none transition-colors';
 
   return (
-    <section id="contact" className="bg-canvas pb-24 md:pb-40 pt-10 md:pt-14 relative">
+    <section id="contact" className="bg-canvas scroll-mt-24 md:scroll-mt-28 pb-24 md:pb-40 pt-10 md:pt-14 relative">
       <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-        <div className="h-px bg-ink/10 mb-10 md:mb-14" />
+        <div className="h-px bg-ink/10 mt-4 md:mt-6 mb-10 md:mb-14" />
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6">
           <div className="md:col-span-3">
             <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-2">
-              08 / Contacto
+              / Contacto
             </span>
             <div className="w-8 h-px bg-spark mt-4" />
             <h2 className="font-display font-black text-3xl md:text-4xl tracking-tighter text-ink mt-8">
@@ -51,7 +52,7 @@ export default function ContactForm() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.6 }}
             className="md:col-span-9 md:pl-8"
           >
@@ -123,6 +124,7 @@ export default function ContactForm() {
           </motion.div>
         </div>
       </div>
+      <ScrollExploreHint />
     </section>
   );
 }

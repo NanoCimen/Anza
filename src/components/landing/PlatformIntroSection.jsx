@@ -12,12 +12,12 @@ export default function PlatformIntroSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: false, margin: '-80px' }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-4xl mx-auto"
         >
           <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-4 md:mb-5">
-            03 / Plataforma
+            / Plataforma
           </span>
           <h2
             id="platform-heading"

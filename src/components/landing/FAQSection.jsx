@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import ScrollExploreHint from './ScrollExploreHint';
 
 const FAQS = [
   {
@@ -77,13 +78,13 @@ export default function FAQSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={{ once: false, margin: '-60px' }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col items-center gap-8 md:gap-10 w-full"
         >
           <div className="w-full max-w-4xl mx-auto text-center">
             <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-4 md:mb-5">
-              07 / FAQs
+              / FAQs
             </span>
             <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-ink leading-[0.95]">
               ¿Tienes preguntas?
@@ -129,6 +130,7 @@ export default function FAQSection() {
           </div>
         </motion.div>
       </div>
+      <ScrollExploreHint />
     </section>
   );
 }

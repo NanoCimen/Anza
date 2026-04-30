@@ -1,27 +1,69 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Loader2, Users, BarChart2, DollarSign, Megaphone } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Loader2, Users, BarChart2, DollarSign, Megaphone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/landing/Navbar';
+import Footer from '../components/landing/Footer';
+import { saveWaitlistLead } from '../lib/leads';
 
-const FEATURES = [
-  { icon: Users, title: 'Recluta Creadores', desc: 'Accede a más de 500K creadores de contenido en Latam al instante.' },
-  { icon: BarChart2, title: 'Seguimiento en Tiempo Real', desc: 'Monitorea vistas, engagement y conversiones de cada campaña.' },
-  { icon: DollarSign, title: 'Pagos Automáticos', desc: 'Pagos sin fricción. Más de $10M ya pagados a creadores.' },
-  { icon: Megaphone, title: 'Gestión de Campañas', desc: 'Administra tu roster y ejecuta campañas desde un solo lugar.' },
-];
+const CONTENT = {
+  marcas: {
+    eyebrow: '/ Acceso anticipado',
+    heroTitle: ['Gestiona campañas', 'UGC a escala,'],
+    strokeWord: 'sin fricción.',
+    heroDescription:
+      'Conecta con creadores de contenido, gestiona tus campañas y págales automáticamente — todo desde un solo lugar..',
+    formEyebrow: 'Únete a la lista de espera',
+    formTitle: ['Solicita acceso', 'anticipado'],
+    formDescription: 'Sé de los primeros en acceder a la plataforma. Cupos limitados.',
+    successTitle: '¡Ya estás en lista!',
+    demoPrompt: '¿Prefieres ver la plataforma en acción?',
+    features: [
+      { icon: Users, title: 'Recluta Creadores', desc: 'Encuentra creadores de contenido en LATAM que encajan con tu marca y tu nicho.' },
+      { icon: BarChart2, title: 'Seguimiento en Tiempo Real', desc: 'Monitorea vistas, engagement y conversiones de cada campaña.' },
+      { icon: DollarSign, title: 'Pagos Automáticos', desc: 'La plataforma establece un contrato y paga por tu contenido, sin transferencias manuales ni hojas de cálculo.' },
+      { icon: Megaphone, title: 'Gestión de Campañas', desc: 'Administra tu roster y ejecuta campañas desde un solo lugar.' },
+    ],
+  },
+  creadores: {
+    eyebrow: '/ Acceso anticipado',
+    heroTitle: ['Aplica a campañas', 'UGC reales,'],
+    strokeWord: 'sin intermediarios.',
+    heroDescription:
+      'Únete a campañas de marcas activas, gestiona entregas en una sola plataforma y recibe pagos de forma rápida y segura.',
+    formEyebrow: 'Únete a la lista de creadores',
+    formTitle: ['Solicita acceso', 'como creador'],
+    formDescription: 'Cupos limitados para creadores en esta etapa de lanzamiento.',
+    successTitle: '¡Ya estás en lista de creadores!',
+    demoPrompt: '¿Quieres ver cómo funciona la plataforma?',
+    features: [
+      { icon: Megaphone, title: 'Campañas Activas', desc: 'Aplica a campañas de marcas gratuitamente y cobra por tu contenido.' },
+      { icon: BarChart2, title: 'Tracking de Rendimiento', desc: 'Visualiza tus resultados en tiempo real.' },
+      { icon: DollarSign, title: 'Pagos y contratos', desc: 'Recibe pagos claros y sin fricción por tu contenido.' },
+      { icon: Users, title: 'Perfil Profesional', desc: 'Construye historial para cerrar más campañas.' },
+    ],
+  },
+};
 
-export default function Waitlist() {
+export default function Waitlist({ audience = 'marcas' }) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const copy = CONTENT[audience] || CONTENT.marcas;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1200));
-    setLoading(false);
-    setDone(true);
+    try {
+      await saveWaitlistLead({ audience, email });
+      setDone(true);
+    } catch (error) {
+      console.error('Error saving waitlist lead:', error);
+      window.alert('No se pudo guardar tu registro. Intenta otra vez.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,24 +75,20 @@ export default function Waitlist() {
         <div className="absolute top-1/2 left-0 right-0 h-px bg-ink/5" />
       </div>
 
-      {/* Nav */}
-      <nav className="relative z-10 border-b border-ink/10 px-6 md:px-16 h-16 flex items-center justify-between max-w-[1440px] mx-auto w-full">
-        <Link to="/" className="font-display font-black text-2xl tracking-tighter text-ink">
-          ANZA
-        </Link>
-        <div className="flex items-center gap-4">
-          <Link to="/demo" className="border border-ink/20 text-ink font-mono text-[10px] uppercase tracking-widest px-5 py-2.5 hover:border-ink transition-colors">
-            Reserva una Demostración
-          </Link>
-          <Link to="/" className="font-mono text-[10px] uppercase tracking-widest text-ink/40 hover:text-ink transition-colors">
-            ← Volver
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Main */}
-      <div className="relative z-10 flex-1 flex items-stretch">
-        <div className="max-w-[1200px] mx-auto w-full px-6 md:px-16 flex flex-col md:flex-row gap-0 py-16 md:py-0 md:items-center">
+      <div className="relative z-10 flex-1 flex items-stretch pt-16">
+        <div className="relative max-w-[1440px] mx-auto w-full px-6 md:px-10 flex flex-col md:flex-row gap-0 py-12 md:py-0 md:items-center">
+          <div className="absolute top-20 right-2 md:top-20 md:right-6 lg:right-10 z-40">
+            <Link
+              to="/"
+              className="liquid-glass border border-ink/20 text-ink bg-canvas/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
+            >
+              <ArrowLeft size={14} />
+              VOLVER
+            </Link>
+          </div>
 
           {/* Left — brand pitch */}
           <motion.div
@@ -60,24 +98,23 @@ export default function Waitlist() {
             className="md:w-[55%] md:pr-20 py-12"
           >
             <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-6">
-              01 / Acceso anticipado
+              {copy.eyebrow}
             </span>
 
             <h1 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tighter text-ink leading-[0.92]">
-              Gestiona campañas
+              {copy.heroTitle[0]}
               <br />
-              UGC a escala,
+              {copy.heroTitle[1]}
               <br />
-              <span className="text-transparent" style={{ WebkitTextStroke: '2px #0D0D0D' }}>sin fricción.</span>
+              <span className="text-transparent" style={{ WebkitTextStroke: '2px #0D0D0D' }}>{copy.strokeWord}</span>
             </h1>
 
             <p className="mt-6 font-display text-base text-ink/50 leading-relaxed max-w-md">
-              Más de 500,000 creadores y 1,000+ marcas ya confían en Anza para
-              gestionar briefs, aprobaciones y pagos en un solo sistema operativo.
+              {copy.heroDescription}
             </p>
 
             <div className="mt-10 space-y-4">
-              {FEATURES.map((feature, i) => {
+              {copy.features.map((feature, i) => {
                     const FeatureIcon = feature.icon;
                     return (
                     <motion.div
@@ -85,7 +122,7 @@ export default function Waitlist() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.3 + i * 0.07 }}
-                      className="flex items-start gap-4 p-4 border border-ink/10 hover:border-ink/20 transition-colors"
+                      className="liquid-glass flex items-start gap-4 p-4 border border-ink/10 hover:border-ink/20 transition-colors rounded-xl"
                     >
                       <div className="w-9 h-9 bg-spark flex items-center justify-center shrink-0">
                         <FeatureIcon size={16} className="text-ink" />
@@ -119,7 +156,7 @@ export default function Waitlist() {
                 <div className="w-14 h-14 bg-spark mx-auto flex items-center justify-center mb-6">
                   <span className="font-display font-black text-xl text-ink">✓</span>
                 </div>
-                <h2 className="font-display font-black text-3xl tracking-tight text-ink">¡Ya estás en lista!</h2>
+                <h2 className="font-display font-black text-3xl tracking-tight text-ink">{copy.successTitle}</h2>
                 <p className="mt-3 font-display text-sm text-ink/50 leading-relaxed max-w-xs mx-auto">
                   Te notificaremos en <strong className="text-ink">{email}</strong> cuando tu acceso esté listo.
                 </p>
@@ -130,14 +167,14 @@ export default function Waitlist() {
             ) : (
               <>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-2">
-                  Únete a la lista de espera
+                  {copy.formEyebrow}
                 </span>
                 <h2 className="font-display font-black text-3xl md:text-4xl tracking-tighter text-ink leading-tight">
-                  Solicita acceso
-                  <br />anticipado
+                  {copy.formTitle[0]}
+                  <br />{copy.formTitle[1]}
                 </h2>
                 <p className="mt-3 font-display text-sm text-ink/50 leading-relaxed">
-                  Sé de los primeros en acceder a la plataforma. Cupos limitados.
+                  {copy.formDescription}
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-8 space-y-4">
@@ -151,14 +188,14 @@ export default function Waitlist() {
                       placeholder="tu@empresa.com"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className="w-full border border-ink/20 focus:border-ink px-4 py-4 font-display text-sm text-ink placeholder:text-ink/30 outline-none transition-colors bg-transparent"
+                      className="w-full border border-ink/20 focus:border-ink px-4 py-4 font-display text-sm text-ink placeholder:text-ink/30 outline-none transition-colors bg-transparent liquid-glass"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-ink text-canvas font-mono text-xs uppercase tracking-widest py-5 flex items-center justify-center gap-2 hover:bg-spark hover:text-ink transition-colors disabled:opacity-60 focus:outline-none focus:ring-4 focus:ring-spark"
+                    className="w-full liquid-glass-strong bg-ink text-canvas font-mono text-xs uppercase tracking-widest py-5 flex items-center justify-center gap-2 hover:bg-spark hover:text-ink transition-colors disabled:opacity-60 focus:outline-none focus:ring-4 focus:ring-spark"
                   >
                     {loading ? (
                       <><Loader2 size={14} className="animate-spin" /> Procesando...</>
@@ -179,9 +216,9 @@ export default function Waitlist() {
 
                 <div className="mt-6">
                   <p className="font-display text-xs text-ink/40">
-                    ¿Prefieres ver la plataforma en acción?{' '}
+                    {copy.demoPrompt}{' '}
                     <Link to="/demo" className="text-ink font-semibold underline hover:text-spark transition-colors">
-                      Reserva una demo →
+                      Reserva una llamada →
                     </Link>
                   </p>
                 </div>
@@ -191,13 +228,8 @@ export default function Waitlist() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="relative z-10 border-t border-ink/10 px-6 md:px-16 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 max-w-[1440px] mx-auto w-full">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-ink/30">© 2026 Anza. Todos los derechos reservados.</span>
-        <div className="flex gap-6">
-          <a href="#" className="font-mono text-[10px] uppercase tracking-widest text-ink/30 hover:text-ink transition-colors">Términos</a>
-          <a href="#" className="font-mono text-[10px] uppercase tracking-widest text-ink/30 hover:text-ink transition-colors">Privacidad</a>
-        </div>
+      <div className="relative z-10">
+        <Footer />
       </div>
     </div>
   );

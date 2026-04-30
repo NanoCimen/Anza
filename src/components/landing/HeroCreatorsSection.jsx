@@ -14,6 +14,17 @@ export default function HeroCreatorsSection() {
   const imageY = useTransform(scrollYProgress, [0, 1], [0, -36]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -22]);
   const sectionOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.78]);
+  
+  const handleGoToAbout = () => {
+    const articleTopLine = document.getElementById('creators-article-top-line');
+    if (articleTopLine) {
+      const nav = document.querySelector('nav');
+      const navHeight = nav?.getBoundingClientRect().height ?? 64;
+      const visibleLineOffset = navHeight - 4;
+      const y = articleTopLine.getBoundingClientRect().top + window.scrollY - visibleLineOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section ref={sectionRef} className="relative min-h-screen bg-canvas overflow-hidden pt-16">
@@ -78,24 +89,32 @@ export default function HeroCreatorsSection() {
         >
           <div className="mb-6">
             <span className="font-mono text-xs tracking-widest text-ink/40 uppercase">
-              01 / Marketplace de Creadores · América Latina
+              / Marketplace de Creadores · América Latina
             </span>
           </div>
 
-          <h1 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[104px] leading-[0.8] tracking-tighter text-ink">
-            TU
-            <br />
-            PRÓXIMA
-            <br />
-            CAMPAÑA
-            <br />
-            <span className="whitespace-nowrap">
-              TE{' '}
-              <span className="text-transparent" style={{ WebkitTextStroke: '2px #0D0D0D' }}>
-                ESPERA
+          <div className="relative inline-block">
+            <h1 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[104px] leading-[0.8] tracking-tighter text-ink">
+              TU
+              <br />
+              PRÓXIMA
+              <br />
+              CAMPAÑA
+              <br />
+              <span className="whitespace-nowrap">
+                TE{' '}
+                <span className="text-transparent" style={{ WebkitTextStroke: '2px #0D0D0D' }}>
+                  ESPERA
+                </span>
               </span>
-            </span>
-          </h1>
+            </h1>
+            <button
+              type="button"
+              onClick={handleGoToAbout}
+              className="absolute top-[3%] right-2 md:-right-6 lg:-right-10 bg-spark border-2 border-ink rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-ink shadow-[0_10px_28px_rgba(232,255,0,0.4)] transition-transform duration-700 hover:scale-[1.03] will-change-transform"
+            >
+              ¿Quieres monetizar sin ser famoso?            </button>
+          </div>
 
           <p className="mt-12 font-display text-base md:text-lg text-ink/60 leading-relaxed max-w-md">
             Aplica a campañas de marcas reales y cobra por tu contenido. Sin agencia. Sin
@@ -105,14 +124,14 @@ export default function HeroCreatorsSection() {
           <div className="mt-10 flex flex-wrap gap-10">
             <a
               href="/"
-              className="border-2 border-ink text-ink bg-canvas font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2"
+              className="liquid-glass border border-ink/20 text-ink bg-canvas/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
             >
               <ArrowLeft size={14} />
               VOLVER
             </a>
             <a
-              href="/waitlist"
-              className="bg-ink border-2 border-ink text-spark font-mono font-bold text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232,255,0,0.35)] focus:outline-none focus:ring-4 focus:ring-spark"
+              href="/waitlist/creadores"
+              className="liquid-glass-strong bg-ink border border-ink text-spark font-mono font-bold text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232,255,0,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
             >
               EMPIEZA GRATIS
             </a>
@@ -133,7 +152,7 @@ export default function HeroCreatorsSection() {
           <ArrowDown size={16} className="text-ink/40" />
         </motion.div>
         <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40">
-          Desplaza para explorar
+          Desliza para explorar
         </span>
       </motion.div>
     </section>

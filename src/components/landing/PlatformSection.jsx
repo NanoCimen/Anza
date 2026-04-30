@@ -52,7 +52,7 @@ function Tile({ feature, delay, applyGridPlacement }) {
       aria-label={`${feature.title}. ${feature.body}`}
       initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
+      viewport={{ once: false, margin: '-40px' }}
       transition={{ duration: 0.4, delay, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ scale: 1.02 }}
       style={
@@ -98,7 +98,7 @@ export default function PlatformSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: false, margin: '-80px' }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="flex w-full flex-col gap-8 md:gap-10"
         >

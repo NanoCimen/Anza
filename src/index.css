@@ -8,6 +8,9 @@
   :root {
     --font-display: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+    --ink: 13 13 13;
+    --canvas: 245 245 240;
+    --spark: 232 255 0;
 
     --background: 43 18% 95%;
     --foreground: 0 0% 5%;
@@ -44,40 +47,6 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 0 0% 5%;
-    --foreground: 43 18% 95%;
-    --card: 0 0% 8%;
-    --card-foreground: 43 18% 95%;
-    --popover: 0 0% 8%;
-    --popover-foreground: 43 18% 95%;
-    --primary: 43 18% 95%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 0 0% 14%;
-    --secondary-foreground: 43 18% 95%;
-    --muted: 0 0% 14%;
-    --muted-foreground: 0 0% 64%;
-    --accent: 68 100% 50%;
-    --accent-foreground: 0 0% 5%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 68 100% 50%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
 }
 
 @layer base {
@@ -85,7 +54,8 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    /* Canvas / ink drive the palette editor; keep base layer in sync with Tailwind rgb vars */
+    @apply bg-canvas text-ink antialiased;
   }
 }
 
@@ -193,10 +163,10 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F5F5F0;
+  background: rgb(var(--canvas));
 }
 ::-webkit-scrollbar-thumb {
-  background: #0D0D0D;
+  background: rgb(var(--ink));
 }
 
 /* Platform ticker — Home above creators */

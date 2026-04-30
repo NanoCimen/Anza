@@ -29,3 +29,6 @@ dist-ssr
 
 .env
 .vite
+
+# Firebase local cache
+.firebase/

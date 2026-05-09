@@ -13,7 +13,7 @@ import Footer from '../components/landing/Footer';
 
 export default function Creators() {
   return (
-    <div className="bg-canvas min-h-screen font-display">
+    <div className="bg-ink min-h-screen font-display">
       <Navbar />
       <SectionReveal>
         <HeroCreatorsSection />

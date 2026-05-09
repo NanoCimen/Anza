@@ -67,12 +67,12 @@ export default function Waitlist({ audience = 'marcas' }) {
   };
 
   return (
-    <div className="min-h-screen bg-canvas font-display flex flex-col">
+    <div className="min-h-screen bg-ink font-display flex flex-col">
       {/* Hairline grid */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute left-1/3 top-0 bottom-0 w-px bg-ink/5" />
-        <div className="absolute left-2/3 top-0 bottom-0 w-px bg-ink/5" />
-        <div className="absolute top-1/2 left-0 right-0 h-px bg-ink/5" />
+        <div className="absolute left-1/3 top-0 bottom-0 w-px bg-canvas/5" />
+        <div className="absolute left-2/3 top-0 bottom-0 w-px bg-canvas/5" />
+        <div className="absolute top-1/2 left-0 right-0 h-px bg-canvas/5" />
       </div>
 
       <Navbar />
@@ -83,7 +83,7 @@ export default function Waitlist({ audience = 'marcas' }) {
           <div className="absolute top-20 right-2 md:top-20 md:right-6 lg:right-10 z-40">
             <Link
               to="/"
-              className="liquid-glass border border-ink/20 text-ink bg-canvas/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
+              className="liquid-glass border border-canvas/20 text-canvas bg-ink/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-canvas hover:text-ink hover:shadow-[0_10px_30px_rgba(10,10,10,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
             >
               <ArrowLeft size={14} />
               VOLVER
@@ -97,19 +97,19 @@ export default function Waitlist({ audience = 'marcas' }) {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="md:w-[55%] md:pr-20 py-12"
           >
-            <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-6">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-6">
               {copy.eyebrow}
             </span>
 
-            <h1 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tighter text-ink leading-[0.92]">
+            <h1 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tighter text-canvas leading-[0.92]">
               {copy.heroTitle[0]}
               <br />
               {copy.heroTitle[1]}
               <br />
-              <span className="text-transparent" style={{ WebkitTextStroke: '2px #0D0D0D' }}>{copy.strokeWord}</span>
+              <span className="text-transparent" style={{ WebkitTextStroke: '2px #0A0A0A' }}>{copy.strokeWord}</span>
             </h1>
 
-            <p className="mt-6 font-display text-base text-ink/50 leading-relaxed max-w-md">
+            <p className="mt-6 font-display text-base text-canvas/50 leading-relaxed max-w-md">
               {copy.heroDescription}
             </p>
 
@@ -122,14 +122,14 @@ export default function Waitlist({ audience = 'marcas' }) {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.3 + i * 0.07 }}
-                      className="liquid-glass flex items-start gap-4 p-4 border border-ink/10 hover:border-ink/20 transition-colors rounded-xl"
+                      className="liquid-glass flex items-start gap-4 p-4 border border-canvas/10 hover:border-canvas/20 transition-colors rounded-xl"
                     >
                       <div className="w-9 h-9 bg-spark flex items-center justify-center shrink-0">
-                        <FeatureIcon size={16} className="text-ink" />
+                        <FeatureIcon size={16} className="text-canvas" />
                       </div>
                       <div>
-                        <span className="font-display font-semibold text-sm text-ink block">{feature.title}</span>
-                        <span className="font-display text-xs text-ink/50 leading-relaxed">{feature.desc}</span>
+                        <span className="font-display font-semibold text-sm text-canvas block">{feature.title}</span>
+                        <span className="font-display text-xs text-canvas/50 leading-relaxed">{feature.desc}</span>
                       </div>
                     </motion.div>
                     );
@@ -138,7 +138,7 @@ export default function Waitlist({ audience = 'marcas' }) {
           </motion.div>
 
           {/* Vertical divider */}
-          <div className="hidden md:block w-px bg-ink/10 self-stretch my-16" />
+          <div className="hidden md:block w-px bg-canvas/10 self-stretch my-16" />
 
           {/* Right — form */}
           <motion.div
@@ -154,11 +154,11 @@ export default function Waitlist({ audience = 'marcas' }) {
                 className="text-center py-12"
               >
                 <div className="w-14 h-14 bg-spark mx-auto flex items-center justify-center mb-6">
-                  <span className="font-display font-black text-xl text-ink">✓</span>
+                  <span className="font-display font-black text-xl text-canvas">✓</span>
                 </div>
-                <h2 className="font-display font-black text-3xl tracking-tight text-ink">{copy.successTitle}</h2>
-                <p className="mt-3 font-display text-sm text-ink/50 leading-relaxed max-w-xs mx-auto">
-                  Te notificaremos en <strong className="text-ink">{email}</strong> cuando tu acceso esté listo.
+                <h2 className="font-display font-black text-3xl tracking-tight text-canvas">{copy.successTitle}</h2>
+                <p className="mt-3 font-display text-sm text-canvas/50 leading-relaxed max-w-xs mx-auto">
+                  Te notificaremos en <strong className="text-canvas">{email}</strong> cuando tu acceso esté listo.
                 </p>
                 <Link to="/" className="mt-8 inline-flex items-center gap-2 bg-ink text-canvas font-mono text-xs uppercase tracking-widest px-8 py-4 hover:bg-spark hover:text-ink transition-colors">
                   Volver al inicio <ArrowRight size={14} />
@@ -166,20 +166,20 @@ export default function Waitlist({ audience = 'marcas' }) {
               </motion.div>
             ) : (
               <>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-2">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-2">
                   {copy.formEyebrow}
                 </span>
-                <h2 className="font-display font-black text-3xl md:text-4xl tracking-tighter text-ink leading-tight">
+                <h2 className="font-display font-black text-3xl md:text-4xl tracking-tighter text-canvas leading-tight">
                   {copy.formTitle[0]}
                   <br />{copy.formTitle[1]}
                 </h2>
-                <p className="mt-3 font-display text-sm text-ink/50 leading-relaxed">
+                <p className="mt-3 font-display text-sm text-canvas/50 leading-relaxed">
                   {copy.formDescription}
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-8 space-y-4">
                   <div>
-                    <label className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-2">
+                    <label className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-2">
                       Tu email *
                     </label>
                     <input
@@ -188,7 +188,7 @@ export default function Waitlist({ audience = 'marcas' }) {
                       placeholder="tu@empresa.com"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className="w-full border border-ink/20 focus:border-ink px-4 py-4 font-display text-sm text-ink placeholder:text-ink/30 outline-none transition-colors bg-transparent liquid-glass"
+                      className="w-full border border-canvas/20 focus:border-canvas px-4 py-4 font-display text-sm text-canvas placeholder:text-canvas/30 outline-none transition-colors bg-transparent liquid-glass"
                     />
                   </div>
 
@@ -205,19 +205,19 @@ export default function Waitlist({ audience = 'marcas' }) {
                   </button>
                 </form>
 
-                <div className="mt-6 pt-6 border-t border-ink/10">
-                  <p className="font-display text-xs text-ink/30 leading-relaxed">
+                <div className="mt-6 pt-6 border-t border-canvas/10">
+                  <p className="font-display text-xs text-canvas/30 leading-relaxed">
                     Al registrarte aceptas nuestros{' '}
-                    <a href="#" className="underline hover:text-ink transition-colors">Términos</a>{' '}
+                    <a href="#" className="underline hover:text-canvas transition-colors">Términos</a>{' '}
                     y{' '}
-                    <a href="#" className="underline hover:text-ink transition-colors">Política de Privacidad</a>.
+                    <a href="#" className="underline hover:text-canvas transition-colors">Política de Privacidad</a>.
                   </p>
                 </div>
 
                 <div className="mt-6">
-                  <p className="font-display text-xs text-ink/40">
+                  <p className="font-display text-xs text-canvas/40">
                     {copy.demoPrompt}{' '}
-                    <Link to="/demo" className="text-ink font-semibold underline hover:text-spark transition-colors">
+                    <Link to="/demo" className="text-canvas font-semibold underline hover:text-spark transition-colors">
                       Reserva una llamada →
                     </Link>
                   </p>

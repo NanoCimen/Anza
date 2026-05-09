@@ -349,8 +349,8 @@ export default function CreatorGrid() {
   const PrevIcon = TAB_ICONS[prevTab] || LayoutGrid;
   const NextIcon = TAB_ICONS[nextTab] || LayoutGrid;
   const visibleCreators = useMemo(() => {
-    if (activeTab === 'Todos') return ALL_CREATORS;
-    return INDUSTRY_CREATORS[activeTab] || [];
+    const list = activeTab === 'Todos' ? ALL_CREATORS : (INDUSTRY_CREATORS[activeTab] || []);
+    return list.slice(0, 3);
   }, [activeTab]);
 
   const goPrev = () => {
@@ -366,20 +366,34 @@ export default function CreatorGrid() {
   };
 
   return (
-    <section id="creators" className="bg-canvas relative scroll-mt-24 md:scroll-mt-28 pt-14 md:pt-18 pb-14 md:pb-20">
+    <section
+      id="creators"
+      className="bg-ink relative scroll-mt-24 md:scroll-mt-28 pt-10 md:pt-14 pb-10 md:pb-14 overflow-hidden"
+    >
+      {/* Iris purple top blend — starts at solid iris (matches Como funciona) and fades into the ink background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[55%] md:h-[45%] z-0"
+        style={{
+          background:
+            'linear-gradient(to bottom, #6B2FFA 0%, rgba(107,47,250,0.7) 12%, rgba(107,47,250,0.3) 35%, rgba(107,47,250,0) 75%)',
+        }}
+      />
+
       {/* Section label */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-        <div className="h-px bg-ink/10 mt-4 md:mt-6 mb-8 md:mb-14" />
+      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10">
+        <div className="h-px bg-canvas/10 mt-4 md:mt-6 mb-8 md:mb-14" />
         <div className="flex items-baseline justify-between mb-10 md:mb-14">
           <div>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-3">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-3">
               / Los Creadores
             </span>
-            <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-ink">
-              Descubre Talentos
+            <div className="w-12 h-[2px] bg-spark mb-6 md:mb-8 shadow-[0_0_10px_rgba(232,255,0,0.55)] origin-left" />
+            <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-canvas">
+              Construido para todo nicho
             </h2>
           </div>
-          <span className="hidden md:block font-mono text-[10px] uppercase tracking-widest text-ink/30">
+          <span className="hidden md:block font-mono text-[10px] uppercase tracking-widest text-canvas/30">
             Haz clic en las imágenes para ver más información
           </span>
         </div>
@@ -389,7 +403,7 @@ export default function CreatorGrid() {
           <button
             type="button"
             onClick={goPrev}
-            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-ink/55 transition hover:text-ink"
+            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-canvas/55 transition hover:text-canvas"
             aria-label={`Ver ${prevTab}`}
           >
             <ChevronLeft className="h-3.5 w-3.5" />
@@ -407,7 +421,7 @@ export default function CreatorGrid() {
           <button
             type="button"
             onClick={goNext}
-            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-ink/55 transition hover:text-ink"
+            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-canvas/55 transition hover:text-canvas"
             aria-label={`Ver ${nextTab}`}
           >
             {nextTab}
@@ -425,7 +439,7 @@ export default function CreatorGrid() {
             transition={{ duration: 0.2, ease: 'easeInOut' }}
           >
             {visibleCreators.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-ink/10">
+              <div className="grid grid-cols-3 gap-4 md:gap-6 mx-auto">
                 {visibleCreators.map((creator, i) => (
                   <motion.button
                     key={`${activeTab}-${creator.id}`}
@@ -434,7 +448,7 @@ export default function CreatorGrid() {
                     viewport={{ once: false, margin: '-50px' }}
                     transition={{ duration: 0.45, delay: i * 0.05 }}
                     onClick={() => setSelected(creator)}
-                    className={`${creator.span} relative group aspect-square overflow-hidden bg-canvas focus:outline-none focus:ring-4 focus:ring-spark focus:ring-inset cursor-pointer text-left`}
+                    className="relative group aspect-square overflow-hidden bg-ink focus:outline-none focus:ring-4 focus:ring-spark focus:ring-inset cursor-pointer text-left"
                   >
                     <img
                       src={creator.image}
@@ -443,7 +457,7 @@ export default function CreatorGrid() {
                     />
 
                     {/* Overlay */}
-                    <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/60 transition-all duration-500 flex flex-col justify-end p-4 md:p-6">
+                    <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/70 transition-all duration-500 flex flex-col justify-end p-4 md:p-6">
                       <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                         <span className="font-mono text-[10px] uppercase tracking-widest text-spark">
                           {creator.medium}
@@ -461,7 +475,7 @@ export default function CreatorGrid() {
               </div>
             ) : (
               <div className="min-h-[280px] md:min-h-[360px] flex items-center justify-center">
-                <p className="font-display text-2xl md:text-3xl tracking-tight text-ink/45">
+                <p className="font-display text-2xl md:text-3xl tracking-tight text-canvas/45">
                   Próximamente
                 </p>
               </div>

@@ -6,29 +6,32 @@ const BLOCKS = [
   {
     id: 'creadores',
     label: '/ Talento',
-    title: 'Rapido para Creadores',
-    body: 'Aplica a campañas de marcas y cobra por tu contenido. Sin agencia. Sin intermediarios.',
+    title: 'Para Creadores',
+    body: 'Aplica gratis a campañas de marcas y cobra por tu contenido — sin importar cuántos seguidores tienes. ',
     cta: 'Ver Creadores',
     href: '/creadores',
-    tint: 'from-spark/60 via-canvas/40 to-canvas',
+    image: '/images/paracreadores.png',
+    imageAlt: 'Creador grabando contenido para una marca con cámara y producto Anza',
   },
   {
     id: 'marcas',
     label: '/ Equipos',
-    title: 'Rapido para Marcas',
-    body: 'Encuentra perfiles alineados, coordina feedback y mide rendimiento creativo en tiempo real.',
+    title: 'Para Marcas',
+    body: 'En vez de destinar tu presupuesto a un único creador, activa a decenas de creadores hablando de tu producto al mismo tiempo. Más impacto, menos dinero.',
     cta: 'Ver Marcas',
     href: '/marcas',
-    tint: 'from-[#f6d7e8]/80 via-canvas/45 to-canvas',
+    image: '/images/brands.png',
+    imageAlt: 'Variedad de marcas y productos disponibles para campañas en Anza',
   },
   {
     id: 'agencias',
     label: '/ Escala',
-    title: 'Rapido para Agencias',
-    body: 'Opera multiples clientes con workflows estandarizados, aprobaciones rapidas y control total.',
+    title: 'Para Agencias',
+    body: 'Gestiona clientes, trackea campañas y paga creadores automáticamente — todo desde un solo lugar.',
     cta: 'Hablar con Equipo',
     href: '/demo',
-    tint: 'from-[#cfd4ff]/80 via-canvas/45 to-canvas',
+    image: '/images/agencydash.png',
+    imageAlt: 'Dashboard de agencia en Anza con métricas, plataformas y top contenido',
   },
 ];
 
@@ -48,31 +51,39 @@ function EditorialRow({ block, index }) {
         transition={{ type: 'spring', stiffness: 220, damping: 22 }}
         className="group relative liquid-glass-neutral rounded-2xl p-2 md:p-3"
       >
-        <div className="relative h-[260px] md:h-[320px] overflow-hidden rounded-xl bg-canvas">
+        <div className="relative h-[260px] md:h-[320px] overflow-hidden rounded-xl bg-ink">
           <img
-            src="/images/creadores.ong.png"
-            alt={block.title}
-            className="h-full w-full object-cover opacity-85 mix-blend-multiply transition-transform duration-700 group-hover:scale-[1.03]"
+            src={block.image}
+            alt={block.imageAlt || block.title}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
         </div>
       </motion.div>
 
       <div className="liquid-glass rounded-2xl p-6 md:p-8">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-ink/45 block mb-3">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/45 block mb-3">
           {block.label}
         </span>
-        <h3 className="font-display font-black text-3xl md:text-5xl tracking-tighter text-ink leading-[0.95]">
+        <h3 className="font-display font-black text-3xl md:text-5xl tracking-tighter text-canvas leading-[0.95]">
           {block.title}
         </h3>
-        <p className="mt-5 font-display text-sm md:text-base text-ink/65 leading-relaxed max-w-md">
+        <p className="mt-5 font-display text-sm md:text-base text-canvas/65 leading-relaxed max-w-md">
           {block.body}
         </p>
         <a
           href={block.href}
-          className="liquid-glass mt-7 inline-flex items-center border border-ink/20 bg-spark/70 px-8 py-4 font-mono text-xs uppercase tracking-widest text-ink transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
+          className="group relative mt-7 inline-flex items-center justify-center overflow-hidden px-9 py-3.5 font-display font-semibold text-white text-sm md:text-base tracking-wide ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-color,box-shadow] duration-300 ease-out hover:ring-white/15 hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.22)]"
+          style={{ backgroundColor: '#6B2FFA' }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#5A22E0')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#6B2FFA')}
         >
-          {block.cta}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+          />
+          <span className="relative">{block.cta}</span>
         </a>
       </div>
     </motion.article>
@@ -81,9 +92,37 @@ function EditorialRow({ block, index }) {
 
 export default function EditorialAudienceSection() {
   return (
-    <section id="audience" className="relative scroll-mt-24 md:scroll-mt-28 bg-canvas py-16 md:py-24" aria-labelledby="audience-heading">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-        <div className="h-px bg-ink/10 mt-4 md:mt-6 mb-10 md:mb-14" />
+    <section
+      id="audience"
+      className="relative scroll-mt-24 md:scroll-mt-28 bg-ink py-16 md:py-24 overflow-hidden"
+      aria-labelledby="audience-heading"
+    >
+      {/* Spark yellow aura — anchored above the section so it bleeds in softly without a hard line */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[55%] z-0"
+        style={{
+          background:
+            'radial-gradient(80% 110% at 50% -40%, rgba(232,255,0,0.18) 0%, rgba(232,255,0,0.06) 45%, rgba(232,255,0,0) 80%)',
+        }}
+      />
+      {/* Iris purple bottom blend — fades from ink up to solid iris at the seam (matches Como funciona) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] md:h-[45%] z-0"
+        style={{
+          background:
+            'linear-gradient(to top, #6B2FFA 0%, rgba(107,47,250,0.7) 12%, rgba(107,47,250,0.3) 35%, rgba(107,47,250,0) 75%)',
+        }}
+      />
+
+      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10">
+        <div className="h-px bg-canvas/10 mt-4 md:mt-6 mb-8 md:mb-10" />
+
+        <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block text-center mb-4">
+          / Aplicamos para todos
+        </span>
+        <div className="w-12 h-[2px] bg-spark mx-auto mb-8 md:mb-12 shadow-[0_0_10px_rgba(232,255,0,0.55)]" />
 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -92,12 +131,10 @@ export default function EditorialAudienceSection() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-4xl mx-auto mb-12 md:mb-16"
         >
-          <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-4">
-            Aplicamos para todos
-          </span>
+          <span className="sr-only">Aplicamos para todos</span>
           <h2
             id="audience-heading"
-            className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-ink leading-[0.95]"
+            className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-canvas leading-[0.95]"
           >
             Creadores, Marcas y Agencias
           </h2>

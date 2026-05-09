@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -11,104 +12,88 @@ import ScrollExploreHint from './ScrollExploreHint';
 const FAQS = [
   {
     q: '¿Cómo empiezo?',
-    a: 'Crea tu cuenta, revisa creadores compatibles con tu marca y publica un brief. Los creadores interesados aplican desde la app y tú apruebas el equipo sin salir del panel.',
-  },
-  {
-    q: '¿Anza tiene costo?',
-    a: 'Hay planes adaptados al tamaño de tu equipo y volumen de campañas. Puedes empezar con opciones flexibles y escalar cuando lo necesites; los detalles los ves al registrar tu marca.',
-  },
-  {
-    q: '¿Para quién está pensado Anza?',
-    a: 'Marcas y equipos de marketing que quieren lanzar contenido con creadores de LATAM sin caos de chats dispersos, pagos manuales ni reporting incoherente.',
+    a: 'Crea tu cuenta, completa tu perfil de creador o marca y empieza a aplicar a campañas o publicar briefs. Aprobamos los perfiles rápido para que estés activo en cuestión de días, no semanas.',
   },
   {
     q: '¿Qué creadores hay en Anza?',
-    a: 'Perfiles verificados en vídeo, creativos UGC, influencers y especialistas por vertical. Filtras por plataforma, audiencia y disponibilidad antes de invitar a nadie.',
-  },
-  {
-    q: 'UGC vs marketing de influencers — ¿cuál es la diferencia?',
-    a: 'El UGC suele ser contenido pensado para tus anuncios o embudos; el influencer marketing prioriza alcance desde las cuentas del creador. En Anza gestionas ambos flujos en el mismo briefing y seguimiento.',
+    a: 'Perfiles verificados en vídeo, creativos UGC, influencers y especialistas por vertical en LATAM. Filtras por plataforma, audiencia, idioma y disponibilidad antes de invitar a nadie.',
   },
   {
     q: '¿Qué puedo esperar y cómo se mide el éxito?',
     a: 'Acuerdas KPIs en el brief (entregas, tasas de conversión, vistas clave). El dashboard centraliza métricas por campaña para que compares rendimiento sin armar reportes a mano.',
   },
   {
-    q: 'Self-serve vs servicio guiado — ¿qué cambia?',
-    a: 'Self-serve es para equipos que ya tienen procesos claros y solo necesitan herramientas. El servicio guiado suma acompañamiento estratégico cuando quieres acelerar pilares como selección de creadores o QA creativo.',
-  },
-  {
-    q: '¿Qué tan rápido puedo contratar creadores?',
-    a: 'Depende de tu brief y filtros, pero las aplicaciones suelen llegar en horas o días. Alertas y plantillas de brief reducen idas y vueltas para cerrar equipo antes.',
-  },
-  {
     q: '¿Cómo se gestionan pagos y contratos?',
-    a: 'Contratos y alcances quedan registrados en la plataforma; los pagos se pueden automatizar con esquemas por hito o recurrentes para que reduzcas trabajo operativo y errores.',
+    a: 'Contratos y alcances quedan registrados en la plataforma; los pagos se pueden automatizar con esquemas por hito o recurrentes para reducir trabajo operativo y errores.',
   },
   {
-    q: '¿Cómo sigo el rendimiento de los creadores?',
-    a: 'Centralizamos métricas y estados de posteo para que veas qué piezas están vivas, pendientes o necesitan iteración — sin saltar entre hojas y capturas.',
-  },
-  {
-    q: '¿Cómo evito que un creador abandone la campaña?',
-    a: 'Notificaciones, recordatorios de entrega y visibilidad del estado del proyecto mantienen el ritmo. Si falta una pieza, ves el bloqueo antes de que impacte la fecha.',
+    q: '¿Cuánto dinero puedo hacer como creador?',
+    a: 'Tus ingresos dependen del brief, el alcance que aporte tu contenido y los bonos asociados. En Anza fijas tu tarifa, recibes ofertas claras de marcas y cobras desde el primer día — sin esperas ni tarifas ocultas.',
   },
   {
     q: '¿Anza comparado con contratar una agencia?',
-    a: 'Las agencias aportan estrategia integral pero suelen ser más lentas y costosas. Anza te da velocidad, roster amplio y control directo con automatización que una agencia tradicional no suele entregar en tiempo real.',
-  },
-  {
-    q: '¿Sirve para mi industria?',
-    a: 'Trabajamos marcas de retail, apps, consumo, cultura y más. Si hay contenido en redes involucrado, puedes adaptar briefs y approvals al tono de tu sector.',
-  },
-  {
-    q: 'Mi equipo es pequeño — ¿podemos gestionarlo?',
-    a: 'Sí: está pensado para squads reducidos. Roles claros, briefs reutilizables y automatización de pagos liberan horas para que marketing no viva en el inbox.',
-  },
-  {
-    q: '¿Qué incluye la prueba gratuita?',
-    a: 'Acceso al flujo principal para explorar briefs, aplicaciones de creadores y el panel con límites según la promoción vigente al registrarte. Te guiamos para sacar valor desde el día uno.',
+    a: 'Las agencias aportan estrategia integral pero suelen ser más lentas y costosas. Anza te da velocidad, roster amplio y control directo con automatización que una agencia tradicional no entrega en tiempo real.',
   },
 ];
 
 export default function FAQSection() {
   return (
-    <section id="faqs" className="relative scroll-mt-20 md:scroll-mt-24 bg-canvas border-t border-ink/10">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10 pt-16 md:pt-24 lg:pt-28 pb-8 md:pb-10 lg:pb-12">
+    <section
+      className="relative overflow-hidden bg-spark"
+      aria-labelledby="faq-heading"
+    >
+      <div
+        id="faqs"
+        className="scroll-mt-14 md:scroll-mt-16 max-w-[1440px] mx-auto px-6 md:px-10 pt-10 md:pt-14 pb-16 md:pb-24"
+      >
+        <div className="h-px bg-ink/15 mt-4 md:mt-6 mb-10 md:mb-14" />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: '-60px' }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col items-center gap-8 md:gap-10 w-full"
+          className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start"
         >
-          <div className="w-full max-w-4xl mx-auto text-center">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-4 md:mb-5">
-              / FAQs
-            </span>
-            <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-ink leading-[0.95]">
-              ¿Tienes preguntas?
-              <br />
-              Tenemos respuestas
-            </h2>
-            <p className="mt-5 md:mt-6 mx-auto font-display text-base md:text-lg text-ink/60 leading-relaxed max-w-[520px]">
-              Todo lo que necesitas saber sobre cómo Anza encaja en tu operación de contenido.
-            </p>
+          {/* Left column — oversized FAQ title */}
+          <div className="md:col-span-5 lg:col-span-5">
+            <div className="md:sticky md:top-24">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-ink/55 block mb-4">
+                / Preguntas frecuentes
+              </span>
+              <div className="w-12 h-[2px] bg-iris mb-6 md:mb-8 shadow-[0_0_10px_rgba(107,47,250,0.55)] origin-left" />
+              <h2
+                id="faq-heading"
+                className="font-display font-black tracking-tighter text-ink leading-[0.85] text-7xl sm:text-8xl md:text-[120px] lg:text-[160px]"
+              >
+                FAQ
+              </h2>
+            </div>
           </div>
 
-          <div className="w-full max-w-3xl mx-auto">
+          {/* Right column — collapsed questions with circular arrows */}
+          <div className="md:col-span-7 lg:col-span-7 md:pt-6 lg:pt-10">
             <Accordion type="single" collapsible className="w-full">
               {FAQS.map((item, i) => (
                 <AccordionItem
                   key={item.q}
                   value={`item-${i}`}
-                  className="border-ink/10 px-0"
+                  className="border-b-0 px-0"
                 >
-                  <AccordionTrigger className="py-5 md:py-6 text-left font-display text-base md:text-lg font-bold text-ink hover:no-underline [&[data-state=open]]:font-bold [&>svg]:text-ink/45 [&>svg]:h-5 [&>svg]:w-5">
-                    {item.q}
+                  <AccordionTrigger
+                    className="group flex items-center justify-start gap-4 py-4 md:py-5 text-left hover:no-underline [&>svg:last-of-type]:hidden"
+                  >
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-ink/[0.08] ring-1 ring-ink/15 transition-colors group-hover:bg-ink/[0.16] group-data-[state=open]:bg-ink/[0.16]">
+                      <ChevronDown
+                        size={14}
+                        className="text-ink transition-transform duration-300 group-data-[state=open]:rotate-180"
+                      />
+                    </span>
+                    <span className="font-display text-base md:text-lg font-semibold text-ink leading-snug">
+                      {item.q}
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p className="font-display text-base md:text-lg text-ink/60 leading-relaxed pb-2 pr-8">
+                    <p className="font-display text-sm md:text-base text-ink/75 leading-relaxed pb-2 pl-11 pr-4 md:pr-8">
                       {item.a}
                     </p>
                   </AccordionContent>
@@ -116,15 +101,26 @@ export default function FAQSection() {
               ))}
             </Accordion>
 
-            <div className="mt-10 md:mt-12 flex flex-col items-center gap-3 text-center">
-              <p className="font-display text-sm md:text-base font-bold text-ink/60 leading-snug">
+            <div className="mt-10 md:mt-12 flex flex-col items-start gap-3 pl-11">
+              <p className="font-display text-sm md:text-base font-bold text-ink/80 leading-snug">
                 ¿Todavía tienes preguntas?
               </p>
               <a
                 href="/demo"
-                className="bg-spark text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 hover:bg-ink hover:text-canvas transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-spark"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded-full px-8 py-4 font-mono text-xs uppercase tracking-widest text-white ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-color,box-shadow] duration-300 ease-out hover:ring-white/15 hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] focus:outline-none focus-visible:ring-4 focus-visible:ring-iris/40"
+                style={{ backgroundColor: '#6B2FFA' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#5A22E0';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#6B2FFA';
+                }}
               >
-                Reserva una Demostración
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+                />
+                <span className="relative">Reserva una Demostración</span>
               </a>
             </div>
           </div>

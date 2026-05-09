@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import ScrollExploreHint from './ScrollExploreHint';
 
-/** Brand spark yellow — soft wash into saturated accent (replaces blue reference) */
+/** Premium Anza card — iris → spark glow on a dark base */
 const HIGHLIGHT_BG_STYLE = {
   backgroundImage: `
-    radial-gradient(71.9% 62.07% at 50% 0%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.45) 100%),
-    linear-gradient(180deg, #FFFFFB 0%, #FFFCE8 32%, #FFF6B3 58%, #E8FF00 100%)
+    radial-gradient(80% 60% at 50% 0%, rgba(232, 255, 0, 0.18) 0%, rgba(107, 47, 250, 0.18) 50%, rgba(10, 10, 10, 0) 100%),
+    linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)
   `,
 };
 
@@ -42,10 +42,11 @@ export default function ComparisonSection() {
   return (
     <section
       id="comparison"
-      className="relative bg-canvas border-y border-ink/10"
+      className="relative bg-ink"
       aria-labelledby="comparison-heading"
     >
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 py-10 md:py-14 lg:py-16">
+        <div className="h-px bg-canvas/10 mt-4 md:mt-6 mb-8 md:mb-10" />
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -53,16 +54,17 @@ export default function ComparisonSection() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-5xl mx-auto mb-8 md:mb-10"
         >
-          <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-4 md:mb-5">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-4">
             / Comparativa
           </span>
+          <div className="w-12 h-[2px] bg-spark mx-auto mb-6 md:mb-8 shadow-[0_0_10px_rgba(232,255,0,0.55)]" />
           <h2
             id="comparison-heading"
-            className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-ink leading-[0.95]"
+            className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-canvas leading-[0.95]"
           >
             El nuevo estándar para marketing con creadores
           </h2>
-          <p className="mt-5 md:mt-6 font-display text-base md:text-lg text-ink/75 leading-relaxed max-w-[500px] mx-auto">
+          <p className="mt-5 md:mt-6 font-display text-base md:text-lg text-canvas/75 leading-relaxed max-w-[500px] mx-auto">
             Por qué Anza es la opción más clara para vídeos que rinden de verdad.
           </p>
         </motion.div>
@@ -72,35 +74,35 @@ export default function ComparisonSection() {
           {ROWS.map((row) => (
             <div
               key={row.feature}
-              className="rounded-2xl border border-ink/[0.06] bg-white overflow-hidden divide-y divide-ink/[0.06]"
+              className="rounded-2xl border border-canvas/[0.08] bg-ink/40 overflow-hidden divide-y divide-canvas/[0.06]"
             >
-              <p className="font-display text-sm font-semibold text-ink leading-snug px-4 py-3 bg-canvas/80">
+              <p className="font-display text-sm font-semibold text-canvas leading-snug px-4 py-3 bg-ink/70">
                 {row.feature}
               </p>
-              <div className="grid grid-cols-2 divide-x divide-ink/[0.06]">
+              <div className="grid grid-cols-2 divide-x divide-canvas/[0.06]">
                 <div
                   className="flex flex-col items-center justify-center gap-2 py-4 px-3 min-h-[4.5rem]"
                   style={HIGHLIGHT_BG_STYLE}
                 >
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-ink/55">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-spark">
                     Anza
                   </span>
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm ring-1 ring-ink/10">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-spark shadow-sm">
                     <Check className="w-4 h-4 text-ink shrink-0" strokeWidth={2.5} aria-hidden />
                   </span>
                 </div>
-                <div className="flex flex-col justify-center py-4 px-3 bg-white">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40 mb-1">
+                <div className="flex flex-col justify-center py-4 px-3 bg-ink/30">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 mb-1">
                     Por tu cuenta
                   </span>
-                  <p className="text-xs text-ink/70 leading-snug">{row.diy}</p>
+                  <p className="text-xs text-canvas/60 leading-snug">{row.diy}</p>
                 </div>
               </div>
             </div>
           ))}
           <a
             href="/waitlist"
-            className="flex w-full justify-center rounded-full bg-ink text-canvas font-mono text-xs uppercase tracking-widest px-8 py-4 hover:bg-ink/90 transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-spark"
+            className="flex w-full justify-center rounded-full bg-spark px-8 py-4 font-mono text-xs uppercase tracking-widest text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_10px_30px_rgba(232, 255, 0,0.35)] focus:outline-none focus-visible:ring-4 focus-visible:ring-spark"
           >
             Empieza gratis
           </a>
@@ -114,9 +116,9 @@ export default function ComparisonSection() {
             {ROWS.map((row) => (
               <div
                 key={row.feature}
-                className="min-h-[4.25rem] flex items-center border-t border-ink/[0.06] py-3"
+                className="min-h-[4.25rem] flex items-center border-t border-canvas/[0.08] py-3"
               >
-                <p className="font-display text-[13px] lg:text-sm text-ink leading-snug pr-2">
+                <p className="font-display text-[13px] lg:text-sm text-canvas leading-snug pr-2">
                   {row.feature}
                 </p>
               </div>
@@ -124,21 +126,21 @@ export default function ComparisonSection() {
           </div>
 
           <div
-            className="flex-1 max-w-[280px] lg:max-w-xs rounded-[28px] lg:rounded-[32px] border border-ink/[0.12] shadow-[0_20px_48px_-14px_rgba(232,255,0,0.45)] overflow-hidden flex flex-col min-w-0"
+            className="flex-1 max-w-[280px] lg:max-w-xs rounded-[28px] lg:rounded-[32px] border border-spark/30 shadow-[0_20px_48px_-14px_rgba(232, 255, 0,0.35)] overflow-hidden flex flex-col min-w-0"
             style={HIGHLIGHT_BG_STYLE}
           >
-            <div className="min-h-[3.75rem] flex items-center justify-center border-b border-ink/10 px-3">
-              <span className="font-display font-bold text-base lg:text-lg text-ink tracking-tight">
+            <div className="min-h-[3.75rem] flex items-center justify-center border-b border-canvas/10 px-3">
+              <span className="font-display font-bold text-base lg:text-lg text-spark tracking-tight">
                 Anza
               </span>
             </div>
-            <div className="flex flex-col flex-1 divide-y divide-ink/15">
+            <div className="flex flex-col flex-1 divide-y divide-canvas/10">
               {ROWS.map((row) => (
                 <div
                   key={row.feature}
                   className="flex flex-1 min-h-[4.25rem] items-center justify-center py-2.5"
                 >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-sm ring-1 ring-ink/10">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-spark shadow-sm">
                     <Check className="w-[18px] h-[18px] text-ink" strokeWidth={2.25} aria-hidden />
                   </span>
                   <span className="sr-only">Incluido en Anza: {row.feature}</span>
@@ -148,34 +150,34 @@ export default function ComparisonSection() {
             <div className="p-4 lg:p-5 pt-3">
               <a
                 href="/waitlist"
-                className="flex w-full justify-center rounded-full bg-ink text-canvas font-mono text-[11px] uppercase tracking-widest px-6 py-3.5 hover:bg-ink/90 transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-spark"
+                className="flex w-full justify-center rounded-full bg-spark px-6 py-3.5 font-mono text-[11px] uppercase tracking-widest text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_10px_30px_rgba(232, 255, 0,0.35)] focus:outline-none focus-visible:ring-4 focus-visible:ring-spark"
               >
                 Empieza gratis
               </a>
             </div>
           </div>
 
-          <div className="flex-1 max-w-[280px] lg:max-w-xs rounded-2xl border border-ink/[0.06] bg-white overflow-hidden flex flex-col min-w-0 shadow-sm">
-            <div className="min-h-[3.75rem] flex items-center justify-center border-b border-ink/[0.06] px-3 rounded-t-2xl bg-white">
-              <span className="font-display font-bold text-base lg:text-lg text-ink/75 tracking-tight">
+          <div className="flex-1 max-w-[280px] lg:max-w-xs rounded-2xl border border-canvas/[0.08] bg-ink/40 overflow-hidden flex flex-col min-w-0">
+            <div className="min-h-[3.75rem] flex items-center justify-center border-b border-canvas/[0.08] px-3 rounded-t-2xl">
+              <span className="font-display font-bold text-base lg:text-lg text-canvas/75 tracking-tight">
                 Por tu cuenta
               </span>
             </div>
-            <div className="flex flex-col divide-y divide-ink/[0.06] flex-1">
+            <div className="flex flex-col divide-y divide-canvas/[0.06] flex-1">
               {ROWS.map((row, i) => (
                 <div
                   key={row.feature}
                   className={`flex flex-1 min-h-[4.25rem] items-center px-3 lg:px-4 py-3 ${
-                    i % 2 === 0 ? 'bg-white' : 'bg-ink/[0.03]'
+                    i % 2 === 0 ? 'bg-ink/30' : 'bg-ink/50'
                   }`}
                 >
-                  <p className="font-display text-[13px] lg:text-sm text-ink/70 leading-snug">
+                  <p className="font-display text-[13px] lg:text-sm text-canvas/65 leading-snug">
                     {row.diy}
                   </p>
                 </div>
               ))}
             </div>
-            <div className="min-h-[76px] bg-white" aria-hidden />
+            <div className="min-h-[76px]" aria-hidden />
           </div>
         </div>
       </div>

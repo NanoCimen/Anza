@@ -12,7 +12,7 @@ import Footer from '../components/landing/Footer';
 
 export default function Marcas() {
   return (
-    <div className="bg-canvas min-h-screen font-display">
+    <div className="bg-ink min-h-screen font-display">
       <Navbar />
       <HeroBrandsSection />
       <PlatformMarquee />

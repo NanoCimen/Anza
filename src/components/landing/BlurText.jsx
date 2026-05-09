@@ -66,7 +66,7 @@ export default function BlurText({
               ? {
                   color: '#E8FF00',
                   textShadow:
-                    '0 0 10px rgba(232,255,0,0.8), 0 0 18px rgba(232,255,0,0.55), 0 0 28px rgba(232,255,0,0.35)',
+                    '0 0 10px rgba(232, 255, 0,0.8), 0 0 18px rgba(232, 255, 0,0.55), 0 0 28px rgba(232, 255, 0,0.35)',
                 }
               : undefined
           }

@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import ScrollExploreHint from './ScrollExploreHint';
 
 /** Minimal TikTok mark — fills with currentColor on hover */
 function TikTokGlyph({ className }) {
@@ -121,18 +120,11 @@ function MarqueeTrack() {
  */
 export default function PlatformMarquee() {
   const handleGoToPhilosophy = () => {
-    const topLine = document.getElementById('about-top-line');
-    if (topLine) {
-      const navbarOffset = 64;
-      const y = topLine.getBoundingClientRect().top + window.scrollY - navbarOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-      return;
-    }
-
-    const section = document.getElementById('about');
-    if (section) {
+    const target =
+      document.getElementById('como-funciona') || document.getElementById('about');
+    if (target) {
       window.scrollTo({
-        top: section.getBoundingClientRect().top + window.scrollY - 64,
+        top: target.getBoundingClientRect().top + window.scrollY - 64,
         behavior: 'smooth',
       });
     }
@@ -140,11 +132,10 @@ export default function PlatformMarquee() {
 
   return (
     <section
-      className="relative bg-ink overflow-hidden"
+      className="relative overflow-hidden bg-ink"
       aria-label="Redes y plataformas"
     >
-      {/* Spark accent — aligns with landing hairlines */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10 pt-12 md:pt-16 pb-8 md:pb-10">
+      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10 pt-12 md:pt-16 pb-8 md:pb-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -152,25 +143,39 @@ export default function PlatformMarquee() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-5xl mx-auto"
         >
-          <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/45 block mb-4 md:mb-5">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/45 block mb-4">
             / Alcance
           </span>
+          <div className="w-12 h-[2px] bg-spark mx-auto mb-6 md:mb-8 shadow-[0_0_10px_rgba(232,255,0,0.55)]" />
           <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-canvas leading-[0.95]">
             Creadores de todas las
             <br />
             <span className="whitespace-nowrap">plataformas</span>
           </h2>
-          <button
+          <motion.button
             type="button"
             onClick={handleGoToPhilosophy}
-            className="liquid-glass-strong mt-8 inline-flex items-center rounded-full px-6 py-3 font-mono text-xs uppercase tracking-widest text-canvas transition-transform duration-300 hover:-translate-y-0.5"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: '-80px' }}
+            transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 0, scale: 0.985 }}
+            className="group relative mt-8 inline-flex items-center justify-center overflow-hidden px-6 py-2.5 font-display font-semibold text-white text-xs md:text-sm tracking-wide ring-1 ring-white/10 shadow-[0_6px_18px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-color,box-shadow] duration-300 ease-out hover:ring-white/15 hover:shadow-[0_10px_24px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.22)]"
+            style={{ backgroundColor: '#6B2FFA' }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#5A22E0')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#6B2FFA')}
           >
-            Como funciona
-          </button>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+            />
+            <span className="relative">Como funciona</span>
+          </motion.button>
         </motion.div>
       </div>
 
-      <div className="relative pb-12 pt-2 md:pt-3">
+      <div className="relative z-10 pb-12 pt-2 md:pt-3">
         {/* Edge fade so scroll feels editorial */}
         <div
           className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-16 md:w-24 bg-gradient-to-r from-ink to-transparent"
@@ -185,7 +190,16 @@ export default function PlatformMarquee() {
           <MarqueeTrack />
         </div>
       </div>
-      <ScrollExploreHint />
+
+      {/* Spark yellow bottom aura — anchored below the section to mirror the next section's top aura */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] z-[2]"
+        style={{
+          background:
+            'radial-gradient(80% 110% at 50% 140%, rgba(232,255,0,0.18) 0%, rgba(232,255,0,0.06) 45%, rgba(232,255,0,0) 80%)',
+        }}
+        aria-hidden
+      />
     </section>
   );
 }

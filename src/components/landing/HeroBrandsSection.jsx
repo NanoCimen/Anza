@@ -27,7 +27,7 @@ export default function HeroBrandsSection() {
   };
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-canvas overflow-hidden pt-16">
+    <section ref={sectionRef} className="relative min-h-screen bg-ink overflow-hidden pt-16">
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 h-[calc(100vh-4rem)] flex flex-col md:flex-row items-stretch">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -50,7 +50,7 @@ export default function HeroBrandsSection() {
             />
             <motion.div
               aria-hidden
-              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-canvas/25 to-transparent"
+              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-ink/25 to-transparent"
               initial={{ x: '-160%' }}
               whileHover={{ x: '420%' }}
               transition={{ duration: 0.9, ease: 'easeInOut' }}
@@ -67,31 +67,31 @@ export default function HeroBrandsSection() {
           className="md:w-[45%] flex flex-col justify-center md:pl-12 lg:pl-20 py-10 md:py-0"
         >
           <div className="mb-6">
-            <span className="font-mono text-xs tracking-widest text-ink/40 uppercase">
+            <span className="font-mono text-xs tracking-widest text-canvas/40 uppercase">
               / Plataforma para Marcas y Agencias
             </span>
           </div>
 
           <div className="relative inline-block">
-            <h1 className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px] leading-[0.85] tracking-tighter text-ink">
+            <h1 className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px] leading-[0.85] tracking-tighter text-canvas">
             USA
             <br />
             CREADORES
             <br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '2px #0D0D0D' }}>
+            <span className="text-transparent" style={{ WebkitTextStroke: '2px #0A0A0A' }}>
               UGC
             </span>
             </h1>
             <button
               type="button"
               onClick={handleGoToArticle}
-              className="absolute top-[3%] right-2 md:-right-6 lg:-right-10 bg-spark border-2 border-ink rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-ink shadow-[0_10px_28px_rgba(232,255,0,0.4)] transition-transform duration-700 hover:scale-[1.03] will-change-transform"
+              className="absolute top-[3%] right-2 md:-right-6 lg:-right-10 bg-spark border-2 border-canvas rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-ink shadow-[0_10px_28px_rgba(232, 255, 0,0.4)] transition-transform duration-700 hover:scale-[1.03] will-change-transform"
             >
               ¿Que son Creadores UGC?
             </button>
           </div>
 
-          <p className="mt-12 font-display text-base md:text-lg text-ink/60 leading-relaxed max-w-md">
+          <p className="mt-12 font-display text-base md:text-lg text-canvas/60 leading-relaxed max-w-md">
           Lanza campañas con creadores en menos tiempo, centraliza aprobaciones y paga por
           resultados desde un solo flujo.
           </p>
@@ -99,14 +99,14 @@ export default function HeroBrandsSection() {
           <div className="mt-10 flex flex-wrap gap-10">
             <a
               href="/"
-              className="liquid-glass border border-ink/20 text-ink bg-canvas/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
+              className="liquid-glass border border-canvas/20 text-canvas bg-ink/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-canvas hover:text-ink hover:shadow-[0_10px_30px_rgba(10,10,10,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
             >
               <ArrowLeft size={14} />
               VOLVER
             </a>
             <a
               href="/waitlist/marcas"
-              className="liquid-glass-strong bg-ink border border-ink text-spark font-mono font-bold text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232,255,0,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
+              className="liquid-glass-strong bg-ink border border-canvas text-spark font-mono font-bold text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232, 255, 0,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
             >
               EMPIEZA GRATIS
             </a>
@@ -124,9 +124,9 @@ export default function HeroBrandsSection() {
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
         >
-          <ArrowDown size={16} className="text-ink/40" />
+          <ArrowDown size={16} className="text-canvas/40" />
         </motion.div>
-        <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40">
           Desliza para explorar
         </span>
       </motion.div>

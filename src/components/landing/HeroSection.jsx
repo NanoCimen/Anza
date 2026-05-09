@@ -1,114 +1,224 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { ArrowDown, Menu, X } from 'lucide-react';
 
-const HERO_IMAGE = '/images/creadores.ong.png';
+const ANZA_LOGO = '/logoconftransp.png';
+const HERO_BG = '/fondoinflu.png';
 
 export default function HeroSection() {
   const sectionRef = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, -36]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -22]);
-  const sectionOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.78]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.6]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setHasScrolled(true), 3000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const navItemsVariants = {
+    hidden: { opacity: 0, y: -8 },
+    visible: { opacity: 1, y: 0 },
+  };
+  const navItemsTransition = { duration: 0.55, ease: [0.22, 1, 0.36, 1] };
+  const navInteractivityClass = hasScrolled ? 'pointer-events-auto' : 'pointer-events-none';
+
+  const navLinkClass =
+    'font-mono text-xs uppercase tracking-widest text-white/75 hover:text-white transition-colors';
+  const navLinkMobileClass =
+    'font-mono text-sm uppercase tracking-widest text-white/80 hover:text-white';
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-canvas overflow-hidden pt-16">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10 h-[calc(100vh-4rem)] flex flex-col md:flex-row items-stretch">
-        {/* Left — Image (60%) */}
+    <section ref={sectionRef} className="relative min-h-screen overflow-hidden bg-black">
+      {/* Full-bleed influencer grid background */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          style={{ y: imageY, opacity: sectionOpacity }}
-          className="md:w-[55%] relative flex items-end py-10 md:py-20"
-        >
-          <motion.div
-            whileHover={{ scale: 1.025, rotate: -0.35 }}
-            transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-            className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden"
+          initial={{ opacity: 0, scale: 1.08 }}
+          animate={{ opacity: 1, scale: 1.02 }}
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 blur-[2px]"
+          style={{
+            backgroundImage: `url(${HERO_BG})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            backgroundSize: '75%',
+          }}
+        />
+        {/* Darkening stack — matches dense grid + readable white UI */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
+          className="absolute inset-0 bg-black/30"
+        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
+          className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/15 to-black/40"
+        />
+      </div>
+
+      {/* Top bar — floats over full-bleed background (no glass) */}
+      <header className="absolute left-0 right-0 top-0 z-30">
+        <div className="relative mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 md:h-20 md:px-10">
+          {/* Left nav — hidden until first scroll */}
+          <motion.nav
+            variants={navItemsVariants}
+            initial="hidden"
+            animate={hasScrolled ? 'visible' : 'hidden'}
+            transition={navItemsTransition}
+            className={`hidden items-center gap-8 md:flex ${navInteractivityClass}`}
           >
-            <motion.img
-              src={HERO_IMAGE}
-              alt="Latin American creator in dramatic editorial lighting"
-              className="w-full h-full object-cover object-center"
-              whileHover={{ scale: 1.08 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            />
+            <a href="#faqs" className={navLinkClass}>
+              FAQs
+            </a>
+            <a href="#about" className={navLinkClass}>
+              Nosotros
+            </a>
+          </motion.nav>
+
+          {/* Center logo — visible from the start */}
+          <motion.img
+            src={ANZA_LOGO}
+            alt="Anza"
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-none absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 select-none object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] md:h-11 md:w-11"
+            draggable={false}
+          />
+
+          {/* Right nav — hidden until first scroll */}
+          <motion.nav
+            variants={navItemsVariants}
+            initial="hidden"
+            animate={hasScrolled ? 'visible' : 'hidden'}
+            transition={{ ...navItemsTransition, delay: 0.05 }}
+            className={`hidden items-center gap-10 md:flex ${navInteractivityClass}`}
+          >
+            <a href="/creadores" className={navLinkClass}>
+              Para creadores
+            </a>
+            <a href="/marcas" className={navLinkClass}>
+              Para marcas
+            </a>
+            <a
+              href="/demo"
+              className="rounded-full bg-spark px-6 py-2.5 font-mono text-xs uppercase tracking-widest text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_10px_30px_rgba(232, 255, 0,0.35)]"
+            >
+              Reservar una Demostración
+            </a>
+          </motion.nav>
+
+          <motion.button
+            type="button"
+            onClick={() => setOpen(!open)}
+            aria-label="Abrir menú"
+            aria-expanded={open}
+            variants={navItemsVariants}
+            initial="hidden"
+            animate={hasScrolled ? 'visible' : 'hidden'}
+            transition={navItemsTransition}
+            className={`p-2 text-white md:hidden ${navInteractivityClass}`}
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </motion.button>
+        </div>
+
+        <AnimatePresence>
+          {open && (
             <motion.div
-              aria-hidden
-              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-canvas/25 to-transparent"
-              initial={{ x: '-160%' }}
-              whileHover={{ x: '420%' }}
-              transition={{ duration: 0.9, ease: 'easeInOut' }}
-            />
-            {/* Yellow accent strip */}
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-spark" />
-          </motion.div>
-        </motion.div>
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden border-b border-white/10 bg-black/90 md:hidden"
+            >
+              <div className="flex flex-col gap-5 px-6 py-6">
+                <a href="#faqs" onClick={() => setOpen(false)} className={navLinkMobileClass}>
+                  FAQs
+                </a>
+                <a href="#about" onClick={() => setOpen(false)} className={navLinkMobileClass}>
+                  Nosotros
+                </a>
+                <a href="/creadores" onClick={() => setOpen(false)} className={navLinkMobileClass}>
+                  Para creadores
+                </a>
+                <a href="/marcas" onClick={() => setOpen(false)} className={navLinkMobileClass}>
+                  Para marcas
+                </a>
+                <a
+                  href="/demo"
+                  onClick={() => setOpen(false)}
+                  className="rounded-full bg-spark px-6 py-3 text-center font-mono text-sm uppercase tracking-widest text-ink transition-colors hover:bg-white"
+                >
+                  Reservar una Demostración
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
 
-        {/* Right — Content (40%) */}
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-[1440px] flex-col items-center justify-center px-6 pb-24 pt-16 md:px-10 md:pb-28 md:pt-20">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           style={{ y: contentY, opacity: sectionOpacity }}
-          className="md:w-[45%] flex flex-col justify-center md:pl-12 lg:pl-20 py-10 md:py-0"
+          className="flex flex-col items-center justify-center text-center -translate-y-6 md:-translate-y-10"
         >
-          <div className="mb-6">
-            <span className="font-mono text-xs tracking-widest text-ink/40 uppercase">
-              / Marketplace de Creadores · América Latina
-            </span>
-          </div>
-
-          <h1 className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px] leading-[0.85] tracking-tighter text-ink">
-            TODOS
-            <br />
-            PUEDEN
-            <br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '2px #0D0D0D' }}>
-              CREAR
-            </span>
+          <h1 className="font-display font-black leading-[0.85] tracking-tighter text-white [text-shadow:0_2px_40px_rgba(0,0,0,0.55)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[140px]">
+            Anza
           </h1>
 
-          <p className="mt-12 font-display text-base md:text-lg text-ink/60 leading-relaxed max-w-md">
-          El algoritmo ya no premia los seguidores, premia el contenido. Construye tu ejército de creadores, gestiona tus campañas y paga por resultados — desde un solo lugar.
+          <p className="font-display font-normal text-white/80 leading-relaxed mt-6 max-w-xl text-base sm:text-lg md:mt-8 md:text-xl">
+           Gana dinero creando contenido para marcas y cobra desde el primer día.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-10">
-            <a
-              href="/creadores"
-              className="liquid-glass border border-ink/20 bg-spark/70 text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
-            >
-              CREADOR
-            </a>
-            <a
-              href="/marcas"
-              className="liquid-glass-strong border border-ink/20 bg-spark/70 text-ink font-mono text-xs uppercase tracking-widest px-8 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-ink hover:text-canvas hover:shadow-[0_10px_30px_rgba(13,13,13,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
-            >
-              MARCA/AGENCIA
-            </a>
-          </div>
+          <motion.a
+            href="/waitlist"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: hasScrolled ? 1 : 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={hasScrolled ? { y: -1 } : undefined}
+            whileTap={hasScrolled ? { y: 0, scale: 0.985 } : undefined}
+            style={{
+              backgroundColor: '#6B2FFA',
+              pointerEvents: hasScrolled ? 'auto' : 'none',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#5A22E0')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#6B2FFA')}
+            className="group relative mt-8 inline-flex items-center justify-center overflow-hidden rounded-full px-9 py-3.5 font-display font-semibold text-white text-sm md:text-base tracking-wide ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-color,box-shadow] duration-300 ease-out hover:ring-white/15 hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] md:mt-10"
+            aria-hidden={!hasScrolled}
+            tabIndex={hasScrolled ? 0 : -1}
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+            />
+            <span className="relative">Regístrate ahora</span>
+          </motion.a>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-6 md:left-10 flex items-center gap-3"
+        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
         >
-          <ArrowDown size={16} className="text-ink/40" />
+          <ArrowDown size={16} className="text-white/50" />
         </motion.div>
-        <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-white/45">
           Desliza para explorar
         </span>
       </motion.div>

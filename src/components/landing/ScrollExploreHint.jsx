@@ -15,9 +15,9 @@ export default function ScrollExploreHint() {
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
       >
-        <ArrowDown size={16} className="text-ink/40" />
+        <ArrowDown size={16} className="text-canvas/40" />
       </motion.div>
-      <span className="font-mono text-[10px] uppercase tracking-widest text-ink/40">
+      <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40">
         Desliza para explorar
       </span>
     </motion.div>

@@ -136,16 +136,15 @@ export default function AboutSection() {
               className="mt-12 md:mt-16 max-w-2xl"
             >
               <p className="font-display text-lg md:text-xl text-canvas/60 leading-relaxed">
-                Anza nació de una convicción simple: la próxima generación del marketing global se
-                está construyendo en estudios de Santo Domingo, Medellín, Ciudad de México y São
-                Paulo. Construimos el primer marketplace diseñado para este ecosistema —
-                conectando creadores UGC de LATAM con marcas.
+              Anza es el marketplace donde creadores de América Latina conectan con marcas que necesitan contenido auténtico. Nació de una convicción simple — el mejor contenido no viene de estudios de producción. Viene de cualquier persona con un teléfono y algo real que decir. 
+              
+              </p>
+              <p className="font-display text-lg md:text-xl text-canvas/60 leading-relaxed mt-8">
+              Plataformas como Instagram, TikTok y YouTube ya no funcionan por seguidores - sino que por el For you page, la cual permite el consumo de contenido organico que es mas digerible para el usuario y no presentado como publicitario.
               </p>
 
               <p className="font-display text-lg md:text-xl text-canvas/60 leading-relaxed mt-8">
-                Nuestra plataforma elimina la fricción entre encontrar un creador y lanzar una
-                campaña. Sin agencias. Sin intermediarios. Cada creador en Anza es seleccionado,
-                cada conexión es intencional, y cada campaña es una oportunidad real de crecimiento.
+              Aquí las marcas encuentran creadores, lanzan campañas, trackean resultados y pagan automáticamente — sin agencias, sin intermediarios, sin fricción. Un solo lugar para todo el proceso.
               </p>
             </motion.div>
           </div>

@@ -4,7 +4,6 @@ import HeroCreatorsSection from '../components/landing/HeroCreatorsSection';
 import PlatformMarquee from '../components/landing/PlatformMarquee';
 import CreatorsBenefitsSection from '../components/landing/CreatorsBenefitsSection';
 import SectionReveal from '../components/landing/SectionReveal';
-import AboutSection from '../components/landing/AboutSection';
 import PlatformIntroSection from '../components/landing/PlatformIntroSection';
 import PlatformSection from '../components/landing/PlatformSection';
 import FAQSection from '../components/landing/FAQSection';
@@ -14,18 +13,15 @@ import Footer from '../components/landing/Footer';
 export default function Creators() {
   return (
     <div className="bg-ink min-h-screen font-display">
-      <Navbar />
+      <Navbar showBackLink backHref="/" />
       <SectionReveal>
         <HeroCreatorsSection />
       </SectionReveal>
       <SectionReveal delay={0.04}>
-        <PlatformMarquee />
+        <PlatformMarquee backgroundClass="border-y border-black bg-white" edgeFadeFrom="from-white" tone="dark" />
       </SectionReveal>
       <SectionReveal delay={0.08}>
         <CreatorsBenefitsSection />
-      </SectionReveal>
-      <SectionReveal delay={0.1}>
-        <AboutSection />
       </SectionReveal>
       <div className="hidden">
         <PlatformIntroSection />

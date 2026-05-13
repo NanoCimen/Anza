@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowDown, ArrowLeft } from 'lucide-react';
+import ScrollExploreHint from './ScrollExploreHint';
 
 const HERO_IMAGE = '/images/creadores.ong.png';
+const BACKGROUND_PM = new URL('../../../backgroundPM.png', import.meta.url).href;
 
 export default function HeroBrandsSection() {
   const sectionRef = useRef(null);
@@ -27,19 +28,28 @@ export default function HeroBrandsSection() {
   };
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-ink overflow-hidden pt-16">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10 h-[calc(100vh-4rem)] flex flex-col md:flex-row items-stretch">
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden pt-16"
+      style={{
+        backgroundColor: '#000000',
+        backgroundImage: `url(${BACKGROUND_PM})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}
+    >
+      <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-[1440px] flex-col items-stretch px-3 md:flex-row md:px-3">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           style={{ y: imageY, opacity: sectionOpacity }}
-          className="md:w-[55%] relative flex items-end py-10 md:py-20"
+          className="relative flex items-center py-6 md:w-[55%] md:py-10"
         >
           <motion.div
             whileHover={{ scale: 1.025, rotate: -0.35 }}
             transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-            className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden"
+            className="relative h-[58vh] w-full overflow-hidden md:h-[70vh]"
           >
             <motion.img
               src={HERO_IMAGE}
@@ -66,70 +76,51 @@ export default function HeroBrandsSection() {
           style={{ y: contentY, opacity: sectionOpacity }}
           className="md:w-[45%] flex flex-col justify-center md:pl-12 lg:pl-20 py-10 md:py-0"
         >
-          <div className="mb-6">
-            <span className="font-mono text-xs tracking-widest text-canvas/40 uppercase">
-              / Plataforma para Marcas y Agencias
-            </span>
-          </div>
-
           <div className="relative inline-block">
-            <h1 className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px] leading-[0.85] tracking-tighter text-canvas">
+            <h1
+              className="font-display font-black text-5xl leading-[0.85] tracking-tighter text-white sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px]"
+              style={{
+                textShadow:
+                  '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 5px 18px rgba(0,0,0,0.35)',
+              }}
+            >
             USA
             <br />
             CREADORES
             <br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '2px #0A0A0A' }}>
+            <span className="text-white">
               UGC
             </span>
             </h1>
             <button
               type="button"
               onClick={handleGoToArticle}
-              className="absolute top-[3%] right-2 md:-right-6 lg:-right-10 bg-spark border-2 border-canvas rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-ink shadow-[0_10px_28px_rgba(232, 255, 0,0.4)] transition-transform duration-700 hover:scale-[1.03] will-change-transform"
+              className="absolute right-2 top-[3%] rounded-full border-2 border-canvas bg-spark px-4 py-2 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-ink shadow-[0_10px_28px_rgba(207,174,255,0.4)] transition-transform duration-700 will-change-transform hover:scale-[1.03] md:-right-6 lg:-right-10"
             >
-              ¿Que son Creadores UGC?
+              ¿Qué son creadores UGC?
             </button>
           </div>
 
-          <p className="mt-12 font-display text-base md:text-lg text-canvas/60 leading-relaxed max-w-md">
-          Lanza campañas con creadores en menos tiempo, centraliza aprobaciones y paga por
-          resultados desde un solo flujo.
+          <p className="mt-12 max-w-md font-display text-base leading-relaxed text-white md:text-lg">
+          En vez de destinar tu presupuesto a un único creador, activa a decenas de creadores hablando de tu producto al mismo tiempo. Más impacto, menos dinero.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-10">
             <a
-              href="/"
-              className="liquid-glass border border-canvas/20 text-canvas bg-ink/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-canvas hover:text-ink hover:shadow-[0_10px_30px_rgba(10,10,10,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
-            >
-              <ArrowLeft size={14} />
-              VOLVER
-            </a>
-            <a
               href="/waitlist/marcas"
-              className="liquid-glass-strong bg-ink border border-canvas text-spark font-mono font-bold text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232, 255, 0,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-iris px-9 py-3.5 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-anza-deep hover:shadow-[0_14px_30px_-12px_rgba(123,44,255,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] focus:outline-none focus:ring-4 focus:ring-iris/40"
             >
-              EMPIEZA GRATIS
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+              />
+              <span className="relative">EMPIEZA GRATIS</span>
             </a>
           </div>
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-6 md:left-10 flex items-center gap-3"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-        >
-          <ArrowDown size={16} className="text-canvas/40" />
-        </motion.div>
-        <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40">
-          Desliza para explorar
-        </span>
-      </motion.div>
+      <ScrollExploreHint align="center" hideOnHash={undefined} />
     </section>
   );
 }

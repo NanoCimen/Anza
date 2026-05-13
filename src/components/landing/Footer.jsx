@@ -22,16 +22,13 @@ const LEGAL_LINKS = [
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-canvas text-ink">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-        <div className="h-px bg-ink/10 mt-4 md:mt-6" />
-      </div>
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 pt-16 md:pt-20 flex flex-col items-center text-center">
         {/* Centered Anza logo */}
         <img
-          src="/logoconftransp.png"
+          src="/logosintransparente.png"
           alt="Anza"
           draggable={false}
-          className="h-14 w-14 md:h-16 md:w-16 object-contain select-none invert"
+          className="h-14 w-14 md:h-16 md:w-16 object-contain select-none"
         />
 
         {/* Social icons */}
@@ -41,7 +38,7 @@ export default function Footer() {
               key={name}
               href={href}
               aria-label={name}
-              className="group flex h-10 w-10 items-center justify-center rounded-lg bg-ink text-canvas transition-all duration-300 hover:-translate-y-0.5 hover:bg-iris hover:shadow-[0_8px_22px_-10px_rgba(107,47,250,0.55)]"
+              className="group flex h-10 w-10 items-center justify-center rounded-full bg-ink text-canvas transition-all duration-300 hover:-translate-y-0.5 hover:bg-iris hover:shadow-[0_8px_22px_-10px_rgba(123,44,255,0.55)]"
             >
               <Icon className="h-5 w-5" />
             </a>
@@ -85,10 +82,10 @@ export default function Footer() {
 
       {/* Bottom bar — sits beneath the wordmark */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 pt-6 pb-6 md:pb-8 flex flex-col md:flex-row items-center justify-between gap-3">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-ink/45">
+        <span className="font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-ink/45">
           © 2026 Anza | Anva LLC | Santo Domingo, República Dominicana
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-widest text-ink/45">
+        <span className="font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-ink/45">
           Todos los derechos reservados.
         </span>
       </div>

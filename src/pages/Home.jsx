@@ -2,7 +2,6 @@ import React from 'react';
 import HeroSection from '../components/landing/HeroSection';
 import PlatformMarquee from '../components/landing/PlatformMarquee';
 import ComoFuncionaSection from '../components/landing/ComoFuncionaSection';
-import EditorialAudienceSection from '../components/landing/EditorialAudienceSection';
 import SectionReveal from '../components/landing/SectionReveal';
 import PlatformIntroSection from '../components/landing/PlatformIntroSection';
 import PlatformSection from '../components/landing/PlatformSection';
@@ -12,29 +11,30 @@ import AboutSection from '../components/landing/AboutSection';
 import FAQSection from '../components/landing/FAQSection';
 import ContactForm from '../components/landing/ContactForm';
 import Footer from '../components/landing/Footer';
+import ScrollExploreHint from '../components/landing/ScrollExploreHint';
 
 export default function Home() {
   return (
     <div className="relative bg-ink min-h-screen font-display">
       {/* Main content stack — solid bg, layered above the footer reveal */}
       <div className="relative z-10 bg-ink">
-        <SectionReveal>
-          <HeroSection />
-        </SectionReveal>
-        <SectionReveal delay={0.04}>
+        <div className="bg-black">
+          <SectionReveal>
+            <HeroSection />
+          </SectionReveal>
           <PlatformMarquee />
-        </SectionReveal>
+        </div>
         <SectionReveal delay={0.06}>
-          <EditorialAudienceSection />
+          <AboutSection />
         </SectionReveal>
+        <div className="relative h-16 bg-ink md:h-18">
+          <ScrollExploreHint align="center" hideOnHash="#como-funciona" />
+        </div>
         <SectionReveal delay={0.08}>
           <ComoFuncionaSection />
         </SectionReveal>
-        <SectionReveal delay={0.09}>
-          <CreatorGrid />
-        </SectionReveal>
         <SectionReveal delay={0.1}>
-          <AboutSection />
+          <CreatorGrid />
         </SectionReveal>
         <div className="hidden">
           <PlatformIntroSection />
@@ -42,13 +42,13 @@ export default function Home() {
         <div className="hidden">
           <PlatformSection />
         </div>
-        <SectionReveal delay={0.12}>
+        <SectionReveal delay={0.14}>
           <ComparisonSection />
         </SectionReveal>
-        <SectionReveal delay={0.14}>
+        <SectionReveal delay={0.16}>
           <FAQSection />
         </SectionReveal>
-        <SectionReveal delay={0.16}>
+        <SectionReveal delay={0.18}>
           <ContactForm />
         </SectionReveal>
       </div>

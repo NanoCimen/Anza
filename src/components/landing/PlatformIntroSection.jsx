@@ -5,10 +5,10 @@ export default function PlatformIntroSection() {
   return (
     <section
       id="platform"
-      className="relative z-0 scroll-mt-20 md:scroll-mt-24 bg-ink"
+      className="section-light relative z-0 scroll-mt-20 md:scroll-mt-24 bg-ink"
       aria-labelledby="platform-heading"
     >
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10 pt-16 md:pt-24 lg:pt-28 pb-16 md:pb-20 lg:pb-24 flex flex-col gap-8 md:gap-10">
+      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10 pt-16 md:pt-24 lg:pt-28 pb-16 md:pb-20 lg:pb-24 flex flex-col gap-8 md:gap-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

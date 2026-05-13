@@ -7,7 +7,7 @@ module.exports = {
       fontFamily: {
         display: ['var(--font-display)'],
         mono: ['var(--font-mono)'],
-        brand: ['var(--font-brand)'],
+        nav: ['var(--font-nav)'],
       },
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -20,6 +20,7 @@ module.exports = {
         spark: 'rgb(var(--spark) / <alpha-value>)',
         iris: 'rgb(var(--iris) / <alpha-value>)',
         ink: 'rgb(var(--ink) / <alpha-value>)',
+        'anza-deep': 'rgb(var(--anza-deep) / <alpha-value>)',
         canvas: 'rgb(var(--canvas) / <alpha-value>)',
   			card: {
   				DEFAULT: 'hsl(var(--card))',

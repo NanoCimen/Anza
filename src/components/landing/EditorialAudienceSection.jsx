@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import ScrollExploreHint from './ScrollExploreHint';
 
+const BACKGROUND_AUDIENCE = new URL('../../../background2.png', import.meta.url).href;
+
 const BLOCKS = [
   {
     id: 'creadores',
@@ -74,10 +76,10 @@ function EditorialRow({ block, index }) {
         </p>
         <a
           href={block.href}
-          className="group relative mt-7 inline-flex items-center justify-center overflow-hidden px-9 py-3.5 font-display font-semibold text-white text-sm md:text-base tracking-wide ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-color,box-shadow] duration-300 ease-out hover:ring-white/15 hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.22)]"
-          style={{ backgroundColor: '#6B2FFA' }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#5A22E0')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#6B2FFA')}
+          className="group relative mt-7 inline-flex items-center justify-center overflow-hidden rounded-full px-9 py-3.5 font-display font-semibold text-white text-sm md:text-base tracking-wide ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-color,box-shadow] duration-300 ease-out hover:ring-white/15 hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.22)]"
+          style={{ backgroundColor: '#7B2CFF' }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#5E1395')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#7B2CFF')}
         >
           <span
             aria-hidden
@@ -94,36 +96,21 @@ export default function EditorialAudienceSection() {
   return (
     <section
       id="audience"
-      className="relative scroll-mt-24 md:scroll-mt-28 bg-ink py-16 md:py-24 overflow-hidden"
+      className="section-light relative scroll-mt-24 md:scroll-mt-28 py-16 md:py-24 overflow-x-clip overflow-y-visible"
+      style={{
+        backgroundColor: '#000000',
+        backgroundImage: `url(${BACKGROUND_AUDIENCE})`,
+        backgroundPosition: 'center top',
+        backgroundSize: 'cover',
+      }}
       aria-labelledby="audience-heading"
     >
-      {/* Spark yellow aura — anchored above the section so it bleeds in softly without a hard line */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[55%] z-0"
-        style={{
-          background:
-            'radial-gradient(80% 110% at 50% -40%, rgba(232,255,0,0.18) 0%, rgba(232,255,0,0.06) 45%, rgba(232,255,0,0) 80%)',
-        }}
-      />
-      {/* Iris purple bottom blend — fades from ink up to solid iris at the seam (matches Como funciona) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] md:h-[45%] z-0"
-        style={{
-          background:
-            'linear-gradient(to top, #6B2FFA 0%, rgba(107,47,250,0.7) 12%, rgba(107,47,250,0.3) 35%, rgba(107,47,250,0) 75%)',
-        }}
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-56 bg-gradient-to-b from-black via-black/80 to-transparent md:h-72"
       />
 
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10">
-        <div className="h-px bg-canvas/10 mt-4 md:mt-6 mb-8 md:mb-10" />
-
-        <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block text-center mb-4">
-          / Aplicamos para todos
-        </span>
-        <div className="w-12 h-[2px] bg-spark mx-auto mb-8 md:mb-12 shadow-[0_0_10px_rgba(232,255,0,0.55)]" />
-
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -131,12 +118,11 @@ export default function EditorialAudienceSection() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-4xl mx-auto mb-12 md:mb-16"
         >
-          <span className="sr-only">Aplicamos para todos</span>
           <h2
             id="audience-heading"
-            className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-canvas leading-[0.95]"
+            className="mx-auto max-w-[980px] font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[34px] leading-[35px] tracking-[-0.2px] sm:text-[40px] sm:leading-[41px] lg:text-[46px] lg:leading-[47px]"
           >
-            Creadores, Marcas y Agencias
+            Estamos impulsando la próxima era del éxito independiente para todos los creadores.
           </h2>
         </motion.div>
 
@@ -146,7 +132,7 @@ export default function EditorialAudienceSection() {
           ))}
         </div>
       </div>
-      <ScrollExploreHint />
+      <ScrollExploreHint hideOnHash={undefined} />
     </section>
   );
 }

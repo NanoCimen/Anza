@@ -2,28 +2,39 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import ScrollExploreHint from './ScrollExploreHint';
 
+const BACKGROUND_PC = new URL('../../../backgroundPC.png', import.meta.url).href;
+
 export default function CreatorsBenefitsSection() {
   return (
-    <section className="relative bg-ink py-16 md:py-24" aria-labelledby="creators-benefits-heading">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10">
-        <div id="creators-article-top-line" className="h-px bg-canvas/10 mb-16 md:mb-24" />
+    <section
+      className="section-light relative min-h-screen py-24 md:py-32"
+      style={{
+        backgroundColor: '#000000',
+        backgroundImage: `url(${BACKGROUND_PC})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}
+      aria-labelledby="creators-benefits-heading"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 bg-black/25"
+      />
+      <div className="relative z-10 mx-auto max-w-[1440px] px-3 md:px-3">
+        <div id="creators-article-top-line" className="scroll-mt-24" />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: '-80px' }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-[780px] mx-auto"
+          className="mx-auto max-w-[820px]"
         >
-          <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-4">
-            / CREADORES UGC
-          </span>
-
           <h2
             id="creators-benefits-heading"
-            className="font-display font-black text-5xl md:text-7xl tracking-tighter text-canvas leading-[0.92]"
+            className="font-bold text-white text-center [font-family:Grantska,Arial,sans-serif] text-[34px] leading-[35px] tracking-[-0.2px] sm:text-[40px] sm:leading-[41px] lg:text-[46px] lg:leading-[47px]"
           >
-            Monetiza tu contenido sin ser famoso
+            CREADORES UGC
           </h2>
 
           <div className="mt-10 space-y-8">
@@ -59,14 +70,18 @@ export default function CreatorsBenefitsSection() {
 
           <a
             href="/waitlist/creadores"
-            className="liquid-glass-strong mt-10 inline-flex items-center rounded-full px-8 py-4 bg-ink border border-canvas text-spark font-mono font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232, 255, 0,0.35)] focus:outline-none focus:ring-4 focus:ring-spark"
+            className="group relative mt-10 inline-flex items-center justify-center overflow-hidden rounded-full bg-iris px-9 py-3.5 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-anza-deep hover:shadow-[0_14px_30px_-12px_rgba(123,44,255,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] focus:outline-none focus:ring-4 focus:ring-iris/40"
           >
-            Aplica gratis
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+            />
+            <span className="relative">Aplica gratis</span>
           </a>
         </motion.div>
       </div>
 
-      <ScrollExploreHint />
+      <ScrollExploreHint align="center" hideOnHash={undefined} />
     </section>
   );
 }

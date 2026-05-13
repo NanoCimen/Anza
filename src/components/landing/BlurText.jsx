@@ -64,9 +64,9 @@ export default function BlurText({
           whileHover={
             enableHoverGlow && token !== ' '
               ? {
-                  color: '#E8FF00',
+                  color: '#CFAEFF',
                   textShadow:
-                    '0 0 10px rgba(232, 255, 0,0.8), 0 0 18px rgba(232, 255, 0,0.55), 0 0 28px rgba(232, 255, 0,0.35)',
+                    '0 0 10px rgba(123, 44, 255, 0.65), 0 0 18px rgba(207, 174, 255, 0.5), 0 0 28px rgba(123, 44, 255, 0.35)',
                 }
               : undefined
           }

@@ -1,12 +1,13 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 
-export async function saveWaitlistLead({ audience, email }) {
+export async function saveWaitlistLead({ audience, email, keepUpdated = false }) {
   const collectionName = audience === 'creadores' ? 'waitlist_creadores' : 'waitlist_marcas';
 
   await addDoc(collection(db, collectionName), {
     audience,
     email,
+    keepUpdated,
     createdAt: serverTimestamp(),
   });
 }

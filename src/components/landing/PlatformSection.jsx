@@ -63,7 +63,7 @@ function Tile({ feature, delay, applyGridPlacement }) {
             }
           : undefined
       }
-      className="flex min-h-[200px] flex-col overflow-visible bg-gradient-to-b from-ink via-[#FFFCE8]/80 to-spark/[0.18] text-left md:min-h-[240px] lg:min-h-[300px]"
+      className="flex min-h-[200px] flex-col overflow-visible bg-gradient-to-b from-ink via-[rgba(207,174,255,0.22)] to-spark/[0.2] text-left md:min-h-[240px] lg:min-h-[300px]"
     >
       {/* Title + body: separate sizes; shared row still truncates as one line */}
       <div className="min-w-0 shrink-0 overflow-hidden px-6 pb-0 pt-5">
@@ -91,10 +91,10 @@ export default function PlatformSection() {
 
   return (
     <section
-      className="relative z-0 bg-ink border-b border-canvas/10"
+      className="section-light relative z-0 bg-ink border-b border-canvas/10"
       aria-labelledby="platform-features-heading"
     >
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10 pt-12 md:pt-16 lg:pt-20 pb-16 md:pb-24 lg:pb-28">
+      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10 pt-12 md:pt-16 lg:pt-20 pb-16 md:pb-24 lg:pb-28">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

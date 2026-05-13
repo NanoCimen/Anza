@@ -40,8 +40,8 @@ export default function CreatorLightbox({ creator, onClose }) {
             {/* Info Panel — 30% */}
             <div className="md:w-[30%] bg-iris p-6 md:p-8 flex flex-col justify-between">
               <div>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/50">
-                  Creator Profile
+                <span className="font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas/50">
+                  Perfil de creador
                 </span>
                 <h3 className="font-display font-black text-3xl md:text-4xl text-canvas mt-2 tracking-tight">
                   {creator.name}
@@ -50,15 +50,15 @@ export default function CreatorLightbox({ creator, onClose }) {
                 <div className="mt-8 space-y-4">
                   <div className="flex items-center gap-3">
                     <MapPin size={14} className="text-canvas/60" />
-                    <span className="font-mono text-xs text-canvas/80">{creator.location}</span>
+                    <span className="font-display text-xs text-canvas/80">{creator.location}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Palette size={14} className="text-canvas/60" />
-                    <span className="font-mono text-xs text-canvas/80">{creator.medium}</span>
+                    <span className="font-display text-xs text-canvas/80">{creator.medium}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle size={14} className="text-canvas/60" />
-                    <span className="font-mono text-xs text-canvas/80">{creator.availability}</span>
+                    <span className="font-display text-xs text-canvas/80">{creator.availability}</span>
                   </div>
                 </div>
 
@@ -70,7 +70,7 @@ export default function CreatorLightbox({ creator, onClose }) {
               <a
                 href="#contact"
                 onClick={onClose}
-                className="mt-8 bg-ink text-canvas font-mono text-xs uppercase tracking-widest px-6 py-4 text-center hover:bg-canvas/80 transition-colors"
+                className="mt-8 inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-4 text-center font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas transition-colors hover:bg-canvas/80"
               >
                 Conectar con {creator.name.split(' ')[0]}
               </a>
@@ -79,7 +79,7 @@ export default function CreatorLightbox({ creator, onClose }) {
             {/* Close */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 flex items-center justify-center bg-ink/10 hover:bg-canvas/20 transition-colors focus:outline-none focus:ring-4 focus:ring-spark"
+              className="absolute top-4 right-4 md:top-6 md:right-6 flex h-10 w-10 items-center justify-center rounded-full bg-ink/10 hover:bg-canvas/20 transition-colors focus:outline-none focus:ring-4 focus:ring-spark"
             >
               <X size={20} className="text-canvas md:text-canvas" />
             </button>

@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Loader2, Users, BarChart2, DollarSign, Megaphone } from 'lucide-react';
+import { ArrowRight, Loader2, Users, BarChart2, DollarSign, Megaphone } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/landing/Navbar';
 import Footer from '../components/landing/Footer';
 import { saveWaitlistLead } from '../lib/leads';
 
+const ANZA_LOGO = '/logosintransparente.png';
+const BACKGROUND_WAITLIST = new URL('../../backgroundwaitlist.png', import.meta.url).href;
+
 const CONTENT = {
   marcas: {
-    eyebrow: '/ Acceso anticipado',
+    eyebrow: 'Acceso anticipado',
     heroTitle: ['Gestiona campañas', 'UGC a escala,'],
     strokeWord: 'sin fricción.',
     heroDescription:
       'Conecta con creadores de contenido, gestiona tus campañas y págales automáticamente — todo desde un solo lugar..',
     formEyebrow: 'Únete a la lista de espera',
     formTitle: ['Solicita acceso', 'anticipado'],
-    formDescription: 'Sé de los primeros en acceder a la plataforma. Cupos limitados.',
+    formDescription: '',
     successTitle: '¡Ya estás en lista!',
     demoPrompt: '¿Prefieres ver la plataforma en acción?',
     features: [
@@ -26,14 +28,14 @@ const CONTENT = {
     ],
   },
   creadores: {
-    eyebrow: '/ Acceso anticipado',
+    eyebrow: 'Acceso anticipado',
     heroTitle: ['Aplica a campañas', 'UGC reales,'],
     strokeWord: 'sin intermediarios.',
     heroDescription:
       'Únete a campañas de marcas activas, gestiona entregas en una sola plataforma y recibe pagos de forma rápida y segura.',
     formEyebrow: 'Únete a la lista de creadores',
     formTitle: ['Solicita acceso', 'como creador'],
-    formDescription: 'Cupos limitados para creadores en esta etapa de lanzamiento.',
+    formDescription: '',
     successTitle: '¡Ya estás en lista de creadores!',
     demoPrompt: '¿Quieres ver cómo funciona la plataforma?',
     features: [
@@ -47,16 +49,19 @@ const CONTENT = {
 
 export default function Waitlist({ audience = 'marcas' }) {
   const [email, setEmail] = useState('');
+  const [keepUpdated, setKeepUpdated] = useState(true);
+  const [showCookieBanner, setShowCookieBanner] = useState(true);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const copy = CONTENT[audience] || CONTENT.marcas;
+  const usesSimpleLayout = true;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
     try {
-      await saveWaitlistLead({ audience, email });
+      await saveWaitlistLead({ audience, email, keepUpdated });
       setDone(true);
     } catch (error) {
       console.error('Error saving waitlist lead:', error);
@@ -67,85 +72,79 @@ export default function Waitlist({ audience = 'marcas' }) {
   };
 
   return (
-    <div className="min-h-screen bg-ink font-display flex flex-col">
-      {/* Hairline grid */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute left-1/3 top-0 bottom-0 w-px bg-canvas/5" />
-        <div className="absolute left-2/3 top-0 bottom-0 w-px bg-canvas/5" />
-        <div className="absolute top-1/2 left-0 right-0 h-px bg-canvas/5" />
-      </div>
+    <div
+      className="flex min-h-screen flex-col bg-ink bg-cover bg-center bg-no-repeat font-display"
+      style={{ backgroundImage: `url(${BACKGROUND_WAITLIST})` }}
+    >
+      <header className="relative z-20 flex w-full items-center justify-center pt-8 text-center md:pt-10">
+        <Link to="/waitlist" aria-label="Volver a waitlist" className="flex items-center gap-0">
+          <img
+            src={ANZA_LOGO}
+            alt="Anza"
+            draggable={false}
+            className="h-16 w-16 select-none object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] md:h-20 md:w-20"
+          />
+          <span className="font-display text-3xl font-black leading-none tracking-tighter text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] md:text-4xl">
+            ANZA
+          </span>
+        </Link>
+      </header>
 
-      <Navbar />
-
-      {/* Main */}
-      <div className="relative z-10 flex-1 flex items-stretch pt-16">
-        <div className="relative max-w-[1440px] mx-auto w-full px-6 md:px-10 flex flex-col md:flex-row gap-0 py-12 md:py-0 md:items-center">
-          <div className="absolute top-20 right-2 md:top-20 md:right-6 lg:right-10 z-40">
-            <Link
-              to="/"
-              className="liquid-glass border border-canvas/20 text-canvas bg-ink/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-canvas hover:text-ink hover:shadow-[0_10px_30px_rgba(10,10,10,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
+      <div className="relative z-10 flex flex-1 items-stretch">
+        <div className={`relative mx-auto flex min-h-[calc(100vh-7rem)] w-full px-3 py-16 md:min-h-[calc(100vh-7.5rem)] md:py-20 ${usesSimpleLayout ? 'max-w-[430px] items-start justify-center' : 'max-w-[1240px] flex-col gap-12 md:flex-row md:items-center md:gap-14'}`}>
+          {!usesSimpleLayout && (
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="md:w-[55%]"
             >
-              <ArrowLeft size={14} />
-              VOLVER
-            </Link>
-          </div>
+              <span className="mb-6 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas/45">
+                {copy.eyebrow}
+              </span>
 
-          {/* Left — brand pitch */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="md:w-[55%] md:pr-20 py-12"
-          >
-            <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-6">
-              {copy.eyebrow}
-            </span>
+              <h1 className="max-w-[640px] font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[36px] leading-[37px] tracking-[-0.2px] sm:text-[44px] sm:leading-[45px] lg:text-[54px] lg:leading-[55px]">
+                {copy.heroTitle[0]}
+                <br />
+                {copy.heroTitle[1]}
+                <br />
+                <span className="text-spark">{copy.strokeWord}</span>
+              </h1>
 
-            <h1 className="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tighter text-canvas leading-[0.92]">
-              {copy.heroTitle[0]}
-              <br />
-              {copy.heroTitle[1]}
-              <br />
-              <span className="text-transparent" style={{ WebkitTextStroke: '2px #0A0A0A' }}>{copy.strokeWord}</span>
-            </h1>
+              <p className="mt-6 max-w-md font-display text-base leading-relaxed text-canvas/60">
+                {copy.heroDescription}
+              </p>
 
-            <p className="mt-6 font-display text-base text-canvas/50 leading-relaxed max-w-md">
-              {copy.heroDescription}
-            </p>
-
-            <div className="mt-10 space-y-4">
-              {copy.features.map((feature, i) => {
-                    const FeatureIcon = feature.icon;
-                    return (
+              <div className="mt-10 grid gap-3 sm:grid-cols-2">
+                {copy.features.map((feature, i) => {
+                  const FeatureIcon = feature.icon;
+                  return (
                     <motion.div
                       key={feature.title}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.3 + i * 0.07 }}
-                      className="liquid-glass flex items-start gap-4 p-4 border border-canvas/10 hover:border-canvas/20 transition-colors rounded-xl"
+                      className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-xl transition-colors hover:border-spark/35"
                     >
-                      <div className="w-9 h-9 bg-spark flex items-center justify-center shrink-0">
-                        <FeatureIcon size={16} className="text-canvas" />
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-iris">
+                        <FeatureIcon size={16} className="text-white" />
                       </div>
                       <div>
-                        <span className="font-display font-semibold text-sm text-canvas block">{feature.title}</span>
-                        <span className="font-display text-xs text-canvas/50 leading-relaxed">{feature.desc}</span>
+                        <span className="block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas">{feature.title}</span>
+                        <span className="mt-2 block font-display text-xs leading-relaxed text-canvas/55">{feature.desc}</span>
                       </div>
                     </motion.div>
-                    );
-                  })}
-            </div>
-          </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
 
-          {/* Vertical divider */}
-          <div className="hidden md:block w-px bg-canvas/10 self-stretch my-16" />
-
-          {/* Right — form */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="md:w-[45%] md:pl-16 flex flex-col justify-center"
+            className={`flex flex-col justify-center ${usesSimpleLayout ? 'w-full bg-transparent p-0 text-center' : 'rounded-[32px] border border-white/10 bg-white/[0.05] p-6 shadow-[0_24px_80px_-50px_rgba(123,44,255,0.9)] backdrop-blur-xl md:w-[45%] md:p-8'}`}
           >
             {done ? (
               <motion.div
@@ -153,33 +152,35 @@ export default function Waitlist({ audience = 'marcas' }) {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-12"
               >
-                <div className="w-14 h-14 bg-spark mx-auto flex items-center justify-center mb-6">
-                  <span className="font-display font-black text-xl text-canvas">✓</span>
+                <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-iris">
+                  <span className="font-display text-xl font-black text-white">✓</span>
                 </div>
-                <h2 className="font-display font-black text-3xl tracking-tight text-canvas">{copy.successTitle}</h2>
-                <p className="mt-3 font-display text-sm text-canvas/50 leading-relaxed max-w-xs mx-auto">
+                <h2 className="font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[30px] leading-[31px] tracking-[-0.2px]">{copy.successTitle}</h2>
+                <p className="mx-auto mt-3 max-w-xs font-display text-sm leading-relaxed text-canvas/55">
                   Te notificaremos en <strong className="text-canvas">{email}</strong> cuando tu acceso esté listo.
                 </p>
-                <Link to="/" className="mt-8 inline-flex items-center gap-2 bg-ink text-canvas font-mono text-xs uppercase tracking-widest px-8 py-4 hover:bg-spark hover:text-ink transition-colors">
+                <Link to="/" className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-iris px-8 py-4 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-white shadow-[0_0_34px_rgba(123,44,255,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-spark">
                   Volver al inicio <ArrowRight size={14} />
                 </Link>
               </motion.div>
             ) : (
               <>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-2">
+                <span className={`mb-3 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${usesSimpleLayout ? 'text-white/70' : 'text-canvas/45'}`}>
                   {copy.formEyebrow}
                 </span>
-                <h2 className="font-display font-black text-3xl md:text-4xl tracking-tighter text-canvas leading-tight">
+                <h2 className="font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[30px] leading-[31px] tracking-[-0.2px] md:text-[36px] md:leading-[37px]">
                   {copy.formTitle[0]}
                   <br />{copy.formTitle[1]}
                 </h2>
-                <p className="mt-3 font-display text-sm text-canvas/50 leading-relaxed">
-                  {copy.formDescription}
-                </p>
+                {copy.formDescription && (
+                  <p className="mt-3 font-display text-sm leading-relaxed text-canvas/55">
+                    {copy.formDescription}
+                  </p>
+                )}
 
-                <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+                <form onSubmit={handleSubmit} className="mt-8 space-y-4 text-left">
                   <div>
-                    <label className="font-mono text-[10px] uppercase tracking-widest text-canvas/40 block mb-2">
+                    <label className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${usesSimpleLayout ? 'text-white/70' : 'text-canvas/45'}`}>
                       Tu email *
                     </label>
                     <input
@@ -188,14 +189,37 @@ export default function Waitlist({ audience = 'marcas' }) {
                       placeholder="tu@empresa.com"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className="w-full border border-canvas/20 focus:border-canvas px-4 py-4 font-display text-sm text-canvas placeholder:text-canvas/30 outline-none transition-colors bg-transparent liquid-glass"
+                      className={`w-full rounded-2xl border px-4 py-4 font-display text-sm outline-none transition-colors ${usesSimpleLayout ? 'border-white/10 bg-white/15 text-white placeholder:text-white/45 focus:border-white' : 'border-canvas/15 bg-black/30 text-canvas placeholder:text-canvas/30 focus:border-spark'}`}
                     />
                   </div>
+
+                  {usesSimpleLayout && (
+                    <label className="flex items-start justify-between gap-4 rounded-2xl py-1">
+                      <span>
+                        <span className="block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-white">
+                          Mantente actualizado
+                        </span>
+                        <span className="mt-2 block font-display text-xs leading-relaxed text-white/70">
+                          Recibe actualizaciones por correo sobre oportunidades, ofertas y recomendaciones de Anza.
+                        </span>
+                      </span>
+                      <button
+                        type="button"
+                        aria-pressed={keepUpdated}
+                        onClick={() => setKeepUpdated(value => !value)}
+                        className={`relative mt-1 h-6 w-11 shrink-0 rounded-full transition-colors ${keepUpdated ? 'bg-iris' : 'bg-white/25'}`}
+                      >
+                        <span
+                          className={`absolute left-0 top-1 h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${keepUpdated ? 'translate-x-6' : 'translate-x-1'}`}
+                        />
+                      </button>
+                    </label>
+                  )}
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full liquid-glass-strong bg-ink text-canvas font-mono text-xs uppercase tracking-widest py-5 flex items-center justify-center gap-2 hover:bg-spark hover:text-ink transition-colors disabled:opacity-60 focus:outline-none focus:ring-4 focus:ring-spark"
+                    className={`flex w-full items-center justify-center gap-2 rounded-full py-5 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-60 focus:outline-none ${usesSimpleLayout ? 'bg-ink text-white hover:bg-iris focus:ring-4 focus:ring-iris/30' : 'bg-iris text-white shadow-[0_0_34px_rgba(123,44,255,0.45)] hover:bg-spark focus:ring-4 focus:ring-spark/30'}`}
                   >
                     {loading ? (
                       <><Loader2 size={14} className="animate-spin" /> Procesando...</>
@@ -205,19 +229,19 @@ export default function Waitlist({ audience = 'marcas' }) {
                   </button>
                 </form>
 
-                <div className="mt-6 pt-6 border-t border-canvas/10">
-                  <p className="font-display text-xs text-canvas/30 leading-relaxed">
+                <div className={`mt-6 border-t pt-6 ${usesSimpleLayout ? 'border-black/10' : 'border-canvas/10'}`}>
+                  <p className={`font-display text-xs leading-relaxed ${usesSimpleLayout ? 'text-ink/70' : 'text-canvas/35'}`}>
                     Al registrarte aceptas nuestros{' '}
-                    <a href="#" className="underline hover:text-canvas transition-colors">Términos</a>{' '}
+                    <a href="#" className="underline transition-colors hover:text-iris">Términos</a>{' '}
                     y{' '}
-                    <a href="#" className="underline hover:text-canvas transition-colors">Política de Privacidad</a>.
+                    <a href="#" className="underline transition-colors hover:text-iris">Política de Privacidad</a>.
                   </p>
                 </div>
 
                 <div className="mt-6">
-                  <p className="font-display text-xs text-canvas/40">
+                  <p className={`font-display text-xs ${usesSimpleLayout ? 'text-ink/70' : 'text-canvas/45'}`}>
                     {copy.demoPrompt}{' '}
-                    <Link to="/demo" className="text-canvas font-semibold underline hover:text-spark transition-colors">
+                    <Link to="/demo" className={`font-semibold underline transition-colors ${usesSimpleLayout ? 'text-ink hover:text-iris' : 'text-canvas hover:text-spark'}`}>
                       Reserva una llamada →
                     </Link>
                   </p>
@@ -231,6 +255,34 @@ export default function Waitlist({ audience = 'marcas' }) {
       <div className="relative z-10">
         <Footer />
       </div>
+      {usesSimpleLayout && showCookieBanner && (
+        <div className="fixed inset-x-3 bottom-4 z-30 mx-auto max-w-[980px] rounded-2xl bg-white/92 p-4 text-ink shadow-[0_18px_60px_-32px_rgba(0,0,0,0.45)] backdrop-blur-md md:flex md:items-center md:justify-between md:gap-6">
+          <div>
+            <p className="font-nav text-sm font-medium uppercase leading-none tracking-[0.02em]">
+              Usamos cookies
+            </p>
+            <p className="mt-2 max-w-[620px] font-display text-xs leading-relaxed text-ink/65">
+              Utilizamos cookies para personalizar tu experiencia, analizar el tráfico y mejorar nuestros servicios.
+            </p>
+          </div>
+          <div className="mt-4 flex shrink-0 flex-col gap-2 md:mt-0 md:w-48">
+            <button
+              type="button"
+              onClick={() => setShowCookieBanner(false)}
+              className="rounded-full bg-ink px-5 py-2.5 font-nav text-xs font-medium uppercase leading-none tracking-[0.02em] text-white transition-colors hover:bg-iris"
+            >
+              Aceptar
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowCookieBanner(false)}
+              className="rounded-full border border-ink/30 px-5 py-2.5 font-nav text-xs font-medium uppercase leading-none tracking-[0.02em] text-ink transition-colors hover:border-iris hover:text-iris"
+            >
+              Solo esenciales
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

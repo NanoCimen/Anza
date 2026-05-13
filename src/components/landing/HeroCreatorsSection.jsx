@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowDown, ArrowLeft, Play } from 'lucide-react';
+import { Play } from 'lucide-react';
+import ScrollExploreHint from './ScrollExploreHint';
 
+const BACKGROUND_PC = new URL('../../../backgroundPC.png', import.meta.url).href;
 const VIDEO_PLACEHOLDERS = Array.from({ length: 6 }, (_, i) => i + 1);
 
 export default function HeroCreatorsSection() {
@@ -27,8 +29,17 @@ export default function HeroCreatorsSection() {
   };
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-ink overflow-hidden pt-16">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10 h-[calc(100vh-4rem)] flex flex-col md:flex-row items-stretch">
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden pt-16"
+      style={{
+        backgroundColor: '#000000',
+        backgroundImage: `url(${BACKGROUND_PC})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}
+    >
+      <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-[1440px] flex-col items-stretch px-3 md:flex-row md:px-3">
         {/* Left — 6 vertical creator cards in one horizontal row */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -59,7 +70,7 @@ export default function HeroCreatorsSection() {
                       background:
                         i % 2 === 0
                           ? 'linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(10,10,10,0.18))'
-                          : 'linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(232, 255, 0,0.18))',
+                          : 'linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(207, 174, 255,0.18))',
                     }}
                     transition={{ duration: 0.3, ease: 'easeOut' }}
                   />
@@ -87,14 +98,14 @@ export default function HeroCreatorsSection() {
           style={{ y: contentY, opacity: sectionOpacity }}
           className="md:w-[45%] flex flex-col justify-center md:pl-12 lg:pl-20 py-10 md:py-0"
         >
-          <div className="mb-6">
-            <span className="font-mono text-xs tracking-widest text-canvas/40 uppercase">
-              / Marketplace de Creadores · América Latina
-            </span>
-          </div>
-
           <div className="relative inline-block">
-            <h1 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[104px] leading-[0.8] tracking-tighter text-canvas">
+            <h1
+              className="font-display font-black text-4xl leading-[0.8] tracking-tighter text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-[104px]"
+              style={{
+                textShadow:
+                  '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 5px 18px rgba(0,0,0,0.35)',
+              }}
+            >
               TU
               <br />
               PRÓXIMA
@@ -103,7 +114,7 @@ export default function HeroCreatorsSection() {
               <br />
               <span className="whitespace-nowrap">
                 TE{' '}
-                <span className="text-transparent" style={{ WebkitTextStroke: '2px #0A0A0A' }}>
+                <span className="text-white">
                   ESPERA
                 </span>
               </span>
@@ -111,50 +122,34 @@ export default function HeroCreatorsSection() {
             <button
               type="button"
               onClick={handleGoToAbout}
-              className="absolute top-[3%] right-2 md:-right-6 lg:-right-10 bg-spark border-2 border-canvas rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-ink shadow-[0_10px_28px_rgba(232, 255, 0,0.4)] transition-transform duration-700 hover:scale-[1.03] will-change-transform"
+              className="absolute right-2 top-[3%] rounded-full border-2 border-canvas bg-spark px-4 py-2 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-ink shadow-[0_10px_28px_rgba(207,174,255,0.4)] transition-transform duration-700 will-change-transform hover:scale-[1.03] md:-right-6 lg:-right-10"
             >
-              ¿Quieres monetizar sin ser famoso?            </button>
+              ¿Monetizar con muy pocos seguidores?            </button>
           </div>
 
-          <p className="mt-12 font-display text-base md:text-lg text-canvas/60 leading-relaxed max-w-md">
-            Aplica a campañas de marcas reales y cobra por tu contenido. Sin agencia. Sin
-            intermediarios.
+          <p className="mt-12 max-w-md font-display text-base leading-relaxed text-white/100 md:text-lg">
+            Aplica a campañas de marcas reales y cobra por tu contenido. Sin agencia, sin
+            intermediarios y totalmente gratis.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-10">
             <a
-              href="/"
-              className="liquid-glass border border-canvas/20 text-canvas bg-ink/50 font-mono text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-canvas hover:text-ink hover:shadow-[0_10px_30px_rgba(10,10,10,0.35)] focus:outline-none focus:ring-4 focus:ring-spark inline-flex items-center gap-2 rounded-full"
-            >
-              <ArrowLeft size={14} />
-              VOLVER
-            </a>
-            <a
               href="/waitlist/creadores"
-              className="liquid-glass-strong bg-ink border border-canvas text-spark font-mono font-bold text-xs uppercase tracking-widest px-6 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-spark hover:text-ink hover:shadow-[0_10px_30px_rgba(232, 255, 0,0.35)] focus:outline-none focus:ring-4 focus:ring-spark rounded-full"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-iris px-9 py-3.5 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-anza-deep hover:shadow-[0_14px_30px_-12px_rgba(123,44,255,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] focus:outline-none focus:ring-4 focus:ring-iris/40"
             >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+              />
+              <span className="relative">
               EMPIEZA GRATIS
+              </span>
             </a>
           </div>
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-6 md:left-10 flex items-center gap-3"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-        >
-          <ArrowDown size={16} className="text-canvas/40" />
-        </motion.div>
-        <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/40">
-          Desliza para explorar
-        </span>
-      </motion.div>
+      <ScrollExploreHint align="center" hideOnHash={undefined} />
     </section>
   );
 }

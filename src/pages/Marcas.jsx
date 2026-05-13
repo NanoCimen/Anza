@@ -13,9 +13,9 @@ import Footer from '../components/landing/Footer';
 export default function Marcas() {
   return (
     <div className="bg-ink min-h-screen font-display">
-      <Navbar />
+      <Navbar showBackLink backHref="/" />
       <HeroBrandsSection />
-      <PlatformMarquee />
+      <PlatformMarquee backgroundClass="border-y border-black bg-white" edgeFadeFrom="from-white" tone="dark" />
       <MarcasBenefitsSection />
       <div className="hidden">
         <PlatformIntroSection />

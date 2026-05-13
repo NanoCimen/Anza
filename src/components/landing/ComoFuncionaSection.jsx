@@ -1,13 +1,25 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+const BACKGROUND_COMOF = new URL('../../../backgroundcomof.png', import.meta.url).href;
+const APLICACIONES_1 = new URL('../../../aplicaciones1.png', import.meta.url).href;
+const APLICACIONES_2 = new URL('../../../aplicaciones2.png', import.meta.url).href;
+
 const STEPS = [
   {
     n: '1',
     label: 'Aplica a una oportunidad',
-    type: 'image',
-    src: 'aplicaciones.png',
-    alt: 'Pantalla de oportunidades activas en Anza',
+    type: 'image-pair',
+    images: [
+      {
+        src: APLICACIONES_1,
+        alt: 'Oportunidades activas para creadores en Anza',
+      },
+      {
+        src: APLICACIONES_2,
+        alt: 'Más oportunidades activas para creadores en Anza',
+      },
+    ],
   },
   {
     n: '2',
@@ -25,6 +37,23 @@ const STEPS = [
 ];
 
 function StepMedia({ step }) {
+  if (step.type === 'image-pair') {
+    return (
+      <div className="grid h-full w-full grid-cols-2 items-center gap-3">
+        {step.images.map(image => (
+          <img
+            key={image.src}
+            src={image.src}
+            alt={image.alt}
+            loading="lazy"
+            className="h-full w-full rounded-xl object-contain"
+            draggable={false}
+          />
+        ))}
+      </div>
+    );
+  }
+
   if (step.type === 'image') {
     return (
       <img
@@ -60,24 +89,35 @@ export default function ComoFuncionaSection() {
   return (
     <section
       id="como-funciona"
-      className="relative scroll-mt-24 md:scroll-mt-28 py-14 md:py-20 lg:py-24"
-      style={{ backgroundColor: '#6B2FFA' }}
+      className="section-light relative scroll-mt-16 md:scroll-mt-20 pb-14 pt-8 md:pb-20 md:pt-10 lg:pb-24 lg:pt-12"
+      style={{
+        backgroundColor: '#000000',
+        backgroundImage: `url(${BACKGROUND_COMOF})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}
       aria-labelledby="como-funciona-heading"
     >
-      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10 pt-2 md:pt-4">
-        <div className="h-px bg-canvas/15 mt-4 md:mt-6 mb-8 md:mb-10" />
-        <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/55 block mb-4">
-          / Cómo funciona
-        </span>
-        <div className="w-12 h-[2px] bg-spark mb-8 md:mb-12 shadow-[0_0_10px_rgba(232,255,0,0.55)] origin-left" />
-
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-40 bg-gradient-to-b from-ink via-ink/80 to-transparent md:h-52"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[42%] md:h-[34%]"
+        style={{
+          background:
+            'linear-gradient(to top, #000000 0%, rgba(0,0,0,0.88) 18%, rgba(0,0,0,0.38) 48%, rgba(0,0,0,0) 78%)',
+        }}
+      />
+      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10">
         <motion.h2
           id="como-funciona-heading"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: '-80px' }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tighter text-canvas leading-[0.95]"
+          className="mx-auto max-w-[980px] text-center font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[34px] leading-[35px] tracking-[-0.2px] sm:text-[40px] sm:leading-[41px] lg:text-[46px] lg:leading-[47px]"
         >
           Cómo funciona
         </motion.h2>
@@ -96,23 +136,22 @@ export default function ComoFuncionaSection() {
               }}
               className="flex flex-col items-center text-center"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-spark/70 font-display font-semibold text-base text-spark md:h-14 md:w-14 md:text-lg">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-spark/70 font-display font-black text-base text-spark md:h-14 md:w-14 md:text-lg">
                 {step.n}
               </div>
-              <p className="mt-6 max-w-[260px] font-display font-medium text-base md:text-lg text-canvas leading-snug">
+              <p className="mt-6 max-w-[260px] font-display text-base md:text-lg text-canvas leading-snug">
                 {step.label}
               </p>
 
-              {/* Media frame — images fill a larger 3:4 box; the video gets a tight 9:16 yellow margin */}
-              <div
-                className={
-                  'mt-2 md:mt-4 w-full mx-auto aspect-[3/4] flex items-center justify-center ' +
-                  (step.type === 'video' ? 'max-w-[420px]' : 'max-w-[420px]')
-                }
-              >
-                {step.type === 'video' ? (
+              {/* Media frame — images fill a larger 3:4 box; the video stays in a tight 9:16 frame. */}
+              <div className="mt-4 flex h-[420px] w-full items-center justify-center md:h-[500px]">
+                {step.type === 'image-pair' ? (
+                  <div className="h-full w-full max-w-[520px]">
+                    <StepMedia step={step} />
+                  </div>
+                ) : step.type === 'video' ? (
                   <div
-                    className="h-full bg-spark p-1 rounded-xl"
+                    className="h-full rounded-xl"
                     style={{ aspectRatio: '9 / 16' }}
                   >
                     <div className="relative h-full w-full overflow-hidden rounded-lg">
@@ -120,7 +159,7 @@ export default function ComoFuncionaSection() {
                     </div>
                   </div>
                 ) : (
-                  <div className="relative h-full w-full overflow-hidden rounded-lg">
+                  <div className="relative h-full w-full max-w-[420px] overflow-hidden rounded-lg">
                     <StepMedia step={step} />
                   </div>
                 )}

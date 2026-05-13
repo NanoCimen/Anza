@@ -63,20 +63,22 @@ const PLATFORMS = [
   },
 ];
 
-function PlatformChip({ label, Icon, isCustom, iconHover, labelHover }) {
+function PlatformChip({ label, Icon, isCustom, iconHover, labelHover, tone }) {
   const iconClass = cn(
-    'h-5 w-5 shrink-0 text-canvas/60 transition-all duration-300',
+    'h-8 w-8 shrink-0 transition-all duration-300 md:h-9 md:w-9',
+    tone === 'dark' ? 'text-ink' : 'text-canvas/70',
     iconHover
   );
 
   const labelClass = cn(
-    'inline-block font-display text-sm font-semibold tracking-tight text-canvas/70 transition-all duration-300 md:text-base',
+    'inline-block font-display text-lg font-semibold tracking-tight transition-all duration-300 md:text-xl',
+    tone === 'dark' ? 'text-ink' : 'text-canvas/80',
     labelHover
   );
 
   return (
     <div
-      className="group flex shrink-0 cursor-default select-none items-center gap-2.5 px-1 py-1"
+      className="group flex shrink-0 cursor-default select-none items-center gap-4 px-1 py-2"
       aria-hidden
     >
       {isCustom ? (
@@ -89,7 +91,7 @@ function PlatformChip({ label, Icon, isCustom, iconHover, labelHover }) {
   );
 }
 
-function MarqueeTrack() {
+function MarqueeTrack({ tone }) {
   const sequence = Array.from({ length: MARQUEE_SEGMENT_COPIES }, () => PLATFORMS).flat();
   const marqueeStyle =
     /** @type {React.CSSProperties & { '--marquee-segments': string }} */ ({
@@ -98,7 +100,7 @@ function MarqueeTrack() {
 
   return (
     <div
-      className="flex w-max items-center gap-12 md:gap-20 lg:gap-24 animate-platform-marquee will-change-transform"
+      className="flex w-max items-center gap-16 md:gap-28 lg:gap-32 animate-platform-marquee will-change-transform"
       style={marqueeStyle}
     >
       {sequence.map((p, i) => (
@@ -109,6 +111,7 @@ function MarqueeTrack() {
           isCustom={p.isCustom}
           iconHover={p.iconHover}
           labelHover={p.labelHover}
+          tone={tone}
         />
       ))}
     </div>
@@ -116,90 +119,38 @@ function MarqueeTrack() {
 }
 
 /**
- * Infinite horizontal ticker above the creators grid — matches landing typography & palette (canvas / ink / spark).
+ * Infinite horizontal ticker above the creators grid — matches landing typography & palette (canvas / ink / lavender).
  */
-export default function PlatformMarquee() {
-  const handleGoToPhilosophy = () => {
-    const target =
-      document.getElementById('como-funciona') || document.getElementById('about');
-    if (target) {
-      window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - 64,
-        behavior: 'smooth',
-      });
-    }
-  };
-
+export default function PlatformMarquee({
+  backgroundClass = 'bg-transparent',
+  edgeFadeFrom = 'from-black',
+  showEdgeFade = true,
+  tone = 'light',
+}) {
   return (
     <section
-      className="relative overflow-hidden bg-ink"
+      className={`relative overflow-hidden ${backgroundClass}`}
       aria-label="Redes y plataformas"
     >
-      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10 pt-12 md:pt-16 pb-8 md:pb-10">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: '-80px' }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center max-w-5xl mx-auto"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/45 block mb-4">
-            / Alcance
-          </span>
-          <div className="w-12 h-[2px] bg-spark mx-auto mb-6 md:mb-8 shadow-[0_0_10px_rgba(232,255,0,0.55)]" />
-          <h2 className="font-display font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter text-canvas leading-[0.95]">
-            Creadores de todas las
-            <br />
-            <span className="whitespace-nowrap">plataformas</span>
-          </h2>
-          <motion.button
-            type="button"
-            onClick={handleGoToPhilosophy}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: '-80px' }}
-            transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ y: -1 }}
-            whileTap={{ y: 0, scale: 0.985 }}
-            className="group relative mt-8 inline-flex items-center justify-center overflow-hidden px-6 py-2.5 font-display font-semibold text-white text-xs md:text-sm tracking-wide ring-1 ring-white/10 shadow-[0_6px_18px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-color,box-shadow] duration-300 ease-out hover:ring-white/15 hover:shadow-[0_10px_24px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.22)]"
-            style={{ backgroundColor: '#6B2FFA' }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#5A22E0')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#6B2FFA')}
-          >
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
-            />
-            <span className="relative">Como funciona</span>
-          </motion.button>
-        </motion.div>
-      </div>
-
-      <div className="relative z-10 pb-12 pt-2 md:pt-3">
+      <div className="relative z-10 py-7 md:py-8">
         {/* Edge fade so scroll feels editorial */}
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-16 md:w-24 bg-gradient-to-r from-ink to-transparent"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-[1] w-16 md:w-24 bg-gradient-to-l from-ink to-transparent"
-          aria-hidden
-        />
+        {showEdgeFade && (
+          <>
+            <div
+              className={`pointer-events-none absolute inset-y-0 left-0 z-[1] w-16 bg-gradient-to-r ${edgeFadeFrom} to-transparent md:w-24`}
+              aria-hidden
+            />
+            <div
+              className={`pointer-events-none absolute inset-y-0 right-0 z-[1] w-16 bg-gradient-to-l ${edgeFadeFrom} to-transparent md:w-24`}
+              aria-hidden
+            />
+          </>
+        )}
 
         <div className="relative overflow-hidden">
-          <MarqueeTrack />
+          <MarqueeTrack tone={tone} />
         </div>
       </div>
-
-      {/* Spark yellow bottom aura — anchored below the section to mirror the next section's top aura */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] z-[2]"
-        style={{
-          background:
-            'radial-gradient(80% 110% at 50% 140%, rgba(232,255,0,0.18) 0%, rgba(232,255,0,0.06) 45%, rgba(232,255,0,0) 80%)',
-        }}
-        aria-hidden
-      />
     </section>
   );
 }

@@ -22,21 +22,15 @@ export default function Navbar({ showBackLink = false, backHref = '/' }) {
       <div className="relative mx-auto flex h-16 max-w-[1440px] items-center justify-end px-3 md:h-20 md:px-3">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-16 md:h-20">
           <div className="flex h-full items-center px-3 md:px-3">
-            <a
-              href="/"
-              className="pointer-events-auto flex h-full w-fit items-center gap-2 text-white md:gap-2.5"
-            >
+            <a href="/" className="pointer-events-auto flex h-full w-fit items-center text-white">
               <img
                 src={ANZA_LOGO}
-                alt=""
-                width={80}
-                height={80}
+                alt="Anza"
+                width={112}
+                height={112}
                 draggable={false}
-                className="h-14 w-14 shrink-0 select-none object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] sm:h-16 sm:w-16 md:h-20 md:w-20"
+                className="h-16 w-16 shrink-0 select-none object-contain object-center drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] sm:h-[4.5rem] sm:w-[4.5rem] md:h-28 md:w-28"
               />
-              <span className="font-display text-xl font-black leading-none tracking-tighter drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] sm:text-2xl md:text-3xl">
-                Anza
-              </span>
             </a>
           {showBackLink && (
             <a

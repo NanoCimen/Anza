@@ -127,18 +127,15 @@ export default function Waitlist({ audience = 'marcas' }) {
       style={{ backgroundImage: `url(${backgroundWaitlist})` }}
     >
       <header className="relative z-20 flex w-full items-center justify-center pt-8 text-center md:pt-10">
-        <Link to="/waitlist" aria-label="Anza waitlist" className="flex items-center gap-2 md:gap-2.5">
+        <Link to="/waitlist" aria-label="Lista de espera Anza" className="inline-flex">
           <img
             src={ANZA_LOGO}
-            alt=""
-            width={80}
-            height={80}
+            alt="Anza"
+            width={112}
+            height={112}
             draggable={false}
-            className="h-14 w-14 shrink-0 select-none object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:h-16 sm:w-16 md:h-20 md:w-20"
+            className="h-20 w-20 shrink-0 select-none object-contain object-center drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] md:h-24 md:w-24"
           />
-          <span className="font-display text-3xl font-black leading-none tracking-tighter text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] md:text-4xl">
-            Anza
-          </span>
         </Link>
       </header>
 

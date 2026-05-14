@@ -45,6 +45,10 @@ const PORT = Number(process.env.PORT || process.env.API_PORT) || 3001;
 app.use(cors({ origin: true }));
 app.use(express.json({ limit: '64kb' }));
 
+app.get('/', (_req, res) => {
+  res.type('text/plain').send('Anza API — GET /api/health for status');
+});
+
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true, service: 'anza-api' });
 });

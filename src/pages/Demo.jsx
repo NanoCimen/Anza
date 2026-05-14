@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isSameDay, isToday, isBefore, startOfDay } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -18,7 +18,17 @@ export default function Demo() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
+  /** API succeeded — show loading, then success UI */
+  const [submitDone, setSubmitDone] = useState(false);
+  /** After delay — show confirmation card */
+  const [showSuccessUi, setShowSuccessUi] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (!submitDone) return;
+    const id = window.setTimeout(() => setShowSuccessUi(true), 1100);
+    return () => window.clearTimeout(id);
+  }, [submitDone]);
 
   const today = startOfDay(new Date());
 
@@ -37,6 +47,7 @@ export default function Demo() {
 
   const handleConfirm = async () => {
     if (!selectedDay || !selectedTime) return;
+    setIsSaving(true);
     try {
       await saveDemoReservation({
         name: form.name,
@@ -44,10 +55,12 @@ export default function Demo() {
         dayIso: selectedDay.toISOString(),
         time: selectedTime,
       });
-      setSubmitted(true);
+      setSubmitDone(true);
     } catch (error) {
       console.error('Error saving demo reservation:', error);
       window.alert('No se pudo guardar tu reserva. Intenta otra vez.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -57,9 +70,11 @@ export default function Demo() {
   const primaryButtonClass =
     'group inline-flex items-center justify-center gap-2 rounded-full bg-iris px-8 py-4 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-anza-deep hover:shadow-[0_14px_30px_-12px_rgba(123,44,255,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] focus:outline-none focus-visible:ring-4 focus-visible:ring-iris/40';
 
+  const hideFooterAndDemoCta = submitDone;
+
   return (
     <div className="min-h-screen bg-ink font-display flex flex-col">
-      <Navbar showBackLink backHref="/" />
+      <Navbar showBackLink backHref="/" hideDemoCta={hideFooterAndDemoCta} />
 
       <div className="relative flex-1 overflow-hidden px-3 pb-32 pt-28 md:min-h-screen md:px-3 md:pb-40 md:pt-32">
         <div
@@ -83,10 +98,23 @@ export default function Demo() {
 
         </motion.div>
 
-        {submitted ? (
+        {submitDone && !showSuccessUi ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="relative z-10 mx-auto flex min-h-[280px] w-full max-w-md flex-col items-center justify-center gap-5 rounded-[28px] border border-white/10 bg-white/[0.04] px-8 py-16 text-center backdrop-blur-sm"
+            role="status"
+            aria-live="polite"
+            aria-busy="true"
+          >
+            <Loader2 className="h-11 w-11 animate-spin text-spark" aria-hidden />
+            <p className={`${labelClass} text-canvas/55`}>Confirmando tu reserva…</p>
+          </motion.div>
+        ) : showSuccessUi ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="relative z-10 mx-auto w-full max-w-md rounded-[28px] bg-iris px-10 py-14 text-center shadow-[0_24px_60px_-28px_rgba(123,44,255,0.9)]"
           >
             <span className={`${labelClass} mb-4 block text-canvas/55`}>Confirmado</span>
@@ -94,7 +122,10 @@ export default function Demo() {
             <p className="mt-4 font-display text-canvas/70 text-sm leading-relaxed">
               Te hemos enviado un correo de confirmación a <strong>{form.email}</strong> con todos los detalles.
             </p>
-            <Link to="/" className="mt-8 inline-flex items-center justify-center rounded-full bg-ink px-8 py-4 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-canvas transition-colors hover:bg-canvas/80">
+            <Link
+              to="/"
+              className="group mt-8 inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-canvas px-8 py-4 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-ink shadow-[0_8px_24px_-10px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:border-white/40 hover:bg-white hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.65)] focus:outline-none focus-visible:ring-4 focus-visible:ring-white/35"
+            >
               Volver al inicio
             </Link>
           </motion.div>
@@ -181,10 +212,21 @@ export default function Demo() {
 
                     {selectedDay && selectedTime && (
                       <button
+                        type="button"
                         onClick={handleConfirm}
-                        className={`${primaryButtonClass} mt-4 w-full`}
+                        disabled={isSaving}
+                        className={`${primaryButtonClass} mt-4 w-full disabled:pointer-events-none disabled:opacity-60`}
                       >
-                        Confirmar reserva <ArrowRight size={14} />
+                        {isSaving ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                            Guardando…
+                          </>
+                        ) : (
+                          <>
+                            Confirmar reserva <ArrowRight size={14} />
+                          </>
+                        )}
                       </button>
                     )}
                   </div>
@@ -289,7 +331,7 @@ export default function Demo() {
           </motion.div>
         )}
       </div>
-      <Footer />
+      {!hideFooterAndDemoCta && <Footer />}
     </div>
   );
 }

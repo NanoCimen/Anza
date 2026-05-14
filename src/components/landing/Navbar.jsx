@@ -7,7 +7,7 @@ const navTextClass = 'font-nav text-sm font-medium leading-none tracking-[0.02em
 const navLinkClass =
   'group relative font-nav text-sm font-medium leading-none tracking-[0.02em] uppercase text-white transition-all duration-300 hover:text-spark hover:[text-shadow:0_0_16px_rgba(207,174,255,0.8)] after:absolute after:left-0 after:-bottom-1.5 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-spark after:shadow-[0_0_10px_rgba(207,174,255,0.8)] after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100';
 
-export default function Navbar({ showBackLink = false, backHref = '/' }) {
+export default function Navbar({ showBackLink = false, backHref = '/', hideDemoCta = false }) {
   const [open, setOpen] = useState(false);
 
   const links = [
@@ -53,16 +53,18 @@ export default function Navbar({ showBackLink = false, backHref = '/' }) {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-16 md:block md:h-20">
-          <div className="flex h-full items-center justify-end px-3 md:px-3">
-            <a
-              href="/demo"
-              className="pointer-events-auto inline-flex items-center justify-center rounded-full bg-iris px-9 py-3.5 font-display text-sm font-semibold tracking-wide text-canvas ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-anza-deep hover:text-canvas hover:ring-white/15 hover:shadow-[0_14px_30px_-12px_rgba(123,44,255,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] md:text-base"
-            >
-              Reservar una demostración
-            </a>
+        {!hideDemoCta && (
+          <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-16 md:block md:h-20">
+            <div className="flex h-full items-center justify-end px-3 md:px-3">
+              <a
+                href="/demo"
+                className="pointer-events-auto inline-flex items-center justify-center rounded-full bg-iris px-9 py-3.5 font-display text-sm font-semibold tracking-wide text-canvas ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-anza-deep hover:text-canvas hover:ring-white/15 hover:shadow-[0_14px_30px_-12px_rgba(123,44,255,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] md:text-base"
+              >
+                Reservar una demostración
+              </a>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Mobile toggle */}
         <button
@@ -96,13 +98,15 @@ export default function Navbar({ showBackLink = false, backHref = '/' }) {
                   {l.label}
                 </a>
               ))}
-              <a
-                href="/demo"
-                onClick={() => setOpen(false)}
-                className={`${navTextClass} inline-flex items-center justify-center rounded-full bg-iris px-6 py-3 text-center uppercase text-canvas ring-1 ring-white/20 transition-all duration-300 hover:bg-anza-deep hover:text-canvas hover:ring-white/25 hover:shadow-[0_10px_30px_rgba(123,44,255,0.45)]`}
-              >
-                Reserva una demostración
-              </a>
+              {!hideDemoCta && (
+                <a
+                  href="/demo"
+                  onClick={() => setOpen(false)}
+                  className={`${navTextClass} inline-flex items-center justify-center rounded-full bg-iris px-6 py-3 text-center uppercase text-canvas ring-1 ring-white/20 transition-all duration-300 hover:bg-anza-deep hover:text-canvas hover:ring-white/25 hover:shadow-[0_10px_30px_rgba(123,44,255,0.45)]`}
+                >
+                  Reserva una demostración
+                </a>
+              )}
             </div>
           </motion.div>
         )}

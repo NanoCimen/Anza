@@ -39,7 +39,8 @@ function isValidEmail(s) {
 }
 
 const app = express();
-const PORT = Number(process.env.API_PORT) || 3001;
+/** Railway sets PORT; API_PORT is for local dev next to Vite. */
+const PORT = Number(process.env.PORT || process.env.API_PORT) || 3001;
 
 app.use(cors({ origin: true }));
 app.use(express.json({ limit: '64kb' }));
@@ -158,6 +159,6 @@ app.use((req, res) => {
   res.status(404).json({ message: 'not found' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Anza API listening on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Anza API listening on port ${PORT}`);
 });

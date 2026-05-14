@@ -188,14 +188,19 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: -8, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="pointer-events-auto flex h-full w-fit items-center text-white"
+              className="pointer-events-auto flex h-full w-fit items-center gap-2 text-white md:gap-2.5"
             >
               <img
                 src={ANZA_LOGO}
-                alt="Anza"
-                className="h-12 w-12 select-none object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] md:h-24 md:w-24"
+                alt=""
+                width={80}
+                height={80}
+                className="h-14 w-14 shrink-0 select-none object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] sm:h-16 sm:w-16 md:h-20 md:w-20"
                 draggable={false}
               />
+              <span className="font-display text-xl font-black leading-none tracking-tighter drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] sm:text-2xl md:text-3xl">
+                Anza
+              </span>
             </motion.a>
           </div>
         </div>

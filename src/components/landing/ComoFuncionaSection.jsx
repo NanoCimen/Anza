@@ -28,7 +28,7 @@ const STEPS = [
     n: '3',
     label: 'Recibe tu pago',
     type: 'image',
-    src: 'cobra.png',
+    src: '/images/cobra.png',
     alt: 'Notificación de pago recibido en Anza',
   },
 ];

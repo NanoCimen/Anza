@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import ScrollExploreHint from './ScrollExploreHint';
-
-const BACKGROUND_PC = new URL('../../../backgroundPC.png', import.meta.url).href;
+import { backgroundPc } from '@/assets';
 
 export default function CreatorsBenefitsSection() {
   return (
@@ -10,7 +9,7 @@ export default function CreatorsBenefitsSection() {
       className="section-light relative min-h-screen py-24 md:py-32"
       style={{
         backgroundColor: '#000000',
-        backgroundImage: `url(${BACKGROUND_PC})`,
+        backgroundImage: `url(${backgroundPc})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}

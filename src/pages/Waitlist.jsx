@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Loader2, Users, BarChart2, DollarSign, Megaphone } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowRight,
+  Loader2,
+  Users,
+  BarChart2,
+  DollarSign,
+  Megaphone,
+  ChevronLeft,
+} from 'lucide-react';
+import { SiFacebook, SiInstagram, SiTiktok, SiWhatsapp } from 'react-icons/si';
 import { Link } from 'react-router-dom';
 import Footer from '../components/landing/Footer';
 import { saveWaitlistLead } from '../lib/leads';
+import { backgroundWaitlist } from '@/assets';
 
 const ANZA_LOGO = '/logosintransparente.png';
-const BACKGROUND_WAITLIST = new URL('../../backgroundwaitlist.png', import.meta.url).href;
 
 const CONTENT = {
   marcas: {
@@ -48,20 +57,61 @@ const CONTENT = {
 };
 
 export default function Waitlist({ audience = 'marcas' }) {
+  const [step, setStep] = useState(1);
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [tiktok, setTiktok] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
   const [keepUpdated, setKeepUpdated] = useState(true);
+  const [emailError, setEmailError] = useState('');
   const [showCookieBanner, setShowCookieBanner] = useState(true);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const copy = CONTENT[audience] || CONTENT.marcas;
   const usesSimpleLayout = true;
 
-  const handleSubmit = async (e) => {
+  const labelClass = usesSimpleLayout ? 'text-white/70' : 'text-canvas/45';
+  const optionalClass = usesSimpleLayout ? 'text-white/45' : 'text-canvas/40';
+  const inputBaseClass = usesSimpleLayout
+    ? 'w-full rounded-2xl border border-white/10 bg-white/15 py-4 font-display text-sm text-white outline-none transition-colors placeholder:text-white/45 focus:border-white'
+    : 'w-full rounded-2xl border border-canvas/15 bg-black/30 py-4 font-display text-sm text-canvas outline-none transition-colors placeholder:text-canvas/30 focus:border-spark';
+
+  const goToSocialStep = () => {
+    setEmailError('');
+    const trimmed = email.trim();
+    if (!trimmed) {
+      setEmailError('El correo es obligatorio.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setEmailError('Introduce un correo válido.');
+      return;
+    }
+    setStep(2);
+  };
+
+  const handleSubmit = async e => {
     e.preventDefault();
-    if (!email) return;
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      setEmailError('El correo es obligatorio.');
+      setStep(1);
+      return;
+    }
     setLoading(true);
     try {
-      await saveWaitlistLead({ audience, email, keepUpdated });
+      await saveWaitlistLead({
+        audience,
+        email: trimmedEmail,
+        keepUpdated,
+        fullName: fullName.trim(),
+        instagram: instagram.trim(),
+        tiktok: tiktok.trim(),
+        facebook: facebook.trim(),
+        whatsapp: whatsapp.trim(),
+      });
       setDone(true);
     } catch (error) {
       console.error('Error saving waitlist lead:', error);
@@ -74,7 +124,7 @@ export default function Waitlist({ audience = 'marcas' }) {
   return (
     <div
       className="flex min-h-screen flex-col bg-ink bg-cover bg-center bg-no-repeat font-display"
-      style={{ backgroundImage: `url(${BACKGROUND_WAITLIST})` }}
+      style={{ backgroundImage: `url(${backgroundWaitlist})` }}
     >
       <header className="relative z-20 flex w-full items-center justify-center pt-8 text-center md:pt-10">
         <Link to="/waitlist" aria-label="Volver a waitlist" className="flex items-center gap-0">
@@ -165,83 +215,297 @@ export default function Waitlist({ audience = 'marcas' }) {
               </motion.div>
             ) : (
               <>
-                <span className={`mb-3 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${usesSimpleLayout ? 'text-white/70' : 'text-canvas/45'}`}>
-                  {copy.formEyebrow}
-                </span>
-                <h2 className="font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[30px] leading-[31px] tracking-[-0.2px] md:text-[36px] md:leading-[37px]">
-                  {copy.formTitle[0]}
-                  <br />{copy.formTitle[1]}
-                </h2>
-                {copy.formDescription && (
-                  <p className="mt-3 font-display text-sm leading-relaxed text-canvas/55">
-                    {copy.formDescription}
-                  </p>
-                )}
-
-                <form onSubmit={handleSubmit} className="mt-8 space-y-4 text-left">
-                  <div>
-                    <label className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${usesSimpleLayout ? 'text-white/70' : 'text-canvas/45'}`}>
-                      Tu email *
-                    </label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="tu@empresa.com"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      className={`w-full rounded-2xl border px-4 py-4 font-display text-sm outline-none transition-colors ${usesSimpleLayout ? 'border-white/10 bg-white/15 text-white placeholder:text-white/45 focus:border-white' : 'border-canvas/15 bg-black/30 text-canvas placeholder:text-canvas/30 focus:border-spark'}`}
-                    />
-                  </div>
-
-                  {usesSimpleLayout && (
-                    <label className="flex items-start justify-between gap-4 rounded-2xl py-1">
-                      <span>
-                        <span className="block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-white">
-                          Mantente actualizado
-                        </span>
-                        <span className="mt-2 block font-display text-xs leading-relaxed text-white/70">
-                          Recibe actualizaciones por correo sobre oportunidades, ofertas y recomendaciones de Anza.
-                        </span>
+                <AnimatePresence mode="wait">
+                  {step === 1 ? (
+                    <motion.div
+                      key="step1"
+                      initial={false}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -12 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <span
+                        className={`mb-3 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${usesSimpleLayout ? 'text-white/70' : 'text-canvas/45'}`}
+                      >
+                        {copy.formEyebrow}
                       </span>
+                      <h2 className="font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[30px] leading-[31px] tracking-[-0.2px] md:text-[36px] md:leading-[37px]">
+                        {copy.formTitle[0]}
+                        <br />
+                        {copy.formTitle[1]}
+                      </h2>
+                      {copy.formDescription && (
+                        <p className="mt-3 font-display text-sm leading-relaxed text-canvas/55">
+                          {copy.formDescription}
+                        </p>
+                      )}
+
+                      <div className="mt-8 flex w-full flex-col gap-4 text-left">
+                        <div>
+                          <label
+                            htmlFor="waitlist-full-name"
+                            className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${labelClass}`}
+                          >
+                            Nombre completo{' '}
+                            <span className={`font-display text-xs font-normal normal-case tracking-normal ${optionalClass}`}>
+                              (opcional)
+                            </span>
+                          </label>
+                          <input
+                            id="waitlist-full-name"
+                            name="fullName"
+                            type="text"
+                            autoComplete="name"
+                            placeholder="Tu nombre"
+                            value={fullName}
+                            onChange={e => setFullName(e.target.value)}
+                            className={`${inputBaseClass} px-4`}
+                          />
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="waitlist-email"
+                            className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${labelClass}`}
+                          >
+                            Tu email *
+                          </label>
+                          <input
+                            id="waitlist-email"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            placeholder="tu@empresa.com"
+                            value={email}
+                            onChange={e => {
+                              setEmail(e.target.value);
+                              if (emailError) setEmailError('');
+                            }}
+                            className={`${inputBaseClass} px-4`}
+                          />
+                          {emailError ? (
+                            <p className="mt-2 font-display text-xs text-red-300" role="alert">
+                              {emailError}
+                            </p>
+                          ) : null}
+                        </div>
+
+                        {usesSimpleLayout && (
+                          <label className="flex items-start justify-between gap-4 rounded-2xl py-1">
+                            <span>
+                              <span className="block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-white">
+                                Mantente actualizado
+                              </span>
+                              <span className="mt-2 block font-display text-xs leading-relaxed text-white/70">
+                                Recibe actualizaciones por correo sobre oportunidades, ofertas y recomendaciones de Anza.
+                              </span>
+                            </span>
+                            <button
+                              type="button"
+                              aria-pressed={keepUpdated}
+                              onClick={() => setKeepUpdated(v => !v)}
+                              className={`relative mt-1 h-6 w-11 shrink-0 rounded-full transition-colors ${keepUpdated ? 'bg-iris' : 'bg-white/25'}`}
+                            >
+                              <span
+                                className={`absolute left-0 top-1 h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${keepUpdated ? 'translate-x-6' : 'translate-x-1'}`}
+                              />
+                            </button>
+                          </label>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={goToSocialStep}
+                          className={`mt-2 flex w-full items-center justify-center gap-2 rounded-full py-5 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none ${usesSimpleLayout ? 'bg-ink text-white hover:bg-iris focus:ring-4 focus:ring-iris/30' : 'bg-iris text-white shadow-[0_0_34px_rgba(123,44,255,0.45)] hover:bg-spark focus:ring-4 focus:ring-spark/30'}`}
+                        >
+                          Continuar <ArrowRight size={14} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="step2"
+                      initial={{ opacity: 0, x: 12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 12 }}
+                      transition={{ duration: 0.25 }}
+                    >
                       <button
                         type="button"
-                        aria-pressed={keepUpdated}
-                        onClick={() => setKeepUpdated(value => !value)}
-                        className={`relative mt-1 h-6 w-11 shrink-0 rounded-full transition-colors ${keepUpdated ? 'bg-iris' : 'bg-white/25'}`}
+                        onClick={() => {
+                          setStep(1);
+                          setEmailError('');
+                        }}
+                        className="mb-6 flex items-center gap-1.5 font-nav text-xs font-medium uppercase leading-none tracking-[0.02em] text-white/70 transition-colors hover:text-white"
                       >
-                        <span
-                          className={`absolute left-0 top-1 h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${keepUpdated ? 'translate-x-6' : 'translate-x-1'}`}
-                        />
+                        <ChevronLeft size={16} strokeWidth={2} aria-hidden />
+                        Atrás
                       </button>
-                    </label>
-                  )}
 
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className={`flex w-full items-center justify-center gap-2 rounded-full py-5 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-60 focus:outline-none ${usesSimpleLayout ? 'bg-ink text-white hover:bg-iris focus:ring-4 focus:ring-iris/30' : 'bg-iris text-white shadow-[0_0_34px_rgba(123,44,255,0.45)] hover:bg-spark focus:ring-4 focus:ring-spark/30'}`}
-                  >
-                    {loading ? (
-                      <><Loader2 size={14} className="animate-spin" /> Procesando...</>
-                    ) : (
-                      <>Unirme a la lista <ArrowRight size={14} /></>
-                    )}
-                  </button>
-                </form>
+                      <h2 className="font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[30px] leading-[31px] tracking-[-0.2px] md:text-[36px] md:leading-[37px]">
+                        Redes sociales
+                      </h2>
+
+                      <form onSubmit={handleSubmit} className="mt-8 flex w-full flex-col gap-4 text-left">
+                        <div>
+                          <label
+                            htmlFor="waitlist-ig"
+                            className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${labelClass}`}
+                          >
+                            Instagram{' '}
+                            <span className={`font-display text-xs font-normal normal-case tracking-normal ${optionalClass}`}>
+                              (opcional)
+                            </span>
+                          </label>
+                          <div className="relative">
+                            <span
+                              className="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-white"
+                              aria-hidden
+                            >
+                              <SiInstagram size={18} className="text-white opacity-95 drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]" />
+                            </span>
+                            <input
+                              id="waitlist-ig"
+                              name="instagram"
+                              type="text"
+                              inputMode="text"
+                              placeholder="@tuusuario"
+                              value={instagram}
+                              onChange={e => setInstagram(e.target.value)}
+                              className={`${inputBaseClass} pl-12 pr-4`}
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="waitlist-tiktok"
+                            className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${labelClass}`}
+                          >
+                            TikTok{' '}
+                            <span className={`font-display text-xs font-normal normal-case tracking-normal ${optionalClass}`}>
+                              (opcional)
+                            </span>
+                          </label>
+                          <div className="relative">
+                            <span
+                              className="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-white"
+                              aria-hidden
+                            >
+                              <SiTiktok size={18} className="text-white opacity-95 drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]" />
+                            </span>
+                            <input
+                              id="waitlist-tiktok"
+                              name="tiktok"
+                              type="text"
+                              placeholder="@tuusuario"
+                              value={tiktok}
+                              onChange={e => setTiktok(e.target.value)}
+                              className={`${inputBaseClass} pl-12 pr-4`}
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="waitlist-fb"
+                            className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${labelClass}`}
+                          >
+                            Facebook{' '}
+                            <span className={`font-display text-xs font-normal normal-case tracking-normal ${optionalClass}`}>
+                              (opcional)
+                            </span>
+                          </label>
+                          <div className="relative">
+                            <span
+                              className="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-white"
+                              aria-hidden
+                            >
+                              <SiFacebook size={18} className="text-white opacity-95 drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]" />
+                            </span>
+                            <input
+                              id="waitlist-fb"
+                              name="facebook"
+                              type="text"
+                              placeholder="facebook.com/tuusuario"
+                              value={facebook}
+                              onChange={e => setFacebook(e.target.value)}
+                              className={`${inputBaseClass} pl-12 pr-4`}
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="waitlist-wa"
+                            className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${labelClass}`}
+                          >
+                            WhatsApp{' '}
+                            <span className={`font-display text-xs font-normal normal-case tracking-normal ${optionalClass}`}>
+                              (opcional)
+                            </span>
+                          </label>
+                          <div className="relative">
+                            <span
+                              className="pointer-events-none absolute left-4 top-1/2 flex -translate-y-1/2 items-center justify-center text-white"
+                              aria-hidden
+                            >
+                              <SiWhatsapp size={18} className="text-white opacity-95 drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]" />
+                            </span>
+                            <input
+                              id="waitlist-wa"
+                              name="whatsapp"
+                              type="tel"
+                              autoComplete="tel"
+                              placeholder="+1 809 000 0000"
+                              value={whatsapp}
+                              onChange={e => setWhatsapp(e.target.value)}
+                              className={`${inputBaseClass} pl-12 pr-4`}
+                            />
+                          </div>
+                        </div>
+
+                        <button
+                          type="submit"
+                          disabled={loading}
+                          className={`mt-2 flex w-full items-center justify-center gap-2 rounded-full py-5 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-60 focus:outline-none ${usesSimpleLayout ? 'bg-ink text-white hover:bg-iris focus:ring-4 focus:ring-iris/30' : 'bg-iris text-white shadow-[0_0_34px_rgba(123,44,255,0.45)] hover:bg-spark focus:ring-4 focus:ring-spark/30'}`}
+                        >
+                          {loading ? (
+                            <>
+                              <Loader2 size={14} className="animate-spin" /> Procesando...
+                            </>
+                          ) : (
+                            <>
+                              Unirme a la lista <ArrowRight size={14} />
+                            </>
+                          )}
+                        </button>
+                      </form>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <div className={`mt-6 border-t pt-6 ${usesSimpleLayout ? 'border-black/10' : 'border-canvas/10'}`}>
                   <p className={`font-display text-xs leading-relaxed ${usesSimpleLayout ? 'text-ink/70' : 'text-canvas/35'}`}>
                     Al registrarte aceptas nuestros{' '}
-                    <a href="#" className="underline transition-colors hover:text-iris">Términos</a>{' '}
+                    <a href="#" className="underline transition-colors hover:text-iris">
+                      Términos
+                    </a>{' '}
                     y{' '}
-                    <a href="#" className="underline transition-colors hover:text-iris">Política de Privacidad</a>.
+                    <a href="#" className="underline transition-colors hover:text-iris">
+                      Política de Privacidad
+                    </a>
+                    .
                   </p>
                 </div>
 
                 <div className="mt-6">
                   <p className={`font-display text-xs ${usesSimpleLayout ? 'text-ink/70' : 'text-canvas/45'}`}>
                     {copy.demoPrompt}{' '}
-                    <Link to="/demo" className={`font-semibold underline transition-colors ${usesSimpleLayout ? 'text-ink hover:text-iris' : 'text-canvas hover:text-spark'}`}>
+                    <Link
+                      to="/demo"
+                      className={`font-semibold underline transition-colors ${usesSimpleLayout ? 'text-ink hover:text-iris' : 'text-canvas hover:text-spark'}`}
+                    >
                       Reserva una llamada →
                     </Link>
                   </p>

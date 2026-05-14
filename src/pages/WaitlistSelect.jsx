@@ -4,15 +4,14 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/landing/Navbar';
 import Footer from '../components/landing/Footer';
-
-const BACKGROUND_WAITLIST = new URL('../../backgroundwaitlist.png', import.meta.url).href;
+import { backgroundWaitlist } from '@/assets';
 
 export default function WaitlistSelect() {
   return (
     <div
       className="flex min-h-screen flex-col bg-ink bg-center bg-no-repeat font-display"
       style={{
-        backgroundImage: `url(${BACKGROUND_WAITLIST})`,
+        backgroundImage: `url(${backgroundWaitlist})`,
         backgroundSize: '100% 100%',
       }}
     >
@@ -24,11 +23,7 @@ export default function WaitlistSelect() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-[860px] font-display text-5xl font-black leading-[0.85] tracking-tighter text-white sm:text-6xl md:text-7xl lg:text-8xl"
-            style={{
-              textShadow:
-                '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 5px 18px rgba(0,0,0,0.35)',
-            }}
+            className="max-w-[980px] font-display text-4xl font-black leading-[0.85] tracking-tighter text-white [text-shadow:0_2px_40px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
           >
             Elige tu acceso
             <br />

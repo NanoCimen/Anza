@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import ScrollExploreHint from './ScrollExploreHint';
-
-const BACKGROUND_AUDIENCE = new URL('../../../background2.png', import.meta.url).href;
+import { background2 } from '@/assets';
 
 const BLOCKS = [
   {
@@ -99,7 +98,7 @@ export default function EditorialAudienceSection() {
       className="section-light relative scroll-mt-24 md:scroll-mt-28 py-16 md:py-24 overflow-x-clip overflow-y-visible"
       style={{
         backgroundColor: '#000000',
-        backgroundImage: `url(${BACKGROUND_AUDIENCE})`,
+        backgroundImage: `url(${background2})`,
         backgroundPosition: 'center top',
         backgroundSize: 'cover',
       }}

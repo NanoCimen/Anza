@@ -2,8 +2,8 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Play } from 'lucide-react';
 import ScrollExploreHint from './ScrollExploreHint';
+import { meshPc } from '@/assets';
 
-const BACKGROUND_PC = new URL('../../../backgroundPC.png', import.meta.url).href;
 const VIDEO_PLACEHOLDERS = Array.from({ length: 6 }, (_, i) => i + 1);
 
 export default function HeroCreatorsSection() {
@@ -34,12 +34,12 @@ export default function HeroCreatorsSection() {
       className="relative min-h-screen overflow-hidden pt-16"
       style={{
         backgroundColor: '#000000',
-        backgroundImage: `url(${BACKGROUND_PC})`,
+        backgroundImage: `url(${meshPc})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}
     >
-      <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-[1440px] flex-col items-stretch px-3 md:flex-row md:px-3">
+      <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-[1440px] min-w-0 flex-col items-stretch px-3 md:flex-row md:px-3">
         {/* Left — 6 vertical creator cards in one horizontal row */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -96,35 +96,25 @@ export default function HeroCreatorsSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           style={{ y: contentY, opacity: sectionOpacity }}
-          className="md:w-[45%] flex flex-col justify-center md:pl-12 lg:pl-20 py-10 md:py-0"
+          className="flex min-w-0 flex-col justify-center py-10 md:w-[45%] md:py-0 md:pl-12 lg:pl-20"
         >
-          <div className="relative inline-block">
-            <h1
-              className="font-display font-black text-4xl leading-[0.8] tracking-tighter text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-[104px]"
-              style={{
-                textShadow:
-                  '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 5px 18px rgba(0,0,0,0.35)',
-              }}
-            >
+          <div className="relative inline-block max-w-full min-w-0">
+            <h1 className="font-display text-4xl font-black leading-[0.85] tracking-tighter text-white [text-shadow:0_2px_40px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
               TU
               <br />
               PRÓXIMA
               <br />
               CAMPAÑA
               <br />
-              <span className="whitespace-nowrap">
-                TE{' '}
-                <span className="text-white">
-                  ESPERA
-                </span>
-              </span>
+              TE ESPERA
             </h1>
             <button
               type="button"
               onClick={handleGoToAbout}
               className="absolute right-2 top-[3%] rounded-full border-2 border-canvas bg-spark px-4 py-2 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-ink shadow-[0_10px_28px_rgba(207,174,255,0.4)] transition-transform duration-700 will-change-transform hover:scale-[1.03] md:-right-6 lg:-right-10"
             >
-              ¿Monetizar con muy pocos seguidores?            </button>
+              ¿Monetizar con muy pocos seguidores?
+            </button>
           </div>
 
           <p className="mt-12 max-w-md font-display text-base leading-relaxed text-white/100 md:text-lg">

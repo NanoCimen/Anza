@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
-
-const BACKGROUND_COMPARISON = new URL('../../../background2.png', import.meta.url).href;
+import { background2 } from '@/assets';
 
 /** Premium Anza card — lavender + glow wash on deep purple */
 const HIGHLIGHT_BG_STYLE = {
@@ -46,7 +45,7 @@ export default function ComparisonSection() {
       className="section-light relative bg-ink overflow-x-clip overflow-y-visible"
       style={{
         backgroundColor: '#000000',
-        backgroundImage: `url(${BACKGROUND_COMPARISON})`,
+        backgroundImage: `url(${background2})`,
         backgroundPosition: 'center top',
         backgroundSize: 'cover',
       }}

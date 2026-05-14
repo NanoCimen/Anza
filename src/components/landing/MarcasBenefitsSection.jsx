@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import ScrollExploreHint from './ScrollExploreHint';
-
-const BACKGROUND_PM = new URL('../../../backgroundPM.png', import.meta.url).href;
+import { backgroundPm } from '@/assets';
 
 export default function MarcasBenefitsSection() {
   return (
@@ -10,7 +9,7 @@ export default function MarcasBenefitsSection() {
       className="section-light relative min-h-screen py-24 md:py-32"
       style={{
         backgroundColor: '#000000',
-        backgroundImage: `url(${BACKGROUND_PM})`,
+        backgroundImage: `url(${backgroundPm})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}
@@ -65,7 +64,7 @@ export default function MarcasBenefitsSection() {
               whileHover={{ y: -6, scale: 1.015 }}
               className="platform-feature-card liquid-glass flex flex-col gap-4 rounded-2xl p-8 min-w-0"
             >
-              <h3 className="font-display font-black text-2xl tracking-tighter text-canvas leading-tight">
+              <h3 className="font-bold text-canvas [font-family:Grantska,Arial,sans-serif] text-xl leading-snug tracking-[-0.2px] sm:text-2xl">
                 Creadores por plataformas
               </h3>
               <div className="mt-4 h-[130px] md:h-[155px] bg-ink/70 border border-canvas/10 relative overflow-hidden">
@@ -90,7 +89,7 @@ export default function MarcasBenefitsSection() {
               whileHover={{ y: -6, scale: 1.015 }}
               className="platform-feature-card liquid-glass flex flex-col gap-4 rounded-2xl p-8 min-h-[250px] md:min-h-[280px] min-w-0"
             >
-              <h3 className="font-display font-black text-2xl tracking-tighter text-canvas leading-tight">
+              <h3 className="font-bold text-canvas [font-family:Grantska,Arial,sans-serif] text-xl leading-snug tracking-[-0.2px] sm:text-2xl">
                 Alto volumen de contenido
               </h3>
               <div className="mt-2 h-[130px] md:h-[155px] bg-ink/70 border border-canvas/10 relative overflow-hidden">
@@ -110,7 +109,7 @@ export default function MarcasBenefitsSection() {
               whileHover={{ y: -6, scale: 1.015 }}
               className="platform-feature-card liquid-glass flex flex-col gap-4 rounded-2xl p-8 min-h-[250px] md:min-h-[280px] min-w-0"
             >
-              <h3 className="font-display font-black text-2xl tracking-tighter text-canvas leading-tight">
+              <h3 className="font-bold text-canvas [font-family:Grantska,Arial,sans-serif] text-xl leading-snug tracking-[-0.2px] sm:text-2xl">
                 Contenido que se siente real
               </h3>
               <div className="mt-2 h-[130px] md:h-[155px] bg-ink/70 border border-canvas/10 relative overflow-hidden">

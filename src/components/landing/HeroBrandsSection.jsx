@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import ScrollExploreHint from './ScrollExploreHint';
+import { meshPm } from '@/assets';
 
 const HERO_IMAGE = '/images/creadores.ong.png';
-const BACKGROUND_PM = new URL('../../../backgroundPM.png', import.meta.url).href;
 
 export default function HeroBrandsSection() {
   const sectionRef = useRef(null);
@@ -33,18 +33,18 @@ export default function HeroBrandsSection() {
       className="relative min-h-screen overflow-hidden pt-16"
       style={{
         backgroundColor: '#000000',
-        backgroundImage: `url(${BACKGROUND_PM})`,
+        backgroundImage: `url(${meshPm})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}
     >
-      <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-[1440px] flex-col items-stretch px-3 md:flex-row md:px-3">
+      <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-[1440px] min-w-0 flex-col items-stretch px-3 md:flex-row md:px-3">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           style={{ y: imageY, opacity: sectionOpacity }}
-          className="relative flex items-center py-6 md:w-[55%] md:py-10"
+          className="relative flex min-w-0 items-center py-6 md:w-[55%] md:py-10"
         >
           <motion.div
             whileHover={{ scale: 1.025, rotate: -0.35 }}
@@ -74,23 +74,15 @@ export default function HeroBrandsSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           style={{ y: contentY, opacity: sectionOpacity }}
-          className="md:w-[45%] flex flex-col justify-center md:pl-12 lg:pl-20 py-10 md:py-0"
+          className="flex min-w-0 flex-col justify-center py-10 md:w-[45%] md:py-0 md:pl-12 lg:pl-20"
         >
-          <div className="relative inline-block">
-            <h1
-              className="font-display font-black text-5xl leading-[0.85] tracking-tighter text-white sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px]"
-              style={{
-                textShadow:
-                  '-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 5px 18px rgba(0,0,0,0.35)',
-              }}
-            >
-            USA
-            <br />
-            CREADORES
-            <br />
-            <span className="text-white">
+          <div className="relative inline-block max-w-full min-w-0">
+            <h1 className="font-display text-4xl font-black leading-[0.85] tracking-tighter text-white [text-shadow:0_2px_40px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+              USA
+              <br />
+              CREADORES
+              <br />
               UGC
-            </span>
             </h1>
             <button
               type="button"
@@ -102,7 +94,8 @@ export default function HeroBrandsSection() {
           </div>
 
           <p className="mt-12 max-w-md font-display text-base leading-relaxed text-white md:text-lg">
-          En vez de destinar tu presupuesto a un único creador, activa a decenas de creadores hablando de tu producto al mismo tiempo. Más impacto, menos dinero.
+            En vez de destinar tu presupuesto a un único creador, activa a decenas de creadores hablando de
+            tu producto al mismo tiempo. Más impacto, menos dinero.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-10">

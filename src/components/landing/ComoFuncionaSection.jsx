@@ -1,9 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-const BACKGROUND_COMOF = new URL('../../../backgroundcomof.png', import.meta.url).href;
-const APLICACIONES_1 = new URL('../../../aplicaciones1.png', import.meta.url).href;
-const APLICACIONES_2 = new URL('../../../aplicaciones2.png', import.meta.url).href;
+import { aplicaciones1, aplicaciones2, backgroundComoFunciona } from '@/assets';
 
 const STEPS = [
   {
@@ -12,11 +9,11 @@ const STEPS = [
     type: 'image-pair',
     images: [
       {
-        src: APLICACIONES_1,
+        src: aplicaciones1,
         alt: 'Oportunidades activas para creadores en Anza',
       },
       {
-        src: APLICACIONES_2,
+        src: aplicaciones2,
         alt: 'Más oportunidades activas para creadores en Anza',
       },
     ],
@@ -92,7 +89,7 @@ export default function ComoFuncionaSection() {
       className="section-light relative scroll-mt-16 md:scroll-mt-20 pb-14 pt-8 md:pb-20 md:pt-10 lg:pb-24 lg:pt-12"
       style={{
         backgroundColor: '#000000',
-        backgroundImage: `url(${BACKGROUND_COMOF})`,
+        backgroundImage: `url(${backgroundComoFunciona})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { saveContactMessage } from '@/lib/leads';
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', company: '' });
@@ -18,10 +19,20 @@ export default function ContactForm() {
       return;
     }
     setSending(true);
-    await new Promise(r => setTimeout(r, 1200));
-    setSending(false);
-    toast.success('Datos enviados. Nos pondremos en contacto contigo.');
-    setForm({ name: '', email: '', company: '' });
+    try {
+      await saveContactMessage({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        company: form.company.trim(),
+      });
+      toast.success('Datos enviados. Nos pondremos en contacto contigo.');
+      setForm({ name: '', email: '', company: '' });
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.message || 'No se pudo enviar. Intenta de nuevo.');
+    } finally {
+      setSending(false);
+    }
   };
 
   const inputClass =

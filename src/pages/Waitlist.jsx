@@ -66,11 +66,16 @@ export default function Waitlist({ audience = 'marcas' }) {
   const [whatsapp, setWhatsapp] = useState('');
   const [keepUpdated, setKeepUpdated] = useState(true);
   const [emailError, setEmailError] = useState('');
+  const [socialError, setSocialError] = useState('');
   const [showCookieBanner, setShowCookieBanner] = useState(true);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const copy = CONTENT[audience] || CONTENT.marcas;
   const usesSimpleLayout = true;
+  const infoPage =
+    audience === 'creadores'
+      ? { label: 'Información para Creadores', href: '/creadores' }
+      : { label: 'Información para Marcas/Agencias', href: '/marcas' };
 
   const labelClass = usesSimpleLayout ? 'text-white/70' : 'text-canvas/45';
   const optionalClass = usesSimpleLayout ? 'text-white/45' : 'text-canvas/40';
@@ -100,6 +105,13 @@ export default function Waitlist({ audience = 'marcas' }) {
       setStep(1);
       return;
     }
+    const hasInstagram = Boolean(instagram.trim());
+    const hasTiktok = Boolean(tiktok.trim());
+    if (!hasInstagram && !hasTiktok) {
+      setSocialError('Completa Instagram o TikTok (al menos uno).');
+      return;
+    }
+    setSocialError('');
     setLoading(true);
     try {
       await saveWaitlistLead({
@@ -115,7 +127,12 @@ export default function Waitlist({ audience = 'marcas' }) {
       setDone(true);
     } catch (error) {
       console.error('Error saving waitlist lead:', error);
-      window.alert('No se pudo guardar tu registro. Intenta otra vez.');
+      const message = error instanceof Error ? error.message : '';
+      if (message.toLowerCase().includes('instagram') || message.toLowerCase().includes('tiktok')) {
+        setSocialError('Completa Instagram o TikTok (al menos uno).');
+      } else {
+        window.alert('No se pudo guardar tu registro. Intenta otra vez.');
+      }
     } finally {
       setLoading(false);
     }
@@ -208,9 +225,20 @@ export default function Waitlist({ audience = 'marcas' }) {
                 <p className="mx-auto mt-3 max-w-xs font-display text-sm leading-relaxed text-canvas/55">
                   Te notificaremos en <strong className="text-canvas">{email}</strong> cuando tu acceso esté listo.
                 </p>
-                <Link to="/" className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-iris px-8 py-4 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-white shadow-[0_0_34px_rgba(123,44,255,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-spark">
-                  Volver al inicio <ArrowRight size={14} />
-                </Link>
+                <div className="mt-8 flex flex-col items-center gap-3">
+                  <Link
+                    to="/"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-iris px-8 py-4 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-white shadow-[0_0_34px_rgba(123,44,255,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-spark"
+                  >
+                    Volver al inicio <ArrowRight size={14} />
+                  </Link>
+                  <Link
+                    to={infoPage.href}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-8 py-4 font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-spark/50 hover:bg-white/15"
+                  >
+                    {infoPage.label} <ArrowRight size={14} />
+                  </Link>
+                </div>
               </motion.div>
             ) : (
               <>
@@ -334,6 +362,7 @@ export default function Waitlist({ audience = 'marcas' }) {
                         onClick={() => {
                           setStep(1);
                           setEmailError('');
+                          setSocialError('');
                         }}
                         className="mb-6 flex items-center gap-1.5 font-nav text-xs font-medium uppercase leading-none tracking-[0.02em] text-white/70 transition-colors hover:text-white"
                       >
@@ -344,6 +373,9 @@ export default function Waitlist({ audience = 'marcas' }) {
                       <h2 className="font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[30px] leading-[31px] tracking-[-0.2px] md:text-[36px] md:leading-[37px]">
                         Redes sociales
                       </h2>
+                      <p className="mt-3 font-display text-sm leading-relaxed text-white/70">
+                        Instagram o TikTok — al menos uno es obligatorio.
+                      </p>
 
                       <form onSubmit={handleSubmit} className="mt-8 flex w-full flex-col gap-4 text-left">
                         <div>
@@ -351,10 +383,7 @@ export default function Waitlist({ audience = 'marcas' }) {
                             htmlFor="waitlist-ig"
                             className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${labelClass}`}
                           >
-                            Instagram{' '}
-                            <span className={`font-display text-xs font-normal normal-case tracking-normal ${optionalClass}`}>
-                              (opcional)
-                            </span>
+                            Instagram
                           </label>
                           <div className="relative">
                             <span
@@ -370,7 +399,10 @@ export default function Waitlist({ audience = 'marcas' }) {
                               inputMode="text"
                               placeholder="@tuusuario"
                               value={instagram}
-                              onChange={e => setInstagram(e.target.value)}
+                              onChange={e => {
+                                setInstagram(e.target.value);
+                                if (socialError) setSocialError('');
+                              }}
                               className={`${inputBaseClass} pl-12 pr-4`}
                             />
                           </div>
@@ -381,10 +413,7 @@ export default function Waitlist({ audience = 'marcas' }) {
                             htmlFor="waitlist-tiktok"
                             className={`mb-2 block font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${labelClass}`}
                           >
-                            TikTok{' '}
-                            <span className={`font-display text-xs font-normal normal-case tracking-normal ${optionalClass}`}>
-                              (opcional)
-                            </span>
+                            TikTok
                           </label>
                           <div className="relative">
                             <span
@@ -399,7 +428,10 @@ export default function Waitlist({ audience = 'marcas' }) {
                               type="text"
                               placeholder="@tuusuario"
                               value={tiktok}
-                              onChange={e => setTiktok(e.target.value)}
+                              onChange={e => {
+                                setTiktok(e.target.value);
+                                if (socialError) setSocialError('');
+                              }}
                               className={`${inputBaseClass} pl-12 pr-4`}
                             />
                           </div>
@@ -463,6 +495,12 @@ export default function Waitlist({ audience = 'marcas' }) {
                             />
                           </div>
                         </div>
+
+                        {socialError ? (
+                          <p className="font-display text-xs text-red-300" role="alert">
+                            {socialError}
+                          </p>
+                        ) : null}
 
                         <button
                           type="submit"

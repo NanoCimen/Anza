@@ -108,6 +108,11 @@ app.post('/api/waitlist', async (req, res) => {
     if (!isValidEmail(email)) {
       return res.status(400).json({ message: 'valid email is required' });
     }
+    const ig = String(instagram || '').trim();
+    const tt = String(tiktok || '').trim();
+    if (!ig && !tt) {
+      return res.status(400).json({ message: 'instagram or tiktok is required' });
+    }
 
     const record = {
       id: randomUUID(),
@@ -115,8 +120,8 @@ app.post('/api/waitlist', async (req, res) => {
       email: String(email).trim(),
       keepUpdated: Boolean(keepUpdated),
       fullName: String(fullName || '').trim(),
-      instagram: String(instagram || '').trim(),
-      tiktok: String(tiktok || '').trim(),
+      instagram: ig,
+      tiktok: tt,
       facebook: String(facebook || '').trim(),
       whatsapp: String(whatsapp || '').trim(),
       createdAt: new Date().toISOString(),

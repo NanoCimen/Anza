@@ -47,7 +47,7 @@ export default function WaitlistSelect() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               <Link
-                to="/creadores"
+                to="/waitlist/creadores"
                 className="group block rounded-[28px] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-spark/40 hover:shadow-[0_18px_48px_-28px_rgba(123,44,255,0.75)]"
               >
                 <h2 className="font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[28px] leading-[29px] tracking-[-0.2px]">Creadores UGC</h2>
@@ -68,7 +68,7 @@ export default function WaitlistSelect() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               <Link
-                to="/marcas"
+                to="/waitlist/marcas"
                 className="group block rounded-[28px] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-spark/40 hover:shadow-[0_18px_48px_-28px_rgba(123,44,255,0.75)]"
               >
                 <h2 className="font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[28px] leading-[29px] tracking-[-0.2px]">Marcas y Agencias</h2>

@@ -241,3 +241,10 @@
     zoom: 0.9;
   }
 }
+
+/* Fallback for ~1440-class logical widths if the query above misses (Safari/resolution quirks, taller chrome). */
+@media (min-width: 1300px) and (max-width: 1500px) {
+  html {
+    zoom: 0.9;
+  }
+}

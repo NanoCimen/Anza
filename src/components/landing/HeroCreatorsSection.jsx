@@ -139,7 +139,12 @@ export default function HeroCreatorsSection() {
         </motion.div>
       </div>
 
-      <ScrollExploreHint align="center" hideOnHash={undefined} />
+      <ScrollExploreHint
+        align="right"
+        bottomOffset="bottom-3 md:bottom-4"
+        hideOnHash={undefined}
+        inkText
+      />
     </section>
   );
 }

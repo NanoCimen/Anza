@@ -113,7 +113,7 @@ export default function HeroBrandsSection() {
         </motion.div>
       </div>
 
-      <ScrollExploreHint align="center" hideOnHash={undefined} />
+      <ScrollExploreHint align="right" bottomOffset="bottom-3 md:bottom-4" hideOnHash={undefined} />
     </section>
   );
 }

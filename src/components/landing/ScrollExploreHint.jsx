@@ -3,17 +3,20 @@ import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 
 /**
- * @param {{ tone?: string; align?: string; bottomOffset?: string; hideOnHash?: string }} props
+ * `align`: `center` | `left` | `right` — `right` matches home hero (centered on small screens, anchored right on md+).
  */
 export default function ScrollExploreHint(props) {
-  const { tone = 'light', align = 'left', bottomOffset = 'bottom-8', hideOnHash } = props;
+  const { tone = 'light', align = 'left', bottomOffset = 'bottom-8', hideOnHash, inkText = false } = props;
   const [isActive, setIsActive] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isHashHidden, setIsHashHidden] = useState(false);
-  const textClass = tone === 'dark' ? 'text-ink/45' : 'text-canvas/40';
-  const positionClass = align === 'center'
-    ? 'left-1/2 -translate-x-1/2'
-    : 'left-6 md:left-10';
+  const textClass = inkText ? 'text-ink' : tone === 'dark' ? 'text-ink/45' : 'text-canvas/40';
+  const positionClass =
+    align === 'center'
+      ? 'left-1/2 -translate-x-1/2'
+      : align === 'right'
+        ? 'left-1/2 -translate-x-1/2 md:left-auto md:right-3 md:translate-x-0 lg:right-6'
+        : 'left-6 md:left-10';
 
   useEffect(() => {
     if (!hideOnHash) return undefined;

@@ -31,37 +31,37 @@ export default function CreatorsBenefitsSection() {
         >
           <h2
             id="creators-benefits-heading"
-            className="font-bold text-white text-center [font-family:Grantska,Arial,sans-serif] text-[34px] leading-[35px] tracking-[-0.2px] sm:text-[40px] sm:leading-[41px] lg:text-[46px] lg:leading-[47px]"
+            className="text-center font-bold text-canvas [font-family:Grantska,Arial,sans-serif] text-[34px] leading-[35px] tracking-[-0.2px] sm:text-[40px] sm:leading-[41px] lg:text-[46px] lg:leading-[47px]"
           >
             CREADORES UGC
           </h2>
 
           <div className="mt-10 space-y-8">
-            <p className="font-display text-[18px] leading-[1.8] text-canvas/70">
+            <p className="font-display text-[18px] leading-[1.8] text-canvas/90">
               Las marcas ya están buscando creadores como tú. No buscan a alguien famoso — buscan a
               alguien que sepa crear contenido que se sienta real y están dispuestas a pagar por eso.
             </p>
 
-            <p className="font-display text-[18px] leading-[1.8] text-canvas/70">
+            <p className="font-display text-[18px] leading-[1.8] text-canvas/90">
               El contenido orgánico hace lo que los anuncios nunca pudieron. Una persona hablando de
               un producto desde su cuarto llega más lejos que una campaña producida en estudio. Las
               marcas lo saben y por eso cada vez más están apostando por creadores en lugar de
               producción tradicional.
             </p>
 
-            <p className="font-display text-[18px] leading-[1.8] text-canvas/70">
+            <p className="font-display text-[18px] leading-[1.8] text-canvas/90">
               Anza está construyendo el primer marketplace de creadores para América Latina. Un lugar
               donde puedas aplicar a campañas de marcas reales sin necesitar miles de seguidores ni
               experiencia previa. Donde cobras directamente — más bonos cuando tu contenido llega
               lejos. Sin intermediarios.
             </p>
 
-            <p className="font-display text-[18px] leading-[1.8] text-canvas/70">
+            <p className="font-display text-[18px] leading-[1.8] text-canvas/90">
               Todavía no hemos lanzado. Pero los primeros 100 creadores que se unan van a tener
               acceso prioritario a las mejores campañas cuando abramos.
             </p>
 
-            <p className="font-display text-[18px] leading-[1.8] text-canvas/70">
+            <p className="font-display text-[18px] leading-[1.8] text-canvas/90">
               Si creas contenido y quieres que tu trabajo empiece a generar ingresos reales — este es
               tu momento de entrar antes que todos.
             </p>
@@ -80,7 +80,7 @@ export default function CreatorsBenefitsSection() {
         </motion.div>
       </div>
 
-      <ScrollExploreHint align="center" hideOnHash={undefined} />
+      <ScrollExploreHint align="center" hideOnHash={undefined} inkText />
     </section>
   );
 }

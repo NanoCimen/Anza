@@ -8,9 +8,16 @@ const navTextClass = 'font-nav text-sm font-medium leading-none tracking-[0.02em
 const navLinkClass =
   'group relative font-nav text-sm font-medium leading-none tracking-[0.02em] uppercase text-white transition-all duration-300 hover:text-spark hover:[text-shadow:0_0_16px_rgba(207,174,255,0.8)] after:absolute after:left-0 after:-bottom-1.5 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-spark after:shadow-[0_0_10px_rgba(207,174,255,0.8)] after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100';
 
+/** /creadores — nav sits over light lavender; dark links read clearly. */
+const navLinkOnLightClass =
+  'group relative font-nav text-sm font-medium leading-none tracking-[0.02em] uppercase text-ink transition-all duration-300 hover:text-iris after:absolute after:left-0 after:-bottom-1.5 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-iris after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100';
+
 export default function Navbar({ showBackLink = false, backHref = '/', hideDemoCta = false }) {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+
+  const isCreadoresPage = pathname === '/creadores';
+  const desktopNavLinkClass = isCreadoresPage ? navLinkOnLightClass : navLinkClass;
 
   const faqsHref =
     pathname === '/creadores' || pathname === '/marcas' ? '#faqs' : '/#faqs';
@@ -29,7 +36,10 @@ export default function Navbar({ showBackLink = false, backHref = '/', hideDemoC
       <div className="relative mx-auto flex h-16 max-w-[1440px] items-center justify-end px-3 md:h-20 md:px-3">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-16 md:h-20">
           <div className="flex h-full items-center px-3 md:px-3">
-            <a href="/" className="pointer-events-auto flex h-full w-fit items-center text-white">
+            <a
+              href="/"
+              className={`pointer-events-auto flex h-full w-fit items-center ${isCreadoresPage ? 'text-ink' : 'text-white'}`}
+            >
               <img
                 src={ANZA_LOGO}
                 alt="Anza"
@@ -42,7 +52,7 @@ export default function Navbar({ showBackLink = false, backHref = '/', hideDemoC
           {showBackLink && (
             <a
               href={backHref}
-              className={`${navLinkClass} pointer-events-auto ml-2 md:ml-0`}
+              className={`${desktopNavLinkClass} pointer-events-auto ml-2 md:ml-0`}
             >
               ← Volver
             </a>
@@ -53,7 +63,7 @@ export default function Navbar({ showBackLink = false, backHref = '/', hideDemoC
         <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-16 items-center justify-center md:flex md:h-20">
           <div className="pointer-events-auto flex items-center gap-10">
             {links.map(l => (
-              <a key={l.label} href={l.href} className={navLinkClass}>
+              <a key={l.label} href={l.href} className={desktopNavLinkClass}>
                 {l.label}
               </a>
             ))}
@@ -79,7 +89,7 @@ export default function Navbar({ showBackLink = false, backHref = '/', hideDemoC
           onClick={() => setOpen(!open)}
           aria-label="Abrir menú"
           aria-expanded={open}
-          className="rounded-full p-2 text-white transition-colors hover:bg-white/10 md:hidden"
+          className={`rounded-full p-2 transition-colors md:hidden ${isCreadoresPage ? 'text-ink hover:bg-ink/10' : 'text-white hover:bg-white/10'}`}
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>

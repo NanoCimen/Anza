@@ -97,7 +97,7 @@ export default function HeroSection({ platformMarqueeSlot = null }) {
       </motion.div>
 
       <div className="absolute inset-x-0 bottom-0 z-20 bg-black pb-[1px]">
-        <div className="flex min-h-[24vh] w-full flex-col items-start justify-start gap-6 px-3 pt-5 pb-0 md:flex-row md:justify-between md:px-3 md:pt-5 md:pb-0">
+        <div className="flex min-h-[24vh] w-full flex-col items-start justify-start gap-6 px-3 pt-5 pb-4 md:flex-row md:justify-between md:px-3 md:pt-5 md:pb-5">
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: showHeroText ? 1 : 0, y: showHeroText ? 0 : 10 }}
@@ -272,11 +272,13 @@ export default function HeroSection({ platformMarqueeSlot = null }) {
         </AnimatePresence>
       </header>
 
+      {/* Scroll hint: outside CTA layout — position with `bottom-*` / `right-*` / max-md centering only */}
       <motion.div
         initial={false}
         animate={{ opacity: !showHeroRest || hasUserScrolled ? 0 : 1 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2"
+        className="pointer-events-none absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 md:bottom-4 md:left-auto md:right-3 md:translate-x-0 lg:right-6"
+        aria-hidden={!showHeroRest}
       >
         <motion.div
           animate={{ y: [0, 6, 0] }}
@@ -288,6 +290,7 @@ export default function HeroSection({ platformMarqueeSlot = null }) {
           Desliza para explorar
         </span>
       </motion.div>
+
       </div>
       {platformMarqueeSlot && (
         <motion.div

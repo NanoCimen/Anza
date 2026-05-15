@@ -5,7 +5,7 @@ import { ArrowDown, Menu, X } from 'lucide-react';
 const ANZA_LOGO = '/logosintransparente.png';
 const HERO_BG = '/fondoinflu.png';
 
-export default function HeroSection() {
+export default function HeroSection({ platformMarqueeSlot = null }) {
   const sectionRef = useRef(null);
   const [open, setOpen] = useState(false);
   /** Bottom headline — 2s after load (after logo + title + background). */
@@ -51,7 +51,8 @@ export default function HeroSection() {
     'font-nav text-sm font-medium leading-none tracking-[0.02em] uppercase text-white transition-all duration-300 hover:text-spark hover:[text-shadow:0_0_16px_rgba(207,174,255,0.8)]';
 
   return (
-    <section ref={sectionRef} className="relative min-h-[98dvh] bg-black">
+    <section className="relative flex flex-col bg-black">
+      <div ref={sectionRef} className="relative min-h-screen w-full shrink-0">
       {/* Cropped media area — with logo + “Anza” on first beat. */}
       <div
         aria-hidden
@@ -287,6 +288,22 @@ export default function HeroSection() {
           Desliza para explorar
         </span>
       </motion.div>
+      </div>
+      {platformMarqueeSlot && (
+        <motion.div
+          initial={false}
+          animate={{
+            opacity: showHeroRest ? 1 : 0,
+            y: showHeroRest ? 0 : 16,
+          }}
+          transition={{ duration: 0.6, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+          className="relative z-20 w-full shrink-0"
+          style={{ pointerEvents: showHeroRest ? 'auto' : 'none' }}
+          aria-hidden={!showHeroRest}
+        >
+          {platformMarqueeSlot}
+        </motion.div>
+      )}
     </section>
   );
 }

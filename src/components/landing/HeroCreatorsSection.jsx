@@ -31,7 +31,7 @@ export default function HeroCreatorsSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden pt-16"
+      className="relative min-h-[100dvh] overflow-hidden pt-16"
       style={{
         backgroundColor: '#000000',
         backgroundImage: `url(${meshPc})`,

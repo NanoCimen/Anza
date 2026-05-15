@@ -119,17 +119,23 @@ function MarqueeTrack({ tone }) {
 
 /**
  * Infinite horizontal ticker above the creators grid — matches landing typography & palette (canvas / ink / lavender).
+ * Use `as="div"` when embedding inside another landmark (e.g. home hero) to avoid nested sections.
  */
 export default function PlatformMarquee({
   backgroundClass = 'bg-transparent',
   edgeFadeFrom = 'from-black',
   showEdgeFade = true,
   tone = 'light',
+  as = 'section',
 }) {
+  const Wrapper = as === 'div' ? 'div' : 'section';
+  const regionProps = as === 'div' ? { role: 'region' } : {};
+
   return (
-    <section
+    <Wrapper
       className={`relative overflow-hidden ${backgroundClass}`}
       aria-label="Redes y plataformas"
+      {...regionProps}
     >
       <div className="relative z-10 pt-7 pb-4 md:pt-8 md:pb-5">
         {/* Edge fade so scroll feels editorial */}
@@ -150,6 +156,6 @@ export default function PlatformMarquee({
           <MarqueeTrack tone={tone} />
         </div>
       </div>
-    </section>
+    </Wrapper>
   );
 }

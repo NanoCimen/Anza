@@ -20,9 +20,8 @@ export default function Home() {
       <div className="relative z-10 bg-ink">
         <div className="bg-black">
           <SectionReveal>
-            <HeroSection />
+            <HeroSection platformMarqueeSlot={<PlatformMarquee as="div" />} />
           </SectionReveal>
-          <PlatformMarquee />
         </div>
         <SectionReveal delay={0.06}>
           <AboutSection />

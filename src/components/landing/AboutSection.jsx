@@ -13,7 +13,7 @@ export default function AboutSection() {
   return (
     <section ref={sectionRef} className="section-light bg-ink relative overflow-x-clip overflow-y-visible pb-8 md:pb-10">
       <div className="relative z-10 max-w-[1440px] mx-auto px-3 md:px-3">
-        <div id="about" className="scroll-mt-0 pt-6 md:pt-8 mb-16 md:mb-24" />
+        <div id="about" className="scroll-mt-0 pt-3 md:pt-4 mb-5 md:mb-7" />
 
         <div className="mx-auto max-w-[980px] text-center">
             <motion.h2

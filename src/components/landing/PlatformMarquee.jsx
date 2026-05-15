@@ -131,7 +131,7 @@ export default function PlatformMarquee({
       className={`relative overflow-hidden ${backgroundClass}`}
       aria-label="Redes y plataformas"
     >
-      <div className="relative z-10 py-7 md:py-8">
+      <div className="relative z-10 pt-7 pb-4 md:pt-8 md:pb-5">
         {/* Edge fade so scroll feels editorial */}
         {showEdgeFade && (
           <>

@@ -4,6 +4,13 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
+import {
+  contactAckHtml,
+  demoConfirmationHtml,
+  isEmailConfigured,
+  sendTransactionalEmail,
+  waitlistConfirmationHtml,
+} from './mail.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, 'data');
@@ -50,7 +57,36 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, service: 'anza-api' });
+  res.json({
+    ok: true,
+    service: 'anza-api',
+    email: isEmailConfigured() ? 'configured' : 'off',
+    adminExport: Boolean(process.env.ADMIN_TOKEN?.trim()),
+  });
+});
+
+/** Bearer ADMIN_TOKEN — read all leads from disk (for owners only). */
+app.get('/api/admin/registrations', async (req, res) => {
+  const expected = process.env.ADMIN_TOKEN?.trim();
+  if (!expected) {
+    return res.status(503).json({
+      message: 'Set ADMIN_TOKEN on the server to enable this endpoint.',
+    });
+  }
+  const auth = req.headers.authorization || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7).trim() : '';
+  if (token !== expected) {
+    return res.status(401).json({
+      message: 'Unauthorized. Send header: Authorization: Bearer <ADMIN_TOKEN>',
+    });
+  }
+  try {
+    const store = await readStore();
+    return res.json(store);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'could not read store' });
+  }
 });
 
 app.post('/api/waitlist', async (req, res) => {
@@ -90,6 +126,17 @@ app.post('/api/waitlist', async (req, res) => {
     store.waitlist.push(record);
     await writeStore(store);
 
+    sendTransactionalEmail({
+      to: record.email,
+      subject: 'Lista de espera — Anza',
+      html: waitlistConfirmationHtml({
+        fullName: record.fullName,
+        email: record.email,
+        audience: record.audience,
+      }),
+      text: `Gracias por unirte a la lista de espera de Anza (${record.audience}).`,
+    }).catch(err => console.error('[email] waitlist', err));
+
     return res.status(201).json({ ok: true, id: record.id });
   } catch (e) {
     console.error(e);
@@ -123,6 +170,18 @@ app.post('/api/demo', async (req, res) => {
     store.demoReservations.push(record);
     await writeStore(store);
 
+    sendTransactionalEmail({
+      to: record.email,
+      subject: 'Demo reservada — Anza',
+      html: demoConfirmationHtml({
+        name: record.name,
+        email: record.email,
+        dayIso: record.dayIso,
+        time: record.time,
+      }),
+      text: `Hola ${record.name}, confirmamos tu demo Anza el ${record.dayIso} a las ${record.time}.`,
+    }).catch(err => console.error('[email] demo', err));
+
     return res.status(201).json({ ok: true, id: record.id });
   } catch (e) {
     console.error(e);
@@ -151,6 +210,13 @@ app.post('/api/contact', async (req, res) => {
     const store = await readStore();
     store.contact.push(record);
     await writeStore(store);
+
+    sendTransactionalEmail({
+      to: record.email,
+      subject: 'Recibimos tu mensaje — Anza',
+      html: contactAckHtml({ name: record.name }),
+      text: `Hola ${record.name}, recibimos tu mensaje en Anza.`,
+    }).catch(err => console.error('[email] contact', err));
 
     return res.status(201).json({ ok: true, id: record.id });
   } catch (e) {

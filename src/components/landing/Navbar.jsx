@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const ANZA_LOGO = '/logosintransparente.png';
 const navTextClass = 'font-nav text-sm font-medium leading-none tracking-[0.02em]';
@@ -9,10 +10,16 @@ const navLinkClass =
 
 export default function Navbar({ showBackLink = false, backHref = '/', hideDemoCta = false }) {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  const faqsHref =
+    pathname === '/creadores' || pathname === '/marcas' ? '#faqs' : '/#faqs';
+  /** Nosotros = home About block (always leave audience pages for /#about). */
+  const nosotrosHref = '/#about';
 
   const links = [
-    { label: 'FAQS', href: '/#faqs' },
-    { label: 'NOSOTROS', href: '/#about' },
+    { label: 'FAQS', href: faqsHref },
+    { label: 'NOSOTROS', href: nosotrosHref },
     { label: 'PARA CREADORES', href: '/creadores' },
     { label: 'PARA MARCAS', href: '/marcas' },
   ];

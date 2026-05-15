@@ -30,7 +30,7 @@ export default function HeroBrandsSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen overflow-hidden pt-16"
+      className="relative z-10 min-h-screen overflow-hidden pt-16"
       style={{
         backgroundColor: '#000000',
         backgroundImage: `url(${meshPm})`,

@@ -59,7 +59,7 @@ export default function ScrollExploreHint(props) {
       onViewportLeave={() => setIsActive(false)}
       viewport={{ once: false, amount: 0.2 }}
       transition={{ duration: 0.4 }}
-      className={`absolute ${bottomOffset} flex items-center gap-2 ${positionClass}`}
+      className={`absolute ${bottomOffset} z-30 flex items-center gap-2 pointer-events-none ${positionClass}`}
     >
       <motion.div
         animate={{ y: [0, 6, 0] }}

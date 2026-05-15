@@ -51,7 +51,7 @@ export default function HeroSection() {
     'font-nav text-sm font-medium leading-none tracking-[0.02em] uppercase text-white transition-all duration-300 hover:text-spark hover:[text-shadow:0_0_16px_rgba(207,174,255,0.8)]';
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-black">
+    <section ref={sectionRef} className="relative z-10 min-h-screen bg-black">
       {/* Cropped media area — with logo + “Anza” on first beat. */}
       <div
         aria-hidden
@@ -151,6 +151,23 @@ export default function HeroSection() {
             </motion.a>
           </div>
         </div>
+        {/* In-flow so “Desliza” never stacks under the headline on short laptops (vs absolute bottom-6). */}
+        <motion.div
+          initial={false}
+          animate={{ opacity: !showHeroRest || hasUserScrolled ? 0 : 1 }}
+          transition={{ duration: 0.45, ease: 'easeOut' }}
+          className="relative z-30 flex justify-center items-center gap-2 pb-4 pt-2 pointer-events-none md:pb-5"
+        >
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+          >
+            <ArrowDown size={12} className="text-white/50" />
+          </motion.div>
+          <span className="font-nav text-[10px] font-medium uppercase leading-tight tracking-[0.12em] text-white/45 sm:text-[11px]">
+            Desliza para explorar
+          </span>
+        </motion.div>
       </div>
 
       {/* Top bar — floats over full-bleed background (no glass) */}
@@ -270,23 +287,6 @@ export default function HeroSection() {
           )}
         </AnimatePresence>
       </header>
-
-      <motion.div
-        initial={false}
-        animate={{ opacity: !showHeroRest || hasUserScrolled ? 0 : 1 }}
-        transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2"
-      >
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-        >
-          <ArrowDown size={12} className="text-white/50" />
-        </motion.div>
-        <span className="font-nav text-[10px] font-medium uppercase leading-tight tracking-[0.12em] text-white/45 sm:text-[11px]">
-          Desliza para explorar
-        </span>
-      </motion.div>
     </section>
   );
 }

@@ -86,7 +86,7 @@ export function demoConfirmationHtml({ name, email, dayIso, time }) {
 <!DOCTYPE html>
 <html><body style="font-family:system-ui,sans-serif;line-height:1.5;color:#111;max-width:520px;">
   <p>${esc(name)},</p>
-  <p>Confirmamos tu <strong>demo con Anza</strong>.</p>
+  <p>Confirmamos tu <strong>cita con Anza</strong>.</p>
   <p><strong>Fecha y hora:</strong> ${when}</p>
   <p>Te escribiremos a <strong>${esc(email)}</strong> si necesitamos algún ajuste.</p>
   <p style="color:#555;font-size:14px;">Si no reservaste una demo, ignora este mensaje.</p>

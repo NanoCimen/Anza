@@ -59,15 +59,15 @@ export default function ScrollExploreHint(props) {
       onViewportLeave={() => setIsActive(false)}
       viewport={{ once: false, amount: 0.2 }}
       transition={{ duration: 0.4 }}
-      className={`absolute ${bottomOffset} flex items-center gap-3 ${positionClass}`}
+      className={`absolute ${bottomOffset} flex items-center gap-2 ${positionClass}`}
     >
       <motion.div
-        animate={{ y: [0, 8, 0] }}
+        animate={{ y: [0, 6, 0] }}
         transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
       >
-        <ArrowDown size={16} className={textClass} />
+        <ArrowDown size={12} className={textClass} />
       </motion.div>
-      <span className={`font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] ${textClass}`}>
+      <span className={`font-nav text-[10px] font-medium uppercase leading-tight tracking-[0.12em] sm:text-[11px] ${textClass}`}>
         Desliza para explorar
       </span>
     </motion.div>

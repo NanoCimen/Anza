@@ -8,7 +8,10 @@ const HERO_BG = '/fondoinflu.png';
 export default function HeroSection() {
   const sectionRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
+  /** Bottom headline — 2s after load (after logo + title + background). */
+  const [showHeroText, setShowHeroText] = useState(false);
+  /** Nav, header demo CTA, bottom buttons, scroll hint — 2s after text (4s total). */
+  const [showHeroRest, setShowHeroRest] = useState(false);
   const [hasUserScrolled, setHasUserScrolled] = useState(false);
 
   const { scrollYProgress } = useScroll({
@@ -19,8 +22,12 @@ export default function HeroSection() {
   const imageY = useTransform(scrollYProgress, [0, 1], [-32, -64]);
 
   useEffect(() => {
-    const t = setTimeout(() => setHasScrolled(true), 3000);
-    return () => clearTimeout(t);
+    const tText = window.setTimeout(() => setShowHeroText(true), 2000);
+    const tRest = window.setTimeout(() => setShowHeroRest(true), 4000);
+    return () => {
+      window.clearTimeout(tText);
+      window.clearTimeout(tRest);
+    };
   }, []);
 
   useEffect(() => {
@@ -36,7 +43,7 @@ export default function HeroSection() {
     visible: { opacity: 1, y: 0 },
   };
   const navItemsTransition = { duration: 0.55, ease: [0.22, 1, 0.36, 1] };
-  const navInteractivityClass = hasScrolled ? 'pointer-events-auto' : 'pointer-events-none';
+  const navInteractivityClass = showHeroRest ? 'pointer-events-auto' : 'pointer-events-none';
 
   const navLinkClass =
     'group relative font-nav text-sm font-medium leading-none tracking-[0.02em] uppercase text-white transition-all duration-300 hover:text-spark hover:[text-shadow:0_0_16px_rgba(207,174,255,0.8)] after:absolute after:left-0 after:-bottom-1.5 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-spark after:shadow-[0_0_10px_rgba(207,174,255,0.8)] after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100';
@@ -45,8 +52,11 @@ export default function HeroSection() {
 
   return (
     <section ref={sectionRef} className="relative min-h-screen bg-black">
-      {/* Cropped media area, with the black CTA band below it. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[76vh] overflow-hidden" aria-hidden>
+      {/* Cropped media area — with logo + “Anza” on first beat. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[76vh] overflow-hidden"
+      >
         <motion.div
           initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1.02 }}
@@ -77,7 +87,7 @@ export default function HeroSection() {
       <motion.div
         initial={{ opacity: 0, y: 18, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="pointer-events-none absolute inset-x-0 top-0 z-10 flex h-[76vh] items-center justify-center"
       >
         <h1 className="font-display text-7xl font-black leading-[0.85] tracking-tighter text-white [text-shadow:0_2px_40px_rgba(0,0,0,0.55)] sm:text-8xl md:text-9xl lg:text-[140px]">
@@ -85,34 +95,35 @@ export default function HeroSection() {
         </h1>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.75, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 bottom-0 z-20 bg-black pb-[1px]"
-      >
+      <div className="absolute inset-x-0 bottom-0 z-20 bg-black pb-[1px]">
         <div className="flex min-h-[24vh] w-full flex-col items-start justify-start gap-6 px-3 pt-5 pb-0 md:flex-row md:justify-between md:px-3 md:pt-5 md:pb-0">
-          <h2 className="max-w-[980px] font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[34px] leading-[35px] tracking-[-0.2px] sm:text-[40px] sm:leading-[41px] lg:text-[46px] lg:leading-[47px]">
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: showHeroText ? 1 : 0, y: showHeroText ? 0 : 10 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-[980px] font-bold text-white [font-family:Grantska,Arial,sans-serif] text-[34px] leading-[35px] tracking-[-0.2px] sm:text-[40px] sm:leading-[41px] lg:text-[46px] lg:leading-[47px]"
+            aria-hidden={!showHeroText}
+          >
             Gana dinero creando contenido para marcas y cobra desde el primer día, marketplace para creadores en América Latina.
-          </h2>
+          </motion.h2>
 
           <div className="flex shrink-0 flex-col items-stretch gap-3 self-start sm:flex-row md:mt-1">
             <motion.a
               href="/waitlist"
               initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: hasScrolled ? 1 : 0, y: hasScrolled ? 0 : 8 }}
+              animate={{ opacity: showHeroRest ? 1 : 0, y: showHeroRest ? 0 : 8 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={hasScrolled ? { y: -1 } : undefined}
-              whileTap={hasScrolled ? { y: 0, scale: 0.985 } : undefined}
+              whileHover={showHeroRest ? { y: -1 } : undefined}
+              whileTap={showHeroRest ? { y: 0, scale: 0.985 } : undefined}
               style={{
                 backgroundColor: '#7B2CFF',
-                pointerEvents: hasScrolled ? 'auto' : 'none',
+                pointerEvents: showHeroRest ? 'auto' : 'none',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#5E1395')}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#7B2CFF')}
               className="group relative inline-flex items-center justify-center overflow-hidden rounded-full px-9 py-3.5 font-display text-sm font-semibold tracking-wide text-white ring-1 ring-white/10 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-color,box-shadow] duration-300 ease-out hover:ring-white/15 hover:shadow-[0_14px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] md:text-base"
-              aria-hidden={!hasScrolled}
-              tabIndex={hasScrolled ? 0 : -1}
+              aria-hidden={!showHeroRest}
+              tabIndex={showHeroRest ? 0 : -1}
             >
               <span
                 aria-hidden
@@ -123,14 +134,14 @@ export default function HeroSection() {
             <motion.a
               href="#como-funciona"
               initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: hasScrolled ? 1 : 0, y: hasScrolled ? 0 : 8 }}
+              animate={{ opacity: showHeroRest ? 1 : 0, y: showHeroRest ? 0 : 8 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={hasScrolled ? { y: -1 } : undefined}
-              whileTap={hasScrolled ? { y: 0, scale: 0.985 } : undefined}
-              style={{ pointerEvents: hasScrolled ? 'auto' : 'none' }}
+              whileHover={showHeroRest ? { y: -1 } : undefined}
+              whileTap={showHeroRest ? { y: 0, scale: 0.985 } : undefined}
+              style={{ pointerEvents: showHeroRest ? 'auto' : 'none' }}
               className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/5 px-9 py-3.5 font-display text-sm font-semibold tracking-wide text-white transition-all duration-300 ease-out hover:border-spark/70 hover:bg-spark/15 hover:text-spark hover:shadow-[0_10px_30px_rgba(207,174,255,0.2)] md:text-base"
-              aria-hidden={!hasScrolled}
-              tabIndex={hasScrolled ? 0 : -1}
+              aria-hidden={!showHeroRest}
+              tabIndex={showHeroRest ? 0 : -1}
             >
               <span
                 aria-hidden
@@ -140,7 +151,7 @@ export default function HeroSection() {
             </motion.a>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Top bar — floats over full-bleed background (no glass) */}
       <header className="fixed left-0 right-0 top-0 z-50">
@@ -152,7 +163,7 @@ export default function HeroSection() {
             aria-expanded={open}
             variants={navItemsVariants}
             initial="hidden"
-            animate={hasScrolled ? 'visible' : 'hidden'}
+            animate={showHeroRest ? 'visible' : 'hidden'}
             transition={navItemsTransition}
             className={`rounded-full p-2 text-white transition-colors hover:bg-white/10 md:hidden ${navInteractivityClass}`}
           >
@@ -166,7 +177,7 @@ export default function HeroSection() {
           <motion.nav
             variants={navItemsVariants}
             initial="hidden"
-            animate={hasScrolled ? 'visible' : 'hidden'}
+            animate={showHeroRest ? 'visible' : 'hidden'}
             transition={{ ...navItemsTransition, delay: 0.05 }}
             className={`pointer-events-auto flex w-[414px] items-center justify-center ${navInteractivityClass}`}
           >
@@ -207,7 +218,7 @@ export default function HeroSection() {
           <motion.nav
             variants={navItemsVariants}
             initial="hidden"
-            animate={hasScrolled ? 'visible' : 'hidden'}
+            animate={showHeroRest ? 'visible' : 'hidden'}
             transition={{ ...navItemsTransition, delay: 0.05 }}
             className={`pointer-events-auto flex items-center gap-10 ${navInteractivityClass}`}
           >
@@ -261,18 +272,18 @@ export default function HeroSection() {
       </header>
 
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: hasUserScrolled ? 0 : 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3"
+        initial={false}
+        animate={{ opacity: !showHeroRest || hasUserScrolled ? 0 : 1 }}
+        transition={{ duration: 0.45, ease: 'easeOut' }}
+        className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2"
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
+          animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
         >
-          <ArrowDown size={16} className="text-white/50" />
+          <ArrowDown size={12} className="text-white/50" />
         </motion.div>
-        <span className="font-nav text-sm font-medium uppercase leading-none tracking-[0.02em] text-white/45">
+        <span className="font-nav text-[10px] font-medium uppercase leading-tight tracking-[0.12em] text-white/45 sm:text-[11px]">
           Desliza para explorar
         </span>
       </motion.div>

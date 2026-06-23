@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import Hls from 'hls.js';
 
 const HLS_SOURCE = import.meta.env.VITE_HOW_IT_WORKS_HLS_URL || '';
 
@@ -9,14 +8,6 @@ export default function HowItWorksSection() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !HLS_SOURCE) return undefined;
-
-    if (HLS_SOURCE.endsWith('.m3u8') && Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(HLS_SOURCE);
-      hls.attachMedia(video);
-      return () => hls.destroy();
-    }
-
     video.src = HLS_SOURCE;
     return undefined;
   }, []);

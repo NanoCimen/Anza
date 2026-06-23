@@ -93,6 +93,31 @@ export function demoConfirmationHtml({ name, email, dayIso, time }) {
 </body></html>`;
 }
 
+export function teamSignupNotificationHtml(record = {}) {
+  const rows = [
+    ['Audiencia', record.audience],
+    ['Email', record.email],
+    ['Nombre', record.full_name],
+    ['Instagram', record.instagram && `@${record.instagram}`],
+    ['TikTok', record.tiktok && `@${record.tiktok}`],
+    ['Facebook', record.facebook],
+    ['WhatsApp', record.whatsapp],
+    ['Novedades', record.keep_updated ? 'Sí' : 'No'],
+  ]
+    .filter(([, v]) => v)
+    .map(
+      ([k, v]) =>
+        `<tr><td style="padding:4px 12px 4px 0;color:#555;">${esc(k)}</td><td style="padding:4px 0;"><strong>${esc(v)}</strong></td></tr>`,
+    )
+    .join('');
+  return `
+<!DOCTYPE html>
+<html><body style="font-family:system-ui,sans-serif;line-height:1.5;color:#111;max-width:520px;">
+  <p>Nuevo registro en la lista de espera:</p>
+  <table style="border-collapse:collapse;font-size:14px;">${rows}</table>
+</body></html>`;
+}
+
 export function contactAckHtml({ name }) {
   return `
 <!DOCTYPE html>

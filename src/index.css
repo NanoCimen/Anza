@@ -1,5 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-@import url('https://fonts.cdnfonts.com/css/cabinet-grotesk');
+/* Google Fonts and Cabinet Grotesk are loaded non-blocking via <link> tags in
+   index.html (loadCSS pattern). @import here would block the CSS cascade. */
+
+/* Grantska — display typeface used for all marketing headings.
+   font-display:swap shows the fallback (Arial) immediately and swaps in
+   Grantska once the woff2 has downloaded, avoiding invisible text (FOIT). */
+@font-face {
+  font-family: 'Grantska';
+  src: url('/fonts/grantska.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;

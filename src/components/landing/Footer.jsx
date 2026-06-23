@@ -1,5 +1,6 @@
 import React from 'react';
 import { Instagram } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function TikTokGlyph({ className }) {
   return (
@@ -15,8 +16,8 @@ const SOCIALS = [
 ];
 
 const LEGAL_LINKS = [
-  { label: 'Política de privacidad', href: '#' },
-  { label: 'Términos del servicio', href: '#' },
+  { label: 'Política de privacidad', href: '/privacidad' },
+  { label: 'Términos del servicio', href: '/terminos' },
 ];
 
 export default function Footer() {
@@ -48,9 +49,9 @@ export default function Footer() {
         {/* Legal links — underline animates in on hover */}
         <div className="mt-8 mb-24 md:mb-32 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           {LEGAL_LINKS.map(link => (
-            <a
+            <Link
               key={link.label}
-              href={link.href}
+              to={link.href}
               className="group relative font-display text-sm text-ink/75 transition-colors hover:text-ink"
             >
               {link.label}
@@ -58,7 +59,7 @@ export default function Footer() {
                 aria-hidden
                 className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 ease-out group-hover:scale-x-100"
               />
-            </a>
+            </Link>
           ))}
         </div>
       </div>

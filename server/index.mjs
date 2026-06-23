@@ -1,8 +1,5 @@
 import cors from 'cors';
 import express from 'express';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import {
   contactAckHtml,
@@ -10,47 +7,43 @@ import {
   isEmailConfigured,
   sendTransactionalEmail,
   waitlistConfirmationHtml,
+  teamSignupNotificationHtml,
 } from './mail.mjs';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, 'data');
-const STORE_PATH = path.join(DATA_DIR, 'store.json');
-
-const emptyStore = () => ({
-  waitlist: [],
-  demoReservations: [],
-  contact: [],
-});
-
-async function readStore() {
-  try {
-    const raw = await fs.readFile(STORE_PATH, 'utf8');
-    const parsed = JSON.parse(raw);
-    return {
-      waitlist: Array.isArray(parsed.waitlist) ? parsed.waitlist : [],
-      demoReservations: Array.isArray(parsed.demoReservations) ? parsed.demoReservations : [],
-      contact: Array.isArray(parsed.contact) ? parsed.contact : [],
-    };
-  } catch {
-    return emptyStore();
-  }
-}
-
-async function writeStore(store) {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2), 'utf8');
-}
-
-function isValidEmail(s) {
-  return typeof s === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
-}
+import {
+  addContactMessage,
+  addDemoReservation,
+  addWaitlistLead,
+  isSupabaseConfigured,
+  readAllLeads,
+} from './store.mjs';
+import { createRateLimiter, isValidEmail, normalizeHandle } from './util.mjs';
 
 const app = express();
 /** Railway sets PORT; API_PORT is for local dev next to Vite. */
 const PORT = Number(process.env.PORT || process.env.API_PORT) || 3001;
+/** Address notified when a new lead comes in (optional). */
+const TEAM_NOTIFY_TO = (process.env.TEAM_NOTIFY_TO || '').trim();
 
+app.set('trust proxy', 1); // so req.ip reflects the real client behind a proxy
 app.use(cors({ origin: true }));
 app.use(express.json({ limit: '64kb' }));
+
+const allowSubmit = createRateLimiter({ windowMs: 60_000, max: 8 });
+
+/** Rate-limit + honeypot guard for the public write endpoints. */
+function guardSubmission(req, res) {
+  // Honeypot: a hidden field real users never fill. Pretend success for bots.
+  if (req.body && String(req.body.company_website || '').trim()) {
+    res.status(201).json({ ok: true });
+    return false;
+  }
+  const key = req.ip || req.headers['x-forwarded-for'] || 'unknown';
+  if (!allowSubmit(key)) {
+    res.status(429).json({ message: 'Too many requests. Please try again shortly.' });
+    return false;
+  }
+  return true;
+}
 
 app.get('/', (_req, res) => {
   res.type('text/plain').send('Anza API — GET /api/health for status');
@@ -60,12 +53,14 @@ app.get('/api/health', (_req, res) => {
   res.json({
     ok: true,
     service: 'anza-api',
+    storage: isSupabaseConfigured() ? 'supabase' : 'json-file',
     email: isEmailConfigured() ? 'configured' : 'off',
+    teamNotify: Boolean(TEAM_NOTIFY_TO),
     adminExport: Boolean(process.env.ADMIN_TOKEN?.trim()),
   });
 });
 
-/** Bearer ADMIN_TOKEN — read all leads from disk (for owners only). */
+/** Bearer ADMIN_TOKEN — read all leads (for owners only). */
 app.get('/api/admin/registrations', async (req, res) => {
   const expected = process.env.ADMIN_TOKEN?.trim();
   if (!expected) {
@@ -81,8 +76,7 @@ app.get('/api/admin/registrations', async (req, res) => {
     });
   }
   try {
-    const store = await readStore();
-    return res.json(store);
+    return res.json(await readAllLeads());
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: 'could not read store' });
@@ -90,6 +84,7 @@ app.get('/api/admin/registrations', async (req, res) => {
 });
 
 app.post('/api/waitlist', async (req, res) => {
+  if (!guardSubmission(req, res)) return;
   try {
     const {
       audience,
@@ -108,8 +103,8 @@ app.post('/api/waitlist', async (req, res) => {
     if (!isValidEmail(email)) {
       return res.status(400).json({ message: 'valid email is required' });
     }
-    const ig = String(instagram || '').trim();
-    const tt = String(tiktok || '').trim();
+    const ig = normalizeHandle(instagram);
+    const tt = normalizeHandle(tiktok);
     if (!ig && !tt) {
       return res.status(400).json({ message: 'instagram or tiktok is required' });
     }
@@ -117,32 +112,39 @@ app.post('/api/waitlist', async (req, res) => {
     const record = {
       id: randomUUID(),
       audience,
-      email: String(email).trim(),
-      keepUpdated: Boolean(keepUpdated),
-      fullName: String(fullName || '').trim(),
+      email: String(email).trim().toLowerCase(),
+      keep_updated: Boolean(keepUpdated),
+      full_name: String(fullName || '').trim(),
       instagram: ig,
       tiktok: tt,
       facebook: String(facebook || '').trim(),
       whatsapp: String(whatsapp || '').trim(),
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
     };
 
-    const store = await readStore();
-    store.waitlist.push(record);
-    await writeStore(store);
+    const saved = await addWaitlistLead(record);
 
     sendTransactionalEmail({
       to: record.email,
       subject: 'Lista de espera — Anza',
       html: waitlistConfirmationHtml({
-        fullName: record.fullName,
+        fullName: record.full_name,
         email: record.email,
         audience: record.audience,
       }),
       text: `Gracias por unirte a la lista de espera de Anza (${record.audience}).`,
     }).catch(err => console.error('[email] waitlist', err));
 
-    return res.status(201).json({ ok: true, id: record.id });
+    if (TEAM_NOTIFY_TO) {
+      sendTransactionalEmail({
+        to: TEAM_NOTIFY_TO,
+        subject: `Nuevo registro (${record.audience}) — Anza`,
+        html: teamSignupNotificationHtml(record),
+        text: `Nuevo registro: ${record.email} (${record.audience})`,
+      }).catch(err => console.error('[email] team-notify', err));
+    }
+
+    return res.status(201).json({ ok: true, id: saved?.id || record.id });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: 'could not save waitlist entry' });
@@ -150,6 +152,7 @@ app.post('/api/waitlist', async (req, res) => {
 });
 
 app.post('/api/demo', async (req, res) => {
+  if (!guardSubmission(req, res)) return;
   try {
     const { name, email, dayIso, time } = req.body || {};
     if (!name || !String(name).trim()) {
@@ -165,15 +168,13 @@ app.post('/api/demo', async (req, res) => {
     const record = {
       id: randomUUID(),
       name: String(name).trim(),
-      email: String(email).trim(),
-      dayIso: String(dayIso),
+      email: String(email).trim().toLowerCase(),
+      day_iso: String(dayIso),
       time: String(time),
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
     };
 
-    const store = await readStore();
-    store.demoReservations.push(record);
-    await writeStore(store);
+    const saved = await addDemoReservation(record);
 
     sendTransactionalEmail({
       to: record.email,
@@ -181,13 +182,13 @@ app.post('/api/demo', async (req, res) => {
       html: demoConfirmationHtml({
         name: record.name,
         email: record.email,
-        dayIso: record.dayIso,
+        dayIso: record.day_iso,
         time: record.time,
       }),
-      text: `Hola ${record.name}, confirmamos tu demo Anza el ${record.dayIso} a las ${record.time}.`,
+      text: `Hola ${record.name}, confirmamos tu demo Anza el ${record.day_iso} a las ${record.time}.`,
     }).catch(err => console.error('[email] demo', err));
 
-    return res.status(201).json({ ok: true, id: record.id });
+    return res.status(201).json({ ok: true, id: saved?.id || record.id });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: 'could not save demo reservation' });
@@ -195,6 +196,7 @@ app.post('/api/demo', async (req, res) => {
 });
 
 app.post('/api/contact', async (req, res) => {
+  if (!guardSubmission(req, res)) return;
   try {
     const { name, email, company = '' } = req.body || {};
     if (!name || !String(name).trim()) {
@@ -207,14 +209,12 @@ app.post('/api/contact', async (req, res) => {
     const record = {
       id: randomUUID(),
       name: String(name).trim(),
-      email: String(email).trim(),
+      email: String(email).trim().toLowerCase(),
       company: String(company || '').trim(),
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
     };
 
-    const store = await readStore();
-    store.contact.push(record);
-    await writeStore(store);
+    const saved = await addContactMessage(record);
 
     sendTransactionalEmail({
       to: record.email,
@@ -223,7 +223,7 @@ app.post('/api/contact', async (req, res) => {
       text: `Hola ${record.name}, recibimos tu mensaje en Anza.`,
     }).catch(err => console.error('[email] contact', err));
 
-    return res.status(201).json({ ok: true, id: record.id });
+    return res.status(201).json({ ok: true, id: saved?.id || record.id });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: 'could not save contact message' });

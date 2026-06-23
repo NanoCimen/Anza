@@ -13,6 +13,7 @@ import { SiFacebook, SiInstagram, SiTiktok, SiWhatsapp } from 'react-icons/si';
 import { Link } from 'react-router-dom';
 import Footer from '../components/landing/Footer';
 import { saveWaitlistLead } from '../lib/leads';
+import { initAnalytics, trackWaitlistSignup } from '@/lib/analytics';
 import { backgroundWaitlist } from '@/assets';
 
 const ANZA_LOGO = '/logosintransparente.png';
@@ -56,6 +57,18 @@ const CONTENT = {
   },
 };
 
+/** Clean a typed handle to a bare username: strips @, URLs, lowercases. */
+function cleanHandle(raw) {
+  let s = String(raw || '').trim();
+  if (!s) return '';
+  if (/^https?:\/\//i.test(s) || s.includes('/')) {
+    s = s.split(/[?#]/)[0];
+    const parts = s.split('/').filter(Boolean);
+    s = parts[parts.length - 1] || '';
+  }
+  return s.replace(/^@+/, '').trim().toLowerCase();
+}
+
 export default function Waitlist({ audience = 'marcas' }) {
   const [step, setStep] = useState(1);
   const [fullName, setFullName] = useState('');
@@ -64,10 +77,23 @@ export default function Waitlist({ audience = 'marcas' }) {
   const [tiktok, setTiktok] = useState('');
   const [facebook, setFacebook] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
+  const [companyWebsite, setCompanyWebsite] = useState(''); // honeypot
   const [keepUpdated, setKeepUpdated] = useState(true);
   const [emailError, setEmailError] = useState('');
   const [socialError, setSocialError] = useState('');
-  const [showCookieBanner, setShowCookieBanner] = useState(true);
+  const [showCookieBanner, setShowCookieBanner] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return !window.localStorage.getItem('anza_cookie_consent');
+  });
+  const dismissCookies = choice => {
+    try {
+      window.localStorage.setItem('anza_cookie_consent', choice);
+    } catch {
+      /* ignore storage errors (private mode) */
+    }
+    if (choice === 'all') initAnalytics();
+    setShowCookieBanner(false);
+  };
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const copy = CONTENT[audience] || CONTENT.marcas;
@@ -105,9 +131,9 @@ export default function Waitlist({ audience = 'marcas' }) {
       setStep(1);
       return;
     }
-    const hasInstagram = Boolean(instagram.trim());
-    const hasTiktok = Boolean(tiktok.trim());
-    if (!hasInstagram && !hasTiktok) {
+    const ig = cleanHandle(instagram);
+    const tt = cleanHandle(tiktok);
+    if (!ig && !tt) {
       setSocialError('Completa Instagram o TikTok (al menos uno).');
       return;
     }
@@ -119,11 +145,13 @@ export default function Waitlist({ audience = 'marcas' }) {
         email: trimmedEmail,
         keepUpdated,
         fullName: fullName.trim(),
-        instagram: instagram.trim(),
-        tiktok: tiktok.trim(),
+        instagram: ig,
+        tiktok: tt,
         facebook: facebook.trim(),
         whatsapp: whatsapp.trim(),
+        companyWebsite,
       });
+      trackWaitlistSignup({ audience });
       setDone(true);
     } catch (error) {
       console.error('Error saving waitlist lead:', error);
@@ -378,6 +406,17 @@ export default function Waitlist({ audience = 'marcas' }) {
                       </p>
 
                       <form onSubmit={handleSubmit} className="mt-8 flex w-full flex-col gap-4 text-left">
+                        {/* Honeypot — hidden from users, catches bots that fill every field */}
+                        <input
+                          type="text"
+                          name="company_website"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          aria-hidden="true"
+                          value={companyWebsite}
+                          onChange={e => setCompanyWebsite(e.target.value)}
+                          className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                        />
                         <div>
                           <label
                             htmlFor="waitlist-ig"
@@ -403,6 +442,7 @@ export default function Waitlist({ audience = 'marcas' }) {
                                 setInstagram(e.target.value);
                                 if (socialError) setSocialError('');
                               }}
+                              onBlur={() => setInstagram(v => cleanHandle(v))}
                               className={`${inputBaseClass} pl-12 pr-4`}
                             />
                           </div>
@@ -432,6 +472,7 @@ export default function Waitlist({ audience = 'marcas' }) {
                                 setTiktok(e.target.value);
                                 if (socialError) setSocialError('');
                               }}
+                              onBlur={() => setTiktok(v => cleanHandle(v))}
                               className={`${inputBaseClass} pl-12 pr-4`}
                             />
                           </div>
@@ -525,13 +566,13 @@ export default function Waitlist({ audience = 'marcas' }) {
                 <div className={`mt-6 border-t pt-6 ${usesSimpleLayout ? 'border-black/10' : 'border-canvas/10'}`}>
                   <p className={`font-display text-xs leading-relaxed ${usesSimpleLayout ? 'text-ink/70' : 'text-canvas/35'}`}>
                     Al registrarte aceptas nuestros{' '}
-                    <a href="#" className="underline transition-colors hover:text-iris">
+                    <Link to="/terminos" className="underline transition-colors hover:text-iris">
                       Términos
-                    </a>{' '}
+                    </Link>{' '}
                     y{' '}
-                    <a href="#" className="underline transition-colors hover:text-iris">
+                    <Link to="/privacidad" className="underline transition-colors hover:text-iris">
                       Política de Privacidad
-                    </a>
+                    </Link>
                     .
                   </p>
                 </div>
@@ -569,14 +610,14 @@ export default function Waitlist({ audience = 'marcas' }) {
           <div className="mt-4 flex shrink-0 flex-col gap-2 md:mt-0 md:w-48">
             <button
               type="button"
-              onClick={() => setShowCookieBanner(false)}
+              onClick={() => dismissCookies('all')}
               className="rounded-full bg-ink px-5 py-2.5 font-nav text-xs font-medium uppercase leading-none tracking-[0.02em] text-white transition-colors hover:bg-iris"
             >
               Aceptar
             </button>
             <button
               type="button"
-              onClick={() => setShowCookieBanner(false)}
+              onClick={() => dismissCookies('essential')}
               className="rounded-full border border-ink/30 px-5 py-2.5 font-nav text-xs font-medium uppercase leading-none tracking-[0.02em] text-ink transition-colors hover:border-iris hover:text-iris"
             >
               Solo esenciales

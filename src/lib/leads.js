@@ -32,6 +32,7 @@ export async function saveWaitlistLead({
   tiktok = '',
   facebook = '',
   whatsapp = '',
+  companyWebsite = '', // honeypot — must stay empty for real users
 }) {
   return postJson('/api/waitlist', {
     audience,
@@ -42,6 +43,7 @@ export async function saveWaitlistLead({
     tiktok,
     facebook,
     whatsapp,
+    company_website: companyWebsite,
   });
 }
 

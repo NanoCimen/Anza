@@ -1,12 +1,79 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" sizes="48x48" href="/logobrowser.png" />
     <link rel="apple-touch-icon" sizes="48x48" href="/logobrowser.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
     <link rel="manifest" href="/manifest.json" />
-    <title>Anza</title>
+
+    <!-- Primary SEO -->
+    <title>Anza — Campañas UGC entre marcas y creadores en LATAM</title>
+    <meta
+      name="description"
+      content="Anza conecta marcas y creadores de contenido (UGC) en LATAM: publica campañas, recluta creadores, aprueba contenido y paga automáticamente desde un solo lugar. Únete a la lista de espera."
+    />
+    <!-- TODO: replace https://anza.com with the real production domain -->
+    <link rel="canonical" href="https://anza.com/" />
+
+    <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Anza" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content="Anza — Campañas UGC entre marcas y creadores" />
+    <meta
+      property="og:description"
+      content="Publica campañas, recluta creadores de contenido y paga automáticamente. Únete a la lista de espera de Anza."
+    />
+    <meta property="og:url" content="https://anza.com/" />
+    <meta property="og:image" content="https://anza.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Anza — Campañas UGC entre marcas y creadores" />
+    <meta
+      name="twitter:description"
+      content="Publica campañas, recluta creadores de contenido y paga automáticamente. Únete a la lista de espera de Anza."
+    />
+    <meta name="twitter:image" content="https://anza.com/og-image.png" />
+
+    <!-- Preconnect to font origins so the TCP handshake is done before the CSS fires -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.cdnfonts.com" />
+
+    <!--
+      loadCSS pattern: rel="preload" fetches the stylesheet without blocking render.
+      onload swaps rel to "stylesheet" once it arrives.
+      <noscript> covers browsers with JS disabled.
+      display=swap is already in the Google Fonts query string so glyphs show in
+      the fallback font immediately, then swap in once Inter/JetBrains Mono load.
+    -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
+
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.cdnfonts.com/css/cabinet-grotesk"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/cabinet-grotesk" />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

@@ -11,6 +11,7 @@ import Waitlist from './pages/Waitlist';
 import WaitlistSelect from './pages/WaitlistSelect';
 import Creators from './pages/Creators';
 import Marcas from './pages/Marcas';
+import Legal from './pages/Legal';
 
 /** Landing + app routes that may depend on auth / public settings. */
 const AuthenticatedApp = () => {
@@ -55,6 +56,8 @@ function App() {
             <Route path="/waitlist/creadores" element={<Waitlist audience="creadores" />} />
             <Route path="/waitlist/marcas" element={<Waitlist audience="marcas" />} />
             <Route path="/waitlist/empresas" element={<Waitlist audience="marcas" />} />
+            <Route path="/terminos" element={<Legal doc="terminos" />} />
+            <Route path="/privacidad" element={<Legal doc="privacidad" />} />
             <Route path="*" element={<AuthenticatedApp />} />
           </Routes>
         </Router>

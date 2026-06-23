@@ -22,23 +22,8 @@ const TABS = [
   'Negocios & Marcas',
 ];
 
-const GRID_SPANS = [
-  'col-span-1 row-span-1',
-  'col-span-1 row-span-1',
-  'col-span-1 row-span-1',
-  'col-span-1 row-span-1',
-  'col-span-1 row-span-1',
-  'col-span-1 row-span-1',
-];
-
-const withSpans = creators =>
-  creators.map((creator, i) => ({
-    ...creator,
-    span: GRID_SPANS[i % GRID_SPANS.length],
-  }));
-
 const INDUSTRY_CREATORS = {
-  'Moda & Ropa': withSpans([
+  'Moda & Ropa': [
     {
       id: 'fashion-1',
       name: 'Sofía Méndez',
@@ -93,8 +78,8 @@ const INDUSTRY_CREATORS = {
       bio: 'Construye piezas verticales con estética editorial para campañas continuas.',
       image: 'https://picsum.photos/seed/moda-editorial-6/1200/1600',
     },
-  ]),
-  'Comida & Restaurantes': withSpans([
+  ],
+  'Comida & Restaurantes': [
     {
       id: 'food-1',
       name: 'Chef Lía Rojas',
@@ -149,8 +134,8 @@ const INDUSTRY_CREATORS = {
       bio: 'Conecta platos, ambiente y cultura local en contenido de alto alcance.',
       image: 'https://picsum.photos/seed/food-dr-6/1200/1600',
     },
-  ]),
-  'Fitness & Deporte': withSpans([
+  ],
+  'Fitness & Deporte': [
     {
       id: 'fitness-1',
       name: 'Daniel Acosta',
@@ -205,8 +190,8 @@ const INDUSTRY_CREATORS = {
       bio: 'Creadora para campañas de bienestar, recuperación y deporte cotidiano.',
       image: 'https://picsum.photos/seed/fitness-6/1200/1600',
     },
-  ]),
-  'Belleza & Cuidado Personal': withSpans([
+  ],
+  'Belleza & Cuidado Personal': [
     {
       id: 'beauty-1',
       name: 'Laura Ceballos',
@@ -261,8 +246,8 @@ const INDUSTRY_CREATORS = {
       bio: 'Combina lifestyle y tutoriales para marcas de belleza y cuidado personal.',
       image: 'https://picsum.photos/seed/beauty-6/1200/1600',
     },
-  ]),
-  'Negocios & Marcas': withSpans([
+  ],
+  'Negocios & Marcas': [
     {
       id: 'business-1',
       name: 'José Núñez',
@@ -317,17 +302,17 @@ const INDUSTRY_CREATORS = {
       bio: 'Construye activos visuales para lanzamientos, comercio electrónico y campañas continuas.',
       image: 'https://picsum.photos/seed/business-6/1200/1600',
     },
-  ]),
+  ],
 };
 
-const ALL_CREATORS = withSpans([
+const ALL_CREATORS = [
   INDUSTRY_CREATORS['Moda & Ropa'][0],
   INDUSTRY_CREATORS['Comida & Restaurantes'][1],
   INDUSTRY_CREATORS['Fitness & Deporte'][2],
   INDUSTRY_CREATORS['Belleza & Cuidado Personal'][3],
   INDUSTRY_CREATORS['Negocios & Marcas'][4],
   INDUSTRY_CREATORS['Moda & Ropa'][5],
-]);
+];
 
 const TAB_ICONS = {
   Todos: LayoutGrid,
@@ -432,7 +417,13 @@ export default function CreatorGrid() {
             transition={{ duration: 0.2, ease: 'easeInOut' }}
           >
             {visibleCreators.length > 0 ? (
-              <div className="grid grid-cols-3 gap-4 md:gap-6 mx-auto">
+              <div className="
+                flex gap-3 overflow-x-auto
+                [scroll-snap-type:x_mandatory] [-webkit-overflow-scrolling:touch]
+                [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
+                sm:grid sm:grid-cols-3 sm:overflow-visible sm:gap-4 sm:[scroll-snap-type:none]
+                md:gap-6 mx-auto
+              ">
                 {visibleCreators.map((creator, i) => (
                   <motion.button
                     key={`${activeTab}-${creator.id}`}
@@ -441,11 +432,12 @@ export default function CreatorGrid() {
                     viewport={{ once: false, margin: '-50px' }}
                     transition={{ duration: 0.45, delay: i * 0.05 }}
                     onClick={() => setSelected(creator)}
-                    className="relative group aspect-square overflow-hidden bg-ink focus:outline-none focus:ring-4 focus:ring-spark focus:ring-inset cursor-pointer text-left"
+                    className="relative group flex-none w-40 aspect-square overflow-hidden bg-ink [scroll-snap-align:start] focus:outline-none focus:ring-4 focus:ring-spark focus:ring-inset cursor-pointer text-left sm:w-auto"
                   >
                     <img
                       src={creator.image}
                       alt={creator.name}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
 

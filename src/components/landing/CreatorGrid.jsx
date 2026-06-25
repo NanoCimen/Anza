@@ -31,7 +31,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Moda Editorial',
       availability: 'Disponible esta semana',
       bio: 'Creadora de estilo urbano-editorial enfocada en campañas de ropa y lanzamientos de temporada.',
-      image: '/images/creadores.ong.png',
+      image: '',
     },
     {
       id: 'fashion-2',
@@ -40,7 +40,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Moda urbana',
       availability: 'Disponible para colaboraciones',
       bio: 'Integra estilo urbano y narrativa visual para marcas de ropa en redes sociales.',
-      image: 'https://picsum.photos/seed/moda-editorial-2/1200/1600',
+      image: '',
     },
     {
       id: 'fashion-3',
@@ -49,7 +49,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Contenido de moda',
       availability: 'Nuevos briefs abiertos',
       bio: 'Especialista en looks de temporada, estilismo y contenido corto para moda.',
-      image: 'https://picsum.photos/seed/moda-editorial-3/1200/1600',
+      image: '',
     },
     {
       id: 'fashion-4',
@@ -58,7 +58,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Lookbook UGC',
       availability: 'Disponible por proyecto',
       bio: 'Produce lookbooks naturales para comercio electrónico y redes de marcas de ropa.',
-      image: 'https://picsum.photos/seed/moda-editorial-4/1200/1600',
+      image: '',
     },
     {
       id: 'fashion-5',
@@ -67,7 +67,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Estilo de vida y moda',
       availability: 'Disponible',
       bio: 'Combina tomas de estilo de vida y detalles de producto para impulsar conversiones.',
-      image: 'https://picsum.photos/seed/moda-editorial-5/1200/1600',
+      image: '',
     },
     {
       id: 'fashion-6',
@@ -76,7 +76,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Editorial Vertical',
       availability: 'Agenda abierta',
       bio: 'Construye piezas verticales con estética editorial para campañas continuas.',
-      image: 'https://picsum.photos/seed/moda-editorial-6/1200/1600',
+      image: '',
     },
   ],
   'Comida & Restaurantes': [
@@ -87,7 +87,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Estilismo gastronómico',
       availability: 'Disponible',
       bio: 'Crea contenido de platos y experiencias de mesa para restaurantes locales.',
-      image: 'https://picsum.photos/seed/food-dr-1/1200/1600',
+      image: '',
     },
     {
       id: 'food-2',
@@ -96,7 +96,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Contenido Gastronómico',
       availability: 'Disponible esta quincena',
       bio: 'Especialista en reel corto para menús, promociones y lanzamientos culinarios.',
-      image: 'https://picsum.photos/seed/food-dr-2/1200/1600',
+      image: '',
     },
     {
       id: 'food-3',
@@ -105,7 +105,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Restaurantes',
       availability: 'Nuevos proyectos',
       bio: 'Documenta experiencias de restaurante, servicio y ambientación para marcas gastronómicas.',
-      image: 'https://picsum.photos/seed/food-dr-3/1200/1600',
+      image: '',
     },
     {
       id: 'food-4',
@@ -114,7 +114,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Emplatado visual',
       availability: 'Disponible',
       bio: 'Tomas detalladas de emplatado y cocina en acción para contenido premium.',
-      image: 'https://picsum.photos/seed/food-dr-4/1200/1600',
+      image: '',
     },
     {
       id: 'food-5',
@@ -123,7 +123,7 @@ const INDUSTRY_CREATORS = {
       medium: 'UGC de Comida',
       availability: 'Disponible por brief',
       bio: 'Produce piezas UGC para delivery, promos y temporadas de restaurantes.',
-      image: 'https://picsum.photos/seed/food-dr-5/1200/1600',
+      image: '',
     },
     {
       id: 'food-6',
@@ -132,7 +132,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Estilo de vida gastronómico',
       availability: 'Agenda abierta',
       bio: 'Conecta platos, ambiente y cultura local en contenido de alto alcance.',
-      image: 'https://picsum.photos/seed/food-dr-6/1200/1600',
+      image: '',
     },
   ],
   'Fitness & Deporte': [
@@ -143,7 +143,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Entrenamiento Funcional',
       availability: 'Disponible',
       bio: 'Contenido dinámico de rutinas y técnicas para gimnasios y marcas deportivas.',
-      image: 'https://picsum.photos/seed/fitness-1/1200/1600',
+      image: '',
     },
     {
       id: 'fitness-2',
@@ -152,7 +152,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Fitness al aire libre',
       availability: 'Nuevas campañas',
       bio: 'Piezas en exteriores con enfoque en rendimiento, movilidad y bienestar.',
-      image: 'https://picsum.photos/seed/fitness-2/1200/1600',
+      image: '',
     },
     {
       id: 'fitness-3',
@@ -161,7 +161,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Contenido Deportivo',
       availability: 'Disponible por proyecto',
       bio: 'Combina deportes de alto impacto con narrativa visual para redes de marca.',
-      image: 'https://picsum.photos/seed/fitness-3/1200/1600',
+      image: '',
     },
     {
       id: 'fitness-4',
@@ -170,7 +170,7 @@ const INDUSTRY_CREATORS = {
       medium: 'UGC de gimnasio',
       availability: 'Disponible',
       bio: 'Especializada en contenido de gimnasio y estilo de vida con estética limpia y moderna.',
-      image: 'https://picsum.photos/seed/fitness-4/1200/1600',
+      image: '',
     },
     {
       id: 'fitness-5',
@@ -179,7 +179,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Rendimiento Deportivo',
       availability: 'Agenda abierta',
       bio: 'Produce piezas sobre técnica, disciplina y hábitos para marcas activas.',
-      image: 'https://picsum.photos/seed/fitness-5/1200/1600',
+      image: '',
     },
     {
       id: 'fitness-6',
@@ -188,7 +188,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Bienestar y movimiento',
       availability: 'Disponible',
       bio: 'Creadora para campañas de bienestar, recuperación y deporte cotidiano.',
-      image: 'https://picsum.photos/seed/fitness-6/1200/1600',
+      image: '',
     },
   ],
   'Belleza & Cuidado Personal': [
@@ -199,7 +199,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Cuidado de la piel',
       availability: 'Disponible',
       bio: 'Rutinas de cuidado personal y detalles de producto para marcas de belleza.',
-      image: 'https://picsum.photos/seed/beauty-1/1200/1600',
+      image: '',
     },
     {
       id: 'beauty-2',
@@ -208,7 +208,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Maquillaje',
       availability: 'Disponible esta semana',
       bio: 'Tutoriales y contenido de maquillaje orientado a conversión en social.',
-      image: 'https://picsum.photos/seed/beauty-2/1200/1600',
+      image: '',
     },
     {
       id: 'beauty-3',
@@ -217,7 +217,7 @@ const INDUSTRY_CREATORS = {
       medium: 'UGC de belleza',
       availability: 'Nuevas campañas',
       bio: 'Piezas UGC de belleza con enfoque auténtico y demostración de resultados.',
-      image: 'https://picsum.photos/seed/beauty-3/1200/1600',
+      image: '',
     },
     {
       id: 'beauty-4',
@@ -226,7 +226,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Cuidado Personal',
       availability: 'Disponible',
       bio: 'Contenido estético para marcas de cuidado capilar, corporal y personal.',
-      image: 'https://picsum.photos/seed/beauty-4/1200/1600',
+      image: '',
     },
     {
       id: 'beauty-5',
@@ -235,7 +235,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Rutina de cuidado de piel',
       availability: 'Disponible por brief',
       bio: 'Creadora enfocada en educación de producto y recomendaciones de uso.',
-      image: 'https://picsum.photos/seed/beauty-5/1200/1600',
+      image: '',
     },
     {
       id: 'beauty-6',
@@ -244,7 +244,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Belleza y estilo de vida',
       availability: 'Agenda abierta',
       bio: 'Combina lifestyle y tutoriales para marcas de belleza y cuidado personal.',
-      image: 'https://picsum.photos/seed/beauty-6/1200/1600',
+      image: '',
     },
   ],
   'Negocios & Marcas': [
@@ -255,7 +255,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Estilo de vida de marca',
       availability: 'Disponible',
       bio: 'Crea contenido profesional para productos, equipos y marcas de negocio.',
-      image: 'https://picsum.photos/seed/business-1/1200/1600',
+      image: '',
     },
     {
       id: 'business-2',
@@ -264,7 +264,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Contenido para tiendas',
       availability: 'Disponible esta semana',
       bio: 'Visuales para tiendas físicas, experiencias de compra y branding local.',
-      image: 'https://picsum.photos/seed/business-2/1200/1600',
+      image: '',
     },
     {
       id: 'business-3',
@@ -273,7 +273,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Producto & Marca',
       availability: 'Nuevas colaboraciones',
       bio: 'Fotografía y video orientados a campañas de producto y posicionamiento.',
-      image: 'https://picsum.photos/seed/business-3/1200/1600',
+      image: '',
     },
     {
       id: 'business-4',
@@ -282,7 +282,7 @@ const INDUSTRY_CREATORS = {
       medium: 'UGC corporativo',
       availability: 'Disponible por proyecto',
       bio: 'Contenido para marcas de consumo y empresas con enfoque en confianza y claridad visual.',
-      image: 'https://picsum.photos/seed/business-4/1200/1600',
+      image: '',
     },
     {
       id: 'business-5',
@@ -291,7 +291,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Contenido para retail',
       availability: 'Agenda abierta',
       bio: 'Muestra vitrinas, productos y experiencia de compra para marcas comerciales.',
-      image: 'https://picsum.photos/seed/business-5/1200/1600',
+      image: '',
     },
     {
       id: 'business-6',
@@ -300,7 +300,7 @@ const INDUSTRY_CREATORS = {
       medium: 'Marca Profesional',
       availability: 'Disponible',
       bio: 'Construye activos visuales para lanzamientos, comercio electrónico y campañas continuas.',
-      image: 'https://picsum.photos/seed/business-6/1200/1600',
+      image: '',
     },
   ],
 };
